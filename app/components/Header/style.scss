@@ -1,0 +1,22 @@
+@import 'entry';
+
+
+.header {
+	padding: 0 15px;
+	height: 50px;
+	background-color: #fff;
+
+	h2 {
+		font-weight: bold;
+	}
+
+	h2::before  {
+		border-radius: 2px;
+		display: block;
+		content: '';
+		margin-right: 10px;
+		width: 4px;
+		height: 24px;
+		background-color: $primary-color;
+	}
+}

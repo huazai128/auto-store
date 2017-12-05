@@ -1,0 +1,48 @@
+$basic-list: (
+	mt: margin-top,
+	mb: margin-bottom,
+	ml: margin-left,
+	mr: margin-right,
+	pt: padding-top,
+	pb: padding-bottom,
+	pl: padding-left,
+	pr: padding-right,
+);
+
+@each $key, $value in $basic-list {
+	$n: 0;
+	@while $n <=100 {
+		.#{$key}#{$n} {
+			#{nth($value, 1)}: $n + px;
+		}
+		$n: $n+5;
+	}
+}
+
+$fs-list : (
+	fs: font-size,
+);
+
+@each $key, $value in $fs-list {
+	$n: 10;
+	@while $n <=50 {
+		.#{$key}#{$n} {
+			#{nth($value, 1)}: $n + px;
+		}
+		$n: $n+2;
+	}
+}
+
+.borderBottom {
+	border-bottom: #dddddd solid 1px;
+}
+
+.borderLeft {
+	border-left: #dddddd solid 1px;
+}
+.borderRight {
+	border-right: #dddddd solid 1px;
+}
+.borderTop {
+	border-top: #dddddd solid 1px;
+}
