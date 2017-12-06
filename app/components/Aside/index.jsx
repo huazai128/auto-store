@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Button } from 'antd';
+import { Menu, Icon, Button, Layout } from 'antd';
 import viewMap from 'utils/viewMap';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 
 const SubMenu = Menu.SubMenu;
-
+const { Sider } = Layout;
 
 @inject('body')
 @observer
@@ -16,22 +16,23 @@ export default class extends React.Component {
 		collapsed: false,
 	}
 
-	toggleCollapsed = () => {
-		this.setState({
-			collapsed: !this.state.collapsed,
-		});
-	}
+	onCollapse = (collapsed) => { this.setState({ collapsed }); }
 
 	render() {
 		const { pathname } = this.props.location;
 
 		return (
-			<div>
+			<Sider
+				width={180}
+				collapsible
+				collapsed={this.state.collapsed}
+				onCollapse={this.onCollapse}
+			>
 				<Menu
 					mode="inline"
+					theme="dark"
 					selectedKeys={[pathname]}
 					inlineCollapsed={this.state.collapsed}
-					onClick={this.store.add}
 				>
 					{viewMap.filter(i => i.icon).map((item, index) => {
 						return <Menu.Item key={item.url}><Link to={item.url}><Icon style={{ fontSize: 16 }} type={item.icon} /><span>{item.name}</span></Link></Menu.Item>;
@@ -41,10 +42,7 @@ export default class extends React.Component {
 						<Menu.Item key="6">Option 6</Menu.Item>
 					</SubMenu> */}
 				</Menu>
-				<Button type="primary" onClick={this.toggleCollapsed}>
-					<Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-				</Button>
-			</div>
+			</Sider>
 		);
 	}
 }

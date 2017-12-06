@@ -1,7 +1,15 @@
-.ant-tabs-nav-wrap {
-	user-select:none;
+.view-container {
+	height: calc(100% - 40px);
 }
 
-.ant-tabs-bar {
-	margin-bottom: 0;
+.main-tags {
+	.ant-tabs-bar {
+		margin-bottom: 0;
+	}
+	.ant-tabs-nav-wrap {
+		-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+	}
 }

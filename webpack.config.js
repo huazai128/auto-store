@@ -10,6 +10,7 @@ import pkg from './package.json';
 const modifyVars = {
 	// '@primary-color': '#7265e6',
 	'@font-size-base': '12px',
+	'@table-header-bg': '#f5f9fd',
 	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 };
 
@@ -184,7 +185,7 @@ if (process.env.NODE_ENV !== 'production') {
 						minimize: true,
 					}
 				},
-				'postcss-loader'
+					'postcss-loader'
 				]
 			})
 		},
@@ -198,8 +199,8 @@ if (process.env.NODE_ENV !== 'production') {
 						minimize: true,
 					}
 				},
-				'postcss-loader',
-				'sass-loader'
+					'postcss-loader',
+					'sass-loader'
 				],
 			}),
 			include: path.resolve(__dirname, 'assets')
@@ -218,8 +219,8 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
-				'postcss-loader',
-				'resolve-url-loader',
+					'postcss-loader',
+					'resolve-url-loader',
 				{
 					loader: 'sass-loader',
 					options: {

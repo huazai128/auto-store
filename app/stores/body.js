@@ -1,29 +1,33 @@
-import { observable, computed, useStrict, action, runInAction, autorun } from 'mobx';
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { getApi, postApi } from 'utils';
+import viewMap from 'utils/viewMap';
 
 
 useStrict(true);
 class Store {
-	@observable activeTagString = []
+	@observable activeTag = []
 
 	@action remove = (key, push) => {
-		const index = this.activeTagString.indexOf(key);
-		this.activeTagString = this.activeTagString.filter(i => i !== key);
+		const index = this.activeTag.indexOf(key);
+		this.activeTag = this.activeTag.filter(i => i !== key);
 
-		const isNull = this.activeTagString.length === 0;
+		const isNull = this.activeTag.length === 0;
 		if (isNull) return push('/');
-		if (index !== 0 && !isNull) return push(this.activeTagString[index - 1]);
-		if (index === 0 && !isNull) return push(this.activeTagString[0]);
+		if (index !== 0 && !isNull) return push(this.activeTag[index - 1].url);
+		if (index === 0 && !isNull) return push(this.activeTag[0].url);
 	}
 
-	@action add = ({ key }) => {
-		if (this.activeTagString.includes(key)) return;
-		this.activeTagString.push(key);
+	@action add = (tag) => {
+		const { pathname } = tag;
+		const keys = this.activeTag.map(item => item.pathname);
+		if (keys.includes(pathname)) return;
+		// // this.activeTag.push(tag);
+		this.activeTag = [...this.activeTag, tag];
 	}
 
 	@action init = key => {
-		this.activeTagString.push(key);
-		this.activeTagString = observable.shallowArray(this.activeTagString);
+		this.activeTag.push(key);
+		this.activeTag = observable.shallowArray(this.activeTag);
 	}
 }
 
