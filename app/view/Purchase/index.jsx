@@ -31,7 +31,7 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header>{this.props.name}</Header>
+				<Header btn={{ to: '/Purchase/Create', text: '采购制单' }}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<ButtonGroup>

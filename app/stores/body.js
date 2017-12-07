@@ -8,26 +8,26 @@ class Store {
 	@observable activeTag = []
 
 	@action remove = (key, push) => {
-		const index = this.activeTag.indexOf(key);
-		this.activeTag = this.activeTag.filter(i => i !== key);
+		if(this.activeTag.length == 1 ) return;
+
+		console.log(key);
+
+		const index = this.activeTag.map(i => i.pathname).indexOf(key);
+		this.activeTag = this.activeTag.filter(i => i.pathname !== key);
+
+		console.log(index);
 
 		const isNull = this.activeTag.length === 0;
 		if (isNull) return push('/');
-		if (index !== 0 && !isNull) return push(this.activeTag[index - 1].url);
-		if (index === 0 && !isNull) return push(this.activeTag[0].url);
+		if (index !== 0 && !isNull) return push(this.activeTag[index - 1].pathname);
+		if (index === 0 && !isNull) return push(this.activeTag[0].pathname);
 	}
 
 	@action add = (tag) => {
 		const { pathname } = tag;
 		const keys = this.activeTag.map(item => item.pathname);
 		if (keys.includes(pathname)) return;
-		// // this.activeTag.push(tag);
 		this.activeTag = [...this.activeTag, tag];
-	}
-
-	@action init = key => {
-		this.activeTag.push(key);
-		this.activeTag = observable.shallowArray(this.activeTag);
 	}
 }
 

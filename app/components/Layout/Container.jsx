@@ -4,7 +4,7 @@ export default class extends Component {
 	state = {}
 	render() {
 		return (
-			<div style={{ backgroundColor: '#E6EAF3' }} className="flex-col flex-g-1">
+			<div style={{ backgroundColor: '#E6EAF3', height: '100%' }} className="flex-col">
 				{this.props.children}
 			</div>
 		);

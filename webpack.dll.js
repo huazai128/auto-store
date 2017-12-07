@@ -34,20 +34,20 @@ const webpackConfig = {
 	],
 };
 
-if (process.env.NODE_ENV === 'production') {
-	webpackConfig.plugins.push(new webpack.DefinePlugin({
-		'process.env': {
-			NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-		}
-	}));
-	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-		output: {
-			comments: false,
-		},
-		compress: {
-			warnings: false
-		}
-	}));
-}
+// if (process.env.NODE_ENV === 'production') {
+// 	webpackConfig.plugins.push(new webpack.DefinePlugin({
+// 		'process.env': {
+// 			NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+// 		}
+// 	}));
+// 	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+// 		output: {
+// 			comments: false,
+// 		},
+// 		compress: {
+// 			warnings: false
+// 		}
+// 	}));
+// }
 
 export default webpackConfig;

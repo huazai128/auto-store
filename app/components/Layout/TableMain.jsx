@@ -18,8 +18,6 @@ export default class extends Component {
 		});
 	}
 	render() {
-		console.log(this.columns);
-
 		return (
 			<Table
 				className="main-table"
