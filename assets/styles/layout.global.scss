@@ -1,3 +1,5 @@
+@import 'entry';
+
 $basic-list: (
 	mt: margin-top,
 	mb: margin-bottom,
@@ -45,4 +47,7 @@ $fs-list : (
 }
 .borderTop {
 	border-top: #dddddd solid 1px;
+}
+.color-6 {
+	color: $primary-color;
 }

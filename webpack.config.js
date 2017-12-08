@@ -11,7 +11,7 @@ const modifyVars = {
 	// '@primary-color': '#7265e6',
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
-	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)'
+	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
 	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 };
 
@@ -37,7 +37,7 @@ const webpackConfig = {
 			path.resolve(__dirname, 'app')
 		],
 		// modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
-		extensions: ['.json', '.jsx', '.web.js', '.js', ],
+		extensions: ['.json', '.jsx', '.web.js', '.js',],
 		alias: {
 			app: path.resolve(__dirname, 'app'),
 			view: path.resolve(__dirname, 'app/view'),
@@ -51,19 +51,19 @@ const webpackConfig = {
 
 	module: {
 		rules: [{
-				test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
-				use: [{
-					loader: 'url-loader',
-					options: {
-						limit: 8192
-					}
-				}],
-			},
-			{
-				test: /\.(js|jsx)$/,
-				use: ['babel-loader'],
-				exclude: /node_modules/,
-			}
+			test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 8192
+				}
+			}],
+		},
+		{
+			test: /\.(js|jsx)$/,
+			use: ['babel-loader'],
+			exclude: /node_modules/,
+		}
 		]
 	},
 	plugins: [
@@ -183,12 +183,12 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-						}
-					},
-					'postcss-loader'
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
+				'postcss-loader'
 				]
 			})
 		},
@@ -197,13 +197,13 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-						}
-					},
-					'postcss-loader',
-					'sass-loader'
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
+				'postcss-loader',
+				'sass-loader'
 				],
 			}),
 			include: path.resolve(__dirname, 'assets')
@@ -214,24 +214,24 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-							modules: true,
-							importLoaders: 1,
-							localIdentName: '[name]-[local]__[hash:base64:5]'
-						}
-					},
-					'postcss-loader',
-					'resolve-url-loader',
-					{
-						loader: 'sass-loader',
-						options: {
-							includePaths: [
-								path.resolve(__dirname, 'assets/styles')
-							],
-						}
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+						modules: true,
+						importLoaders: 1,
+						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
+				},
+				'postcss-loader',
+				'resolve-url-loader',
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles')
+						],
+					}
+				}
 				],
 			}),
 			include: path.resolve(__dirname, 'app')
@@ -241,17 +241,17 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true
-						}
-					},
-					{
-						loader: 'less-loader',
-						options: {
-							modifyVars
-						}
-					},
+					loader: 'css-loader',
+					options: {
+						minimize: true
+					}
+				},
+				{
+					loader: 'less-loader',
+					options: {
+						modifyVars
+					}
+				},
 				],
 			}),
 		}

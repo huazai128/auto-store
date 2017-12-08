@@ -10,24 +10,33 @@ const ButtonGroup = Button.Group;
 export default class extends Component {
 
 	render() {
+		const dataSource = [];
+		console.log(123);
 
-		const dataSource = [{
-			key: '1',
-			name: '胡彦斌',
-			age: 32,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}, {
-			key: '2',
-			name: '胡彦祖',
-			age: 42,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}];
+		for (let index = 0; index < 100; index++) {
+			dataSource.push({
+				key: index,
+				state: 'confirmed',
+				age: 32,
+				address: '西湖区湖底公园1号',
+				time: new Date().valueOf()
+			});
+		}
 
 		const columns = [
-			{ title: '姓名', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }];
+			{
+				width: 200,
+				title: '状态',
+				key: 'state',
+				type: 'state',
+				stateInfo: {
+					confirmed: '货品资料已在系统内生效，且已有数据产生，不可反应用，但可以修改供应商信息及自定义属性内容！',
+					checked: '货品资料已在系统内生效，但尚未产生数据，可以修改供应商信息及自定义属性内容！',
+					pending: '货品资料没有在系统内生效，可修改所有资料内容，也可进行删除！'
+				}
+			},
+			{ width: 200, title: '时间', key: 'time', type: 'date' },
+		];
 
 		return (
 			<Container>
@@ -43,7 +52,12 @@ export default class extends Component {
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 					</HandleArea>
-					<TableMain dataSource={dataSource} columns={columns} />
+					<TableMain
+						title={this.props.name}
+						dataSource={dataSource}
+						columns={columns}
+						className=""
+					/>
 				</Content>
 			</Container>
 		);

@@ -10,12 +10,8 @@ class Store {
 	@action remove = (key, push) => {
 		if(this.activeTag.length == 1 ) return;
 
-		console.log(key);
-
 		const index = this.activeTag.map(i => i.pathname).indexOf(key);
 		this.activeTag = this.activeTag.filter(i => i.pathname !== key);
-
-		console.log(index);
 
 		const isNull = this.activeTag.length === 0;
 		if (isNull) return push('/');
