@@ -19,10 +19,18 @@ console.info(`当前环境：${process.env.NODE_ENV}`);
 
 const webpackConfig = {
 	entry: {
-		fongwell: [
+		vendor: [
 			'babel-polyfill',
-			path.join(__dirname, 'client/entry.dev.jsx')
+			'react',
+			'react-dom',
+			'react-router-dom',
+			'mobx',
+			'mobx-react',
+			'moment',
 		],
+		fongwell: [
+			path.join(__dirname, 'client/entry.dev.jsx')
+		]
 	},
 	output: {
 		filename: 'entry.[name].js',
@@ -37,7 +45,7 @@ const webpackConfig = {
 			path.resolve(__dirname, 'app')
 		],
 		// modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
-		extensions: ['.json', '.jsx', '.web.js', '.js',],
+		extensions: ['.json', '.jsx', '.web.js', '.js', ],
 		alias: {
 			app: path.resolve(__dirname, 'app'),
 			view: path.resolve(__dirname, 'app/view'),
@@ -51,22 +59,27 @@ const webpackConfig = {
 
 	module: {
 		rules: [{
-			test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
-			use: [{
-				loader: 'url-loader',
-				options: {
-					limit: 8192
-				}
-			}],
-		},
-		{
-			test: /\.(js|jsx)$/,
-			use: ['babel-loader'],
-			exclude: /node_modules/,
-		}
+				test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
+				use: [{
+					loader: 'url-loader',
+					options: {
+						limit: 8192
+					}
+				}],
+			},
+			{
+				test: /\.(js|jsx)$/,
+				use: ['babel-loader'],
+				exclude: /node_modules/,
+			}
 		]
 	},
 	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			filename: '[name].min.js',
+			minChunks: Infinity,
+		}),
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
@@ -173,7 +186,10 @@ if (process.env.NODE_ENV !== 'production') {
 		}
 	}));
 	// webpackConfig.output.publicPath='/assets/';
-	webpackConfig.output.chunkFilename = 'chunks/[name].js';
+	// webpackConfig.output.chunkFilename = 'chunks/[name].js';
+	webpackConfig.output.filename = '[name].[hash:5].js';
+	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js';
+
 	webpackConfig.module.rules = [
 
 		...webpackConfig.module.rules,
@@ -183,12 +199,12 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true,
-					}
-				},
-				'postcss-loader'
+						loader: 'css-loader',
+						options: {
+							minimize: true,
+						}
+					},
+					'postcss-loader'
 				]
 			})
 		},
@@ -197,13 +213,13 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true,
-					}
-				},
-				'postcss-loader',
-				'sass-loader'
+						loader: 'css-loader',
+						options: {
+							minimize: true,
+						}
+					},
+					'postcss-loader',
+					'sass-loader'
 				],
 			}),
 			include: path.resolve(__dirname, 'assets')
@@ -214,24 +230,24 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true,
-						modules: true,
-						importLoaders: 1,
-						localIdentName: '[name]-[local]__[hash:base64:5]'
+						loader: 'css-loader',
+						options: {
+							minimize: true,
+							modules: true,
+							importLoaders: 1,
+							localIdentName: '[name]-[local]__[hash:base64:5]'
+						}
+					},
+					'postcss-loader',
+					'resolve-url-loader',
+					{
+						loader: 'sass-loader',
+						options: {
+							includePaths: [
+								path.resolve(__dirname, 'assets/styles')
+							],
+						}
 					}
-				},
-				'postcss-loader',
-				'resolve-url-loader',
-				{
-					loader: 'sass-loader',
-					options: {
-						includePaths: [
-							path.resolve(__dirname, 'assets/styles')
-						],
-					}
-				}
 				],
 			}),
 			include: path.resolve(__dirname, 'app')
@@ -241,17 +257,17 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true
-					}
-				},
-				{
-					loader: 'less-loader',
-					options: {
-						modifyVars
-					}
-				},
+						loader: 'css-loader',
+						options: {
+							minimize: true
+						}
+					},
+					{
+						loader: 'less-loader',
+						options: {
+							modifyVars
+						}
+					},
 				],
 			}),
 		}
