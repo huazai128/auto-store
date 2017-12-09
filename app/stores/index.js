@@ -1,9 +1,9 @@
 import body from './body.js';
-import create from './create.js';
+import Create from './Create.js';
 
 const stores = {
 	body,
-	create
+	Create
 };
 
 export default stores;

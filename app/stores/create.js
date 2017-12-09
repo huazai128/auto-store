@@ -6,6 +6,12 @@ import viewMap from 'utils/viewMap';
 useStrict(true);
 class Store {
 
+	@observable count = 0
+
+	@action countUp = () => {
+		this.count = this.count + 1;
+	}
+
 	@action submit = async (tag) => {
 		const data = await new Promise(resolve => {
 			setTimeout(() => {
@@ -18,6 +24,6 @@ class Store {
 
 }
 
-const store = new Store();
+// const store = new Store();
 
-export default store;
+export default Store;

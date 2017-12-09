@@ -12,7 +12,9 @@ const modifyVars = {
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
-	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
+	'@form-item-margin-bottom': '22px',
+	'@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
+	'@animation-duration-slow': '.2s'
 };
 
 console.info(`当前环境：${process.env.NODE_ENV}`);
@@ -23,18 +25,16 @@ const webpackConfig = {
 			'babel-polyfill',
 			'react',
 			'react-dom',
-			'react-router-dom',
-			'mobx',
-			'mobx-react',
-			'moment',
+			// 'moment',
 		],
 		fongwell: [
+			'babel-polyfill',
 			path.join(__dirname, 'client/entry.dev.jsx')
 		]
 	},
 	output: {
 		filename: 'entry.[name].js',
-		chunkFilename: '[name].js', // 指定非入口块文件输出的名字
+		chunkFilename: '[name].js',
 		path: path.join(__dirname, 'dist'),
 		publicPath: '/',
 	},
@@ -45,7 +45,7 @@ const webpackConfig = {
 			path.resolve(__dirname, 'app')
 		],
 		// modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
-		extensions: ['.json', '.jsx', '.web.js', '.js', ],
+		extensions: ['.json', '.jsx', '.web.js', '.js',],
 		alias: {
 			app: path.resolve(__dirname, 'app'),
 			view: path.resolve(__dirname, 'app/view'),
@@ -59,19 +59,19 @@ const webpackConfig = {
 
 	module: {
 		rules: [{
-				test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
-				use: [{
-					loader: 'url-loader',
-					options: {
-						limit: 8192
-					}
-				}],
-			},
-			{
-				test: /\.(js|jsx)$/,
-				use: ['babel-loader'],
-				exclude: /node_modules/,
-			}
+			test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
+			use: [{
+				loader: 'url-loader',
+				options: {
+					limit: 8192
+				}
+			}],
+		},
+		{
+			test: /\.(js|jsx)$/,
+			use: ['babel-loader'],
+			exclude: /node_modules/,
+		}
 		]
 	},
 	plugins: [
@@ -91,7 +91,6 @@ const webpackConfig = {
 		}]),
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'dist' : 'app'}/index.html`),
-			// template: path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'app' : 'app'}/index.html`),
 			inject: true,
 		}),
 	],
@@ -186,7 +185,6 @@ if (process.env.NODE_ENV !== 'production') {
 		}
 	}));
 	// webpackConfig.output.publicPath='/assets/';
-	// webpackConfig.output.chunkFilename = 'chunks/[name].js';
 	webpackConfig.output.filename = '[name].[hash:5].js';
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js';
 
@@ -199,11 +197,11 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-						}
-					},
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
 					'postcss-loader'
 				]
 			})
@@ -213,11 +211,11 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-						}
-					},
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
 					'postcss-loader',
 					'sass-loader'
 				],
@@ -230,24 +228,24 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true,
-							modules: true,
-							importLoaders: 1,
-							localIdentName: '[name]-[local]__[hash:base64:5]'
-						}
-					},
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+						modules: true,
+						importLoaders: 1,
+						localIdentName: '[name]-[local]__[hash:base64:5]'
+					}
+				},
 					'postcss-loader',
 					'resolve-url-loader',
-					{
-						loader: 'sass-loader',
-						options: {
-							includePaths: [
-								path.resolve(__dirname, 'assets/styles')
-							],
-						}
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles')
+						],
 					}
+				}
 				],
 			}),
 			include: path.resolve(__dirname, 'app')
@@ -257,17 +255,17 @@ if (process.env.NODE_ENV !== 'production') {
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
-						loader: 'css-loader',
-						options: {
-							minimize: true
-						}
-					},
-					{
-						loader: 'less-loader',
-						options: {
-							modifyVars
-						}
-					},
+					loader: 'css-loader',
+					options: {
+						minimize: true
+					}
+				},
+				{
+					loader: 'less-loader',
+					options: {
+						modifyVars
+					}
+				},
 				],
 			}),
 		}
