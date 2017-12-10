@@ -16,7 +16,6 @@ export default class Header extends Component {
 	render() {
 		const { children, btn, asyncBack } = this.props;
 		const { loading } = this.state;
-
 		return (
 			<header className={`${styles.header} flex-vcenter jc-between`}>
 				<div className="flex-vcenter">
@@ -30,12 +29,16 @@ export default class Header extends Component {
 							loading={loading}
 							onClick={async () => {
 								this.setState({ loading: true });
-								await this.props.asyncBack.asyncAction();
-								this.setState({ loading: false }, () => {
-									Modal.success({
-										title: '操作成功'
+								try {
+									await this.props.asyncBack.asyncAction();
+									this.setState({ loading: false }, () => {
+										Modal.success({
+											title: '操作成功'
+										});
 									});
-								});
+								} catch (error) {
+									this.setState({ loading: false });
+								}
 							}}
 							type="primary">
 							保存

@@ -8,7 +8,7 @@ import pkg from './package.json';
 
 
 const modifyVars = {
-	// '@primary-color': '#7265e6',
+	// '@primary-color': '#5cdbd3',
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
