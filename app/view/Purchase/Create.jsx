@@ -1,11 +1,39 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
+import modal from 'hoc/modal';
 
+@modal
+@observer
+class ReferAddModal extends Component {
+	handleSubmit = () => {
+		this.props.onConfirmLoading(true);
+		setTimeout(() => {
+			this.props.handleCancel();
+		}, 2000);
+	}
+
+	render() {
+		// for hoc modal
+		const { visible, confirmLoading, handleCancel } = this.props;
+
+		return (
+			<Modal
+				title="参照制单"
+				visible={visible}
+				onOk={this.handleSubmit}
+				confirmLoading={confirmLoading}
+				onCancel={e => handleCancel()}
+			>
+				<CreateTable />
+			</Modal>
+		);
+	}
+}
 
 @inject('Create')
 @Form.create()
@@ -16,7 +44,9 @@ export default class extends Component {
 	tableTitle = (
 		<div>
 			<strong>单据明细编辑</strong>
-			<Button type="primary" className="ml20">参照制单</Button>
+			<ReferAddModal>
+				<Button key="Button" type="primary" className="ml20">参照制单</Button>
+			</ReferAddModal>
 		</div>
 	)
 
@@ -34,6 +64,7 @@ export default class extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
+
 		return (
 			<Container>
 				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>

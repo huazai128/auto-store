@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Popconfirm, InputNumber } from 'antd';
+import { observer } from 'mobx-react';
 
+@observer
 export default class extends Component {
 	static defaultProps = {
 		columns: [

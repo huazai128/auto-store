@@ -33,31 +33,29 @@ class AddStoreModal extends Component {
 
 	render() {
 		// for hoc modal
-		const { visible, confirmLoading, handleCancel, showModal } = this.props;
+		const { visible, confirmLoading, handleCancel } = this.props;
 
 		return (
-			[
-				<Button key="Button" onClick={showModal} className="ml40" type="primary" ghost>手动添加门店资料</Button>,
-				<Modal
-					key="Modal"
-					title="添加门店资料"
-					visible={visible}
-					onOk={this.handleSubmit}
-					afterClose={this.afterClose}
-					confirmLoading={confirmLoading}
-					onCancel={e => handleCancel()}
-				>
-					<DyunFrom ref="form" fields={[
-						{ label: '门店名称', key: 'a', rules: true, },
-						{ label: '门店编号', key: 'b', rules: true, },
-						{ label: '门店面积', key: 'c', },
-						{ label: '开业时间', key: 'd', node: <DatePicker /> },
-						{ label: '门店地址', key: 'e', },
-						{ label: '联系人', key: 'f', },
-						{ label: '联系方式', key: 'g', },
-						{ label: '物业联系人', key: 'h', },
-					]} />
-				</Modal>]
+			<Modal
+				key="Modal"
+				title="添加门店资料"
+				visible={visible}
+				onOk={this.handleSubmit}
+				afterClose={this.afterClose}
+				confirmLoading={confirmLoading}
+				onCancel={e => handleCancel()}
+			>
+				<DyunFrom ref="form" fields={[
+					{ label: '门店名称', key: 'a', rules: true, },
+					{ label: '门店编号', key: 'b', rules: true, },
+					{ label: '门店面积', key: 'c', },
+					{ label: '开业时间', key: 'd', node: <DatePicker /> },
+					{ label: '门店地址', key: 'e', },
+					{ label: '联系人', key: 'f', },
+					{ label: '联系方式', key: 'g', },
+					{ label: '物业联系人', key: 'h', },
+				]} />
+			</Modal>
 		);
 	}
 }
@@ -94,7 +92,9 @@ export default class extends Component {
 							<Button icon="lock" type="primary" ghost>冻结</Button>
 							<Button icon="unlock" type="primary" ghost>取消冻结</Button>
 						</ButtonGroup>
-						<AddStoreModal />
+						<AddStoreModal>
+							<Button key="Button" className="ml40" type="primary" ghost>手动添加门店资料</Button>
+						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 					</HandleArea>

@@ -20,13 +20,17 @@ export default WrappedComponent => {
 
 		render() {
 			return (
-				<WrappedComponent
-					onConfirmLoading={this.onConfirmLoading}
-					showModal={this.showModal}
-					handleCancel={this.handleCancel}
-					{...this.state}
-					{...this.props}
-				/>
+				[
+					React.cloneElement(this.props.children, { onClick: this.showModal, key: 'outer' }),
+					<WrappedComponent
+						key="WrappedComponent"
+						onConfirmLoading={this.onConfirmLoading}
+						showModal={this.showModal}
+						handleCancel={this.handleCancel}
+						{...this.state}
+						{...this.props}
+					/>
+				]
 			);
 		}
 	};
