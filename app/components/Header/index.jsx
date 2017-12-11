@@ -9,18 +9,23 @@ const { Search } = Input;
 
 @observer
 export default class Header extends Component {
+	static defaultProps = {
+		update: () => { }
+	}
+
 	state = {
 		loading: false,
 	}
 
 	render() {
-		const { children, btn, asyncBack } = this.props;
+		const { children, btn, asyncBack, update } = this.props;
+
 		const { loading } = this.state;
 		return (
 			<header className={`${styles.header} flex-vcenter jc-between`}>
 				<div className="flex-vcenter">
 					<h2 className="flex-vcenter">{children}</h2>
-					{!this.props.type == 'create' && <Button className="ml20" shape="circle" type="primary" icon="reload" />}
+					{this.props.type !== 'create' && <Button onClick={update} className="ml20" shape="circle" type="primary" icon="reload" />}
 					{btn && <Button className="ml20" type="primary"><Link to={btn.to}>{btn.text || '保存'}</Link></Button>}
 					{
 						asyncBack &&

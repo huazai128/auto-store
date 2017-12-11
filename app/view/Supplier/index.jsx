@@ -38,7 +38,7 @@ class AddStoreModal extends Component {
 		return (
 			<Modal
 				key="Modal"
-				title="添加门店资料"
+				title="添加供应商"
 				visible={visible}
 				onOk={this.handleSubmit}
 				afterClose={this.afterClose}
@@ -46,14 +46,15 @@ class AddStoreModal extends Component {
 				onCancel={e => handleCancel()}
 			>
 				<DyunFrom ref="form" fields={[
-					{ label: '门店名称', key: 'a', rules: true, },
-					{ label: '门店编号', key: 'b', rules: true, },
-					{ label: '门店面积', key: 'casd', },
-					{ label: '开业时间', key: 'd', node: <DatePicker /> },
-					{ label: '门店地址', key: 'e', },
+					{ label: '供应商名称', key: 'a', rules: true, },
+					{ label: '供应商编号', key: 'b', rules: true, },
 					{ label: '联系人', key: 'f', },
-					{ label: '联系方式', key: 'g', },
-					{ label: '物业联系人', key: 'h', },
+					{ label: '联系电话', key: 'g', },
+					{ label: '地址', key: 'e', },
+					{ label: '传真号', key: 'c', },
+					{ label: '邮箱地址', key: 'cdsd', },
+					{ label: '备注', key: 'i', node: <TextArea rows={4} /> },
+
 				]} />
 			</Modal>
 		);
@@ -69,19 +70,31 @@ export default class extends Component {
 	render() {
 		const dataSource = [];
 
-		for (let index = 0; index < 20; index++) {
+		for (let index = 0; index < 10; index++) {
 			dataSource.push({
 				key: index,
-				age: 32,
-				address: '西湖区湖底公园1号',
+				number: 32,
+				name: '北明代理商',
+				a: '北明代理商',
+				b: '北明代理商',
+				c: '北明代理商',
+				d: '北明代理商',
+				e: '北明代理商',
+				f: '北明代理商',
 				time: new Date().valueOf()
 			});
 		}
 
 		const columns = [
-			{ width: 200, title: '时间', key: 'time', type: 'date' },
-			{ width: 200, title: '时间', key: 'address', },
-			{ width: 200, title: '时间', key: 'age', type: 'date' },
+			{ width: 100, title: '状态', key: 'state', render: () => <Tag>合作中</Tag> },
+			{ width: 100, title: '供应商名称', key: 'name', },
+			{ width: 100, title: '供应商编号', key: 'number', },
+			{ width: 100, title: '联系人', key: 'a' },
+			{ width: 100, title: '联系电话', key: 'b' },
+			{ width: 100, title: '地址', key: 'c' },
+			{ width: 100, title: '传真号', key: 'd' },
+			{ width: 100, title: '邮箱地址', key: 'e' },
+			{ width: 100, title: '备注', key: 'f' },
 		];
 		return (
 			<Container>
@@ -93,7 +106,7 @@ export default class extends Component {
 							<Button icon="unlock" type="primary" ghost>取消冻结</Button>
 						</ButtonGroup>
 						<AddStoreModal>
-							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
+							<Button key="Button" className="ml40" type="primary">手动添加供应商</Button>
 						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
@@ -103,6 +116,7 @@ export default class extends Component {
 						dataSource={dataSource}
 						columns={columns}
 						className=""
+						loading={false}
 					/>
 				</Content>
 			</Container>

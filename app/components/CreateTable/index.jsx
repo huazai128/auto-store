@@ -6,9 +6,9 @@ import { observer } from 'mobx-react';
 export default class extends Component {
 	static defaultProps = {
 		columns: [
-			{ width: 100, title: '款号', key: 'number' },
-			{ width: 100, title: '数量', key: 'count' },
-			{ width: 100, title: '数量fgfg', key: 'contdsd', render: () => <div><InputNumber style={{ width: 80 }} size="small" /></div> },
+			{ width: 100, title: '商品编号', key: 'number' },
+			{ width: 100, title: '价格', key: 'count' },
+			{ width: 100, title: '数量', key: 'contdsd', render: () => <div><InputNumber style={{ width: 80 }} size="small" /></div> },
 		],
 		dataSource: [
 			{ key: '1', number: 'test-10086', count: 100, contdsd: '123' },

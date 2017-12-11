@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
+import { Button, Input, Form, Select, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
@@ -8,6 +8,7 @@ import CreateFormItem from 'components/Form/CreateFormItem';
 import SearchSku from 'components/SearchSku';
 import modal from 'hoc/modal';
 
+const { Option } = Select;
 
 @inject('Create') @Form.create() @observer
 export default class extends Component {
@@ -28,8 +29,6 @@ export default class extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
-
 		return (
 			<Container>
 				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
@@ -37,17 +36,23 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<CreateFormItem label="采购单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
+								<CreateFormItem label="退仓单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
 									<Input style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="收货店铺编号及名称" rules={true} keyValue="d" getFieldDecorator={getFieldDecorator}>
+
+								<CreateFormItem label="退仓类型" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
+									<Select style={{ width: 150 }}>
+										<Option value="rmb">默认退仓</Option>
+										<Option value="dollar">什么退货类型</Option>
+									</Select>
+								</CreateFormItem>
+
+								<CreateFormItem label="收货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="供货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
+
+								<CreateFormItem label="发货仓库编号及名称" rules={true} keyValue="send" getFieldDecorator={getFieldDecorator}>
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="采购日期" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
-									<DatePicker />
 								</CreateFormItem>
 							</div>
 							<div className="flex-vcenter">

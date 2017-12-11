@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
+import { Button, Input, Form, Icon, Modal, DatePicker, Radio } from 'antd';
 import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
@@ -7,7 +7,9 @@ import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
 import SearchSku from 'components/SearchSku';
 import modal from 'hoc/modal';
+import moment from 'moment';
 
+const RadioGroup = Radio.Group;
 
 @inject('Create') @Form.create() @observer
 export default class extends Component {
@@ -28,8 +30,6 @@ export default class extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
-
 		return (
 			<Container>
 				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
@@ -37,22 +37,39 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<CreateFormItem label="采购单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
+								<CreateFormItem label="盘点单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
 									<Input style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="收货店铺编号及名称" rules={true} keyValue="d" getFieldDecorator={getFieldDecorator}>
+
+								<CreateFormItem label="盘点店铺" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="供货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="采购日期" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
+
+								<CreateFormItem
+									initialValue={moment().startOf('day')}
+									label="盘点日期"
+									rules={true}
+									keyValue="b"
+									getFieldDecorator={getFieldDecorator}
+								>
 									<DatePicker />
 								</CreateFormItem>
 							</div>
 							<div className="flex-vcenter">
+								<CreateFormItem
+									label="盘点范围"
+									rules={true}
+									keyValue="sdasd"
+									initialValue={1}
+									getFieldDecorator={getFieldDecorator}
+								>
+									<RadioGroup>
+										<Radio value={1}>全局盘点</Radio>
+										<Radio value={2}>局部盘点</Radio>
+									</RadioGroup>
+								</CreateFormItem>
 								<CreateFormItem label="备注" keyValue="note" getFieldDecorator={getFieldDecorator}>
-									<Input style={{ width: 350 }} />
+									<Input style={{ width: 300 }} />
 								</CreateFormItem>
 							</div>
 						</HandleArea>

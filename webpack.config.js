@@ -13,7 +13,7 @@ const modifyVars = {
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
 	'@form-item-margin-bottom': '22px',
-	'@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
+	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 	'@animation-duration-slow': '.2s'
 };
 
@@ -25,7 +25,7 @@ const webpackConfig = {
 			'babel-polyfill',
 			'react',
 			'react-dom',
-			// 'moment',
+			'moment',
 		],
 		fongwell: [
 			'babel-polyfill',

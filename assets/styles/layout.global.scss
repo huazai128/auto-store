@@ -51,3 +51,11 @@ $fs-list : (
 .color-6 {
 	color: $primary-color;
 }
+
+.text-overflow {
+	/* 不换行, 省略号代替 */
+	word-break: keep-all;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Tag, Popover, Popconfirm } from 'antd';
+import { Table, Tag, Popover, Popconfirm, Tooltip } from 'antd';
 import moment from 'moment';
-
 
 const StatePopover = ({ content = '', children }) => (
 	content
@@ -19,6 +18,10 @@ const StatePopover = ({ content = '', children }) => (
 );
 
 export default class extends Component {
+	static defaultProps = {
+		loading: false
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -28,6 +31,7 @@ export default class extends Component {
 			return {
 				...item,
 				dataIndex: item.key,
+				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
 					if (item.type == 'date') return moment(text).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
@@ -39,9 +43,16 @@ export default class extends Component {
 						);
 					}
 					return text;
+
+					// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
 				}
 			};
 		});
+	}
+
+	componentDidMount() {
+		const otherH = 18 + 26 + 34 + 56;
+		this.tableInnerHeight = this.refs.wrap.clientHeight - otherH;
 	}
 
 	renderState(text, info = {}) {
@@ -77,17 +88,25 @@ export default class extends Component {
 			},
 		};
 
+
 		return (
-			<Table
-				className={`${this.props.className} main-table`}
-				size="middle"
-				scroll={{ x: this.getXSrcoll(this.columns), y: 600 }}
-				title={() => <div><strong>{this.props.title}列表</strong>（共1000个列表，已选<span className="color-6">100</span>个）</div>}
-				dataSource={this.props.dataSource || []}
-				rowSelection={rowSelection}
-				loading={false}
-				pagination={{ pageSize: 20 }}
-				columns={this.columns} />
+			<div className="flex-g-1" ref="wrap">
+				<Table
+					className={`${this.props.className} main-table`}
+					size="middle"
+					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight }}
+					title={() => (
+						<div className="flex jc-between">
+							<div><strong>{this.props.title}列表</strong>（共1000个列表，已选<span className="color-6">100</span>个）</div>
+							{/* <div>自定义表头展示</div> */}
+						</div>
+					)}
+					dataSource={this.props.dataSource || []}
+					rowSelection={!this.props.noRowSelection ? rowSelection : null}
+					loading={this.props.loading}
+					pagination={{ pageSize: 20, style: { paddingRight: 50 } }}
+					columns={this.columns} />
+			</div>
 		);
 	}
 }

@@ -18,7 +18,7 @@ class TabPanes extends Component {
 					const { Component } = tag;
 					return (
 						<TabPane tab={<div onDoubleClick={() => store.remove(tag.pathname, history.push)}>{tag.name}</div>} key={tag.pathname}>
-							{Component ? <Component {...tag} /> : <div>1233</div>}
+							{Component ? <Component {...tag} /> : <div>content...</div>}
 						</TabPane>
 					);
 				})}
@@ -46,7 +46,7 @@ export default class extends Component {
 
 	render() {
 		return (
-			<div style={{ height: '100%', overflow: 'hidden' }} className="flex">
+			<div style={{ height: '100%', }} className="flex">
 				<Aside {...this.props} />
 				<div className="flex-g-1 flex-col">
 					<TabPanes store={this.props.body} {...this.props} />

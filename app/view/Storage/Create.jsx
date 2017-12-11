@@ -5,8 +5,36 @@ import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
-import SearchSku from 'components/SearchSku';
 import modal from 'hoc/modal';
+
+@modal
+@observer
+class ReferAddModal extends Component {
+	handleSubmit = () => {
+		this.props.onConfirmLoading(true);
+		setTimeout(() => {
+			this.props.handleCancel();
+		}, 2000);
+	}
+
+	render() {
+		// for hoc modal
+		const { visible, confirmLoading, handleCancel } = this.props;
+
+		return (
+			<Modal
+				title="参照制单"
+				width={900}
+				visible={visible}
+				onOk={this.handleSubmit}
+				confirmLoading={confirmLoading}
+				onCancel={e => handleCancel()}
+			>
+				参照制单
+			</Modal>
+		);
+	}
+}
 
 
 @inject('Create') @Form.create() @observer
@@ -28,8 +56,6 @@ export default class extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
-
 		return (
 			<Container>
 				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
@@ -37,17 +63,14 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<CreateFormItem label="采购单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
+								<CreateFormItem label="入库单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
 									<Input style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="收货店铺编号及名称" rules={true} keyValue="d" getFieldDecorator={getFieldDecorator}>
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="供货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="采购日期" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
+								<CreateFormItem label="到货日期" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
 									<DatePicker />
+								</CreateFormItem>
+								<CreateFormItem label="供应商信息" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
+									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</CreateFormItem>
 							</div>
 							<div className="flex-vcenter">
@@ -60,9 +83,9 @@ export default class extends Component {
 					<CreateTable title={() => (
 						<div>
 							<strong>单据明细编辑</strong>
-							<SearchSku />
-							<Button type="primary" ghost className="ml20">选择添加商品</Button>
-							<Button type="primary" ghost className="ml20">Excel导入商品</Button>
+							<ReferAddModal>
+								<Button key="Button" type="primary" className="ml20">参照制单</Button>
+							</ReferAddModal>
 						</div>
 					)} />
 				</Content>

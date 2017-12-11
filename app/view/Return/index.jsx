@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Table, Tag } from 'antd';
-import Header from 'components/Header';
-import { RangePicker } from 'components/DatePicker';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
+
+import Header from 'components/Header';
+import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { RangePicker } from 'components/DatePicker';
 const ButtonGroup = Button.Group;
 
 @observer
@@ -25,14 +26,12 @@ export default class extends Component {
 		}];
 
 		const columns = [
-			{ title: '状态', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '商品编号', dataIndex: 'time', key: 'time', },
-			{ title: '商品编号', dataIndex: 'time', key: 'time', },
-		];
+			{ title: '姓名', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
+			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }];
 
 		return (
 			<Container>
-				<Header btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>
+				<Header btn={{ to: '/return/create', text: '退厂单制单' }}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">

@@ -1,7 +1,9 @@
 @import 'entry';
 
 body,html {
+	min-width: 1000px;
 	height: 100%;
+	overflow: auto;
 }
 #root {
 	height: 100%;
@@ -9,6 +11,10 @@ body,html {
 
 h1, h2, h3, h4, h5, p{
 	margin: 0;
+}
+
+table {
+	table-layout: fixed;
 }
 
 .main-table {
