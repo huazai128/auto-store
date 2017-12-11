@@ -4,6 +4,7 @@ import Header from 'components/Header';
 import { RangePicker } from 'components/DatePicker';
 import { Container, Content, HandleArea, TableMain } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
+import { stateFilters } from 'mapStore/filter';
 const ButtonGroup = Button.Group;
 
 @observer
@@ -25,9 +26,8 @@ export default class extends Component {
 		}];
 
 		const columns = [
-			{ title: '状态', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '商品编号', dataIndex: 'time', key: 'time', },
-			{ title: '商品编号', dataIndex: 'time', key: 'time', },
+			{ width:100, title: '状态', key: 'name', render: () => <Tag>未应用</Tag>, ...stateFilters },
+			{ width:800, title: '商品编号',  key: 'time', },
 		];
 
 		return (

@@ -53,6 +53,7 @@ const webpackConfig = {
 			assets: path.resolve(__dirname, 'assets'),
 			images: path.resolve(__dirname, 'assets/images'),
 			utils: path.resolve(__dirname, 'app/utils'),
+			mapStore: path.resolve(__dirname, 'app/mapStore'),
 
 		},
 	},

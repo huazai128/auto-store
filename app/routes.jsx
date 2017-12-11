@@ -48,7 +48,7 @@ export default class extends Component {
 		return (
 			<div style={{ height: '100%', }} className="flex">
 				<Aside {...this.props} />
-				<div className="flex-g-1 flex-col">
+				<div style={{ overflow: 'auto' }} className="flex-g-1 flex-col">
 					<TabPanes store={this.props.body} {...this.props} />
 				</div>
 				{/* router ==> body{tags: []} */}

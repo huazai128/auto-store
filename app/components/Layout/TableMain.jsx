@@ -88,7 +88,6 @@ export default class extends Component {
 			},
 		};
 
-
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table
@@ -104,7 +103,7 @@ export default class extends Component {
 					dataSource={this.props.dataSource || []}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={this.props.loading}
-					pagination={{ pageSize: 20, style: { paddingRight: 50 } }}
+					pagination={{ pageSize: 20 }}
 					columns={this.columns} />
 			</div>
 		);
