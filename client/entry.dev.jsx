@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, withRouter } from 'react-router-dom';
 import { Provider } from 'mobx-react';
-import viewMap from 'utils/viewMap';
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 
