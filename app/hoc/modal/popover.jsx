@@ -21,7 +21,7 @@ export default WrappedComponent => {
 			const { title } = this.props;
 			return (
 				<Popover
-					content={<WrappedComponent {...this.props} hide={this.hide} />}
+					content={<WrappedComponent {...this.state} {...this.props} hide={this.hide} />}
 					title={title}
 					trigger="click"
 					placement="bottomRight"

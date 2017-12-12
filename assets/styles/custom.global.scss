@@ -35,6 +35,11 @@ table {
 				&:hover {
 					background-color: rgba($primary-color, 0.2);
 				}
+					/* 不换行, 省略号代替 */
+				word-break: keep-all;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 		}
 	}

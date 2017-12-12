@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { Table, Tag, Popover, Popconfirm, Tooltip } from 'antd';
+import { Table, Tag, Popover, Tooltip, Button } from 'antd';
+import { toJS } from 'mobx';
 import moment from 'moment';
+import { observer, inject } from 'mobx-react';
 
+import DyunFrom from 'components/Form';
+import popover from 'hoc/modal/popover';
+
+/* 状态说明 */
 const StatePopover = ({ content = '', children }) => (
 	content
 		?
@@ -17,6 +23,57 @@ const StatePopover = ({ content = '', children }) => (
 		<div>{children}</div>
 );
 
+
+/* 编辑popover */
+@popover
+@observer
+class EditPopover extends Component {
+	state = { confirmLoading: false, }
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		this.refs.form.validateFields((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+				this.setState({ confirmLoading: true, });
+				setTimeout(() => {
+					this.setState({ confirmLoading: false, }, this.props.hide);
+				}, 2000);
+			}
+		});
+	}
+
+	render() {
+		const { item } = this.props;
+		return (
+			<div style={{ width: 300 }}>
+				{this.props.visible ?
+					<DyunFrom
+						key="DyunFrom"
+						formItemLayout={{
+							labelCol: { span: 6 },
+							wrapperCol: { span: 15 },
+						}}
+						ref="form"
+						fields={[
+							{ label: item.mark, key: item.key, ...item.created, initialValue: this.props.initialValue },
+						]} /> : <div style={{ height: 50 }}></div>}
+				<div key="sdfsd" className="flex jc-end pr20">
+					<Button onClick={this.props.hide}>取消</Button>
+					<Button loading={this.state.confirmLoading} onClick={this.handleSubmit} className="ml20" type="primary">确定</Button>
+				</div>
+			</div>
+		);
+	}
+}
+
+
+/**
+|--------------------------------------------------
+| export default class table
+| main modules
+|--------------------------------------------------
+*/
 export default class extends Component {
 	static defaultProps = {
 		loading: false
@@ -26,33 +83,38 @@ export default class extends Component {
 		super(props);
 
 		this.columns = props.columns.map(item => {
-			if (item.edit) item.title = <div className="color-6">{item.title}</div>;
+			item.title = item.title || item.mark;
+			if (item.edit || (item.created && item.created.edit)) item.title = <div className="color-6">{item.title}</div>;
 
 			return {
 				...item,
 				dataIndex: item.key,
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
-					if (item.type == 'date') return moment(text).format('YYYY.MM.DD');
+					if (item.type == 'date') return moment(text || new Date().valueOf()).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
-					if (item.edit) {
+					if (item.edit || (item.created && item.created.edit)) {
+
 						return (
-							<Popconfirm onConfirm={() => { }} placement="bottom" trigger="click" title="修改资料：">
+							<EditPopover title="修改资料：" item={item} initialValue={record[item.key]}>
 								<div className="td-edit">{text}</div>
-							</Popconfirm >
+							</EditPopover>
 						);
 					}
 					return text;
-
 					// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
 				}
 			};
 		});
+
+		this.state = {
+			selectedRows: [],
+		};
 	}
 
 	componentDidMount() {
 		const otherH = 18 + 26 + 34 + 56;
-		this.tableInnerHeight = this.refs.wrap.clientHeight - otherH;
+		this.tableInnerHeight = this.refs.wrap.clientHeight - otherH - 25;
 	}
 
 	renderState(text, info = {}) {
@@ -69,10 +131,28 @@ export default class extends Component {
 		);
 
 		if (text == 'pending') return (
-			<StatePopover content={info.pending}>
+			<StatePopover conteent={info.pending}>
 				<Tag color="#e2574c">待审核</Tag>
 			</StatePopover>
 		);
+
+		if (text === 'created') return (
+			<StatePopover content={info.created}>
+				<Tag color="#cfc044">合作中</Tag>
+			</StatePopover>
+		);
+		if (text === 'cooperation') return (
+			<StatePopover content={info.cooperation}>
+				<Tag color="#52c88f">合作中</Tag>
+			</StatePopover>
+		);
+		if (text === 'freeze') return (
+			<StatePopover content={info.freeze}>
+				<Tag color="#999">已冻结</Tag>
+			</StatePopover>
+		);
+
+		return text;
 	}
 
 	getXSrcoll(columns = []) {
@@ -82,10 +162,15 @@ export default class extends Component {
 	}
 
 	render() {
+		const { selectedRows } = this.state;
+
 		const rowSelection = {
-			onChange: (selectedRowKeys, selectedRows) => {
-				console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+			onChange: (_, selectedRows) => {
+				this.setState({
+					selectedRows
+				});
 			},
+			selectedRowKeys: selectedRows.map(i => i.key)
 		};
 
 		return (
@@ -95,15 +180,15 @@ export default class extends Component {
 					size="middle"
 					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight }}
 					title={() => (
-						<div className="flex jc-between">
-							<div><strong>{this.props.title}列表</strong>（共1000个列表，已选<span className="color-6">100</span>个）</div>
-							{/* <div>自定义表头展示</div> */}
+						<div className="flex-vcenter jc-between">
+							<div><strong>{this.props.title}列表</strong>（共{this.props.pagination ? this.props.pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
+							<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
 						</div>
 					)}
 					dataSource={this.props.dataSource || []}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={this.props.loading}
-					pagination={{ pageSize: 20 }}
+					pagination={{ pageSize: 20, ...this.props.pagination }}
 					columns={this.columns} />
 			</div>
 		);

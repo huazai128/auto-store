@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon, Button, Layout } from 'antd';
-import viewMap from 'utils/viewMap';
+import viewMap from 'view/viewMap';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
+import moment from 'moment';
+
 import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
 import SearchSku from 'components/SearchSku';
 import modal from 'hoc/modal';
-
 
 @inject('Create') @Form.create() @observer
 export default class extends Component {
@@ -46,8 +47,13 @@ export default class extends Component {
 								<CreateFormItem label="供货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</CreateFormItem>
-								<CreateFormItem label="采购日期" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
-									<DatePicker />
+								<CreateFormItem label="采购日期"
+									initialValue={moment().startOf('day')}
+									rules={true}
+									keyValue="b"
+									getFieldDecorator={getFieldDecorator}
+								>
+									<DatePicker allowClear={false} />
 								</CreateFormItem>
 							</div>
 							<div className="flex-vcenter">

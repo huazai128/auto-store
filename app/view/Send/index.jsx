@@ -4,6 +4,8 @@ import Header from 'components/Header';
 import { Container, Content, HandleArea, TableMain } from 'components/Layout';
 import { RangePicker } from 'components/DatePicker';
 import { observer, inject } from 'mobx-react';
+import { stateFilters } from 'mapStore/filter';
+
 const ButtonGroup = Button.Group;
 
 @observer
@@ -25,8 +27,18 @@ export default class extends Component {
 		}];
 
 		const columns = [
-			{ title: '姓名', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }];
+			{ width: 100, title: '单据状态', key: 'name', render: () => <Tag>未应用</Tag>, ...stateFilters },
+			{ width: 150, title: '单号', key: 'b', },
+			{ width: 150, title: '发货仓库编号及名称', key: 'c', },
+			{ width: 150, title: '收货仓库编号及名称', key: 'd', },
+			{ width: 100, title: '发货数量', key: 'e', },
+			{ width: 100, title: '发货金额', key: 'f', },
+			{ width: 100, title: '备注', key: 'note', },
+			{ width: 100, title: '审核人', key: 'aa', },
+			{ width: 80, title: '审核日期', key: 'bb', type: 'date' },
+			{ width: 100, title: '登账人', key: 'cc', },
+			{ width: 80, title: '登账日期', key: 'dd', type: 'date' },
+		];
 
 		return (
 			<Container>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Tabs } from 'antd';
-import viewMap from 'utils/viewMap';
+import viewMap from 'view/viewMap';
 import asyncComponent from 'app/hoc/asyncComponent';
 import { Aside } from 'components/Layout';
 import { observer, inject } from 'mobx-react';

@@ -79,9 +79,20 @@ export default class extends Component {
 		}
 
 		const columns = [
-			{ width: 200, title: '时间', key: 'time', type: 'date' },
-			{ width: 200, title: '时间', key: 'address', },
-			{ width: 200, title: '时间', key: 'age', type: 'date' },
+			{ width: 100, title: '单据状态', key: 'state', render: () => <Tag>营业中</Tag>, },
+			{ width: 150, title: '门店名称', key: 'b', },
+			{ width: 150, title: '门店编号', key: 'c', },
+			{ width: 80, title: '开业时间', key: 'd', type: 'date' },
+			{ width: 100, title: '门店地址', key: 'e', },
+			{ width: 100, title: '门店面积', key: 'note', },
+			{ width: 100, title: '联系人', key: 'f', },
+			{ width: 100, title: '联系电话', key: 'g', },
+			{ width: 100, title: '备注', key: 'aa', },
+			{ width: 100, title: '物业联系人', key: 'bb', },
+			{ width: 100, title: '物业联系方式', key: 'cc', },
+			{ width: 120, title: '物业备注', key: 'ddd', },
+			{ width: 100, title: '运营负责人', key: 'ccc', },
+			{ width: 100, title: '运营联系方式', key: 'ddfdf', },
 		];
 		return (
 			<Container>
@@ -92,6 +103,7 @@ export default class extends Component {
 							<Button icon="lock" type="primary" ghost>冻结</Button>
 							<Button icon="unlock" type="primary" ghost>取消冻结</Button>
 						</ButtonGroup>
+						<Button className="ml20" disabled type="danger">删除</Button>
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
 						</AddStoreModal>

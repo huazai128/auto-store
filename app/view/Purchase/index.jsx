@@ -26,8 +26,18 @@ export default class extends Component {
 		}];
 
 		const columns = [
-			{ width:100, title: '状态', key: 'name', render: () => <Tag>未应用</Tag>, ...stateFilters },
-			{ width:800, title: '商品编号',  key: 'time', },
+			{ width: 100, title: '单据状态', key: 'name', render: () => <Tag>未应用</Tag>, ...stateFilters },
+			{ width: 150, title: '单号', key: 'b', },
+			{ width: 150, title: '收货仓店编号及名称', key: 'c', },
+			{ width: 150, title: '供应商编号及名称', key: 'd', },
+			{ width: 100, title: '采购数量', key: 'e', },
+			{ width: 100, title: '备注', key: 'note', },
+			{ width: 100, title: '制单人', key: 'f', },
+			{ width: 80, title: '制单日期', key: 'g', type: 'date' },
+			{ width: 100, title: '审核人', key: 'aa', },
+			{ width: 80, title: '审核日期', key: 'bb', type: 'date' },
+			{ width: 100, title: '登账人', key: 'cc', },
+			{ width: 80, title: '登账日期', key: 'dd', type: 'date' },
 		];
 
 		return (

@@ -11,12 +11,14 @@ const serializeParams = (params) => {
 	}).join('&');
 };
 
-export const API_HOST = process.env.NODE_ENV == 'production' ? 'http://192.168.0.150:9000' : 'http://192.168.0.150:9000';
+export const API_HOST = process.env.NODE_ENV == 'production' ? 'http://192.168.0.150:9000' : '192.168.0.209:3721';
 export const API_ROOT = API_HOST;
 
-window.API_ROOT = API_ROOT;
+// window.API_ROOT = API_ROOT;
 
 export const callApi = (endpoint, data = null, method = 'GET') => {
+	data.access_token = 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTMxMTAwMTUsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IjdmMWFlMDMyLWYxZjQtNGU5OS1hNTc2LTQ4YTQ0M2QwMmVmNyIsImNsaWVudF9pZCI6IlR4eEdqWVpDQVViUWd4aXBLeldadGp2WXVnR0dvUWRWSVlTVVN2QWhxS1dQbFdOeXFkWlNPT0lNVmNVSlFMRnciLCJzY29wZSI6WyJmd2FwaV9iYXNlIl19.J6jCaRYecPTmqeDJDZp8OLfyz55pQetI47a0P7Vapvc';
+
 	let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 	let opt = {
 		method: method,
