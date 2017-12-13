@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag, Form, Icon, Input, Select, Modal, DatePicker } from 'antd';
+import { Button, Tag, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea, TableMain } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
@@ -8,8 +8,6 @@ import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
 
 const ButtonGroup = Button.Group;
-const { TextArea } = Input;
-const Option = Select.Option;
 
 
 @modal
@@ -59,10 +57,6 @@ class AddStoreModal extends Component {
 		);
 	}
 }
-
-/* main */
-// ============================================================
-
 
 @observer
 export default class extends Component {

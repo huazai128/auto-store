@@ -32,13 +32,16 @@ class EditPopover extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.refs.form.validateFields((err, values) => {
+		this.refs.form.validateFields(async (err, values) => {
+
 			if (!err) {
-				console.log('Received values of form: ', values);
+				const query = {
+					...this.props.record,
+					...values,
+				};
 				this.setState({ confirmLoading: true, });
-				setTimeout(() => {
-					this.setState({ confirmLoading: false, }, this.props.hide);
-				}, 2000);
+				await this.props.store.update(query);
+				this.setState({ confirmLoading: false, }, this.props.hide);
 			}
 		});
 	}
@@ -56,9 +59,9 @@ class EditPopover extends Component {
 						}}
 						ref="form"
 						fields={[
-							{ label: item.mark, key: item.key, ...item.created, initialValue: this.props.initialValue },
+							{ label: item.mark, key: item.key, ...item.created, initialValue: this.props.record[item.created.key || item.key] },
 						]} /> : <div style={{ height: 50 }}></div>}
-				<div key="sdfsd" className="flex jc-end pr20">
+				<div className="flex jc-end pr20">
 					<Button onClick={this.props.hide}>取消</Button>
 					<Button loading={this.state.confirmLoading} onClick={this.handleSubmit} className="ml20" type="primary">确定</Button>
 				</div>
@@ -74,9 +77,11 @@ class EditPopover extends Component {
 | main modules
 |--------------------------------------------------
 */
+@observer
 export default class extends Component {
 	static defaultProps = {
-		loading: false
+		loading: false,
+		store: {},
 	}
 
 	constructor(props) {
@@ -84,7 +89,7 @@ export default class extends Component {
 
 		this.columns = props.columns.map(item => {
 			item.title = item.title || item.mark;
-			if (item.edit || (item.created && item.created.edit)) item.title = <div className="color-6">{item.title}</div>;
+			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
 
 			return {
 				...item,
@@ -93,11 +98,11 @@ export default class extends Component {
 				render: item.render ? item.render : (text, record) => {
 					if (item.type == 'date') return moment(text || new Date().valueOf()).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
-					if (item.edit || (item.created && item.created.edit)) {
+					if (item.created && item.created.edit) {
 
 						return (
-							<EditPopover title="修改资料：" item={item} initialValue={record[item.key]}>
-								<div className="td-edit">{text}</div>
+							<EditPopover title="修改资料：" item={item} record={record} store={this.props.edit.store}>
+								<div className="td-edit">{text || <br />}</div>
 							</EditPopover>
 						);
 					}
@@ -106,18 +111,55 @@ export default class extends Component {
 				}
 			};
 		});
-
-		this.state = {
-			selectedRows: [],
-		};
 	}
 
 	componentDidMount() {
 		const otherH = 18 + 26 + 34 + 56;
-		this.tableInnerHeight = this.refs.wrap.clientHeight - otherH - 25;
+		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 25;
+	}
+
+	renderProductState(text, info = {}) {
+		if (text == 'created') return (
+			<StatePopover content={info.created}>
+				<Tag color="#e2574c">未应用</Tag>
+			</StatePopover>
+		);
+
+		if (text == 'invoke') return (
+			<StatePopover content={info.invoke}>
+				<Tag color="#999">已应用</Tag>
+			</StatePopover>
+		);
+
+		if (text == 'invoke_no') return (
+			<StatePopover conteent={info.invoke_no}>
+				<Tag color="#3a99d9">已应用</Tag>
+			</StatePopover>
+		);
+	}
+
+	renderStoreState(text, info = {}) {
+		if (text === 'created_no') return (
+			<StatePopover content={info.created_no}>
+				<Tag color="#cfc044">合作中</Tag>
+			</StatePopover>
+		);
+		if (text === 'created') return (
+			<StatePopover content={info.created}>
+				<Tag color="#52c88f">合作中</Tag>
+			</StatePopover>
+		);
+		if (text === 'freeze') return (
+			<StatePopover content={info.freeze}>
+				<Tag color="#999">已冻结</Tag>
+			</StatePopover>
+		);
 	}
 
 	renderState(text, info = {}) {
+		if (info.type === 'product') return this.renderProductState(text, info);
+		if (info.type === 'store') return this.renderStoreState(text, info);
+
 		if (text == 'confirmed') return (
 			<StatePopover content={info.confirmed}>
 				<Tag color="#999">已登账</Tag>
@@ -136,22 +178,6 @@ export default class extends Component {
 			</StatePopover>
 		);
 
-		if (text === 'created') return (
-			<StatePopover content={info.created}>
-				<Tag color="#cfc044">合作中</Tag>
-			</StatePopover>
-		);
-		if (text === 'cooperation') return (
-			<StatePopover content={info.cooperation}>
-				<Tag color="#52c88f">合作中</Tag>
-			</StatePopover>
-		);
-		if (text === 'freeze') return (
-			<StatePopover content={info.freeze}>
-				<Tag color="#999">已冻结</Tag>
-			</StatePopover>
-		);
-
 		return text;
 	}
 
@@ -162,13 +188,11 @@ export default class extends Component {
 	}
 
 	render() {
-		const { selectedRows } = this.state;
+		const { selectedRows = [] } = this.props.store;
 
 		const rowSelection = {
 			onChange: (_, selectedRows) => {
-				this.setState({
-					selectedRows
-				});
+				this.props.store.handleSelection(selectedRows);
 			},
 			selectedRowKeys: selectedRows.map(i => i.key)
 		};
@@ -176,7 +200,7 @@ export default class extends Component {
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table
-					className={`${this.props.className} main-table`}
+					className={`${this.props.className} ${this.props.edit ? 'edit' : ''} main-table`}
 					size="middle"
 					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight }}
 					title={() => (

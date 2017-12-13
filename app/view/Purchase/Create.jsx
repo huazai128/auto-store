@@ -14,11 +14,17 @@ import modal from 'hoc/modal';
 export default class extends Component {
 	store = new this.props.Create();
 
+	constructor(props) {
+		super(props);
+		const { getFieldDecorator } = props.form;
+		this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
+	}
+
 	handleSubmit = async () => {
 		return await new Promise((resolve, reject) => {
 			this.props.form.validateFields(async (err, values) => {
 				if (!err) {
-					console.log(values);
+					// console.log(values);
 					setTimeout(() => {
 						resolve(values);
 					}, 2000);
@@ -29,7 +35,7 @@ export default class extends Component {
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
-
+		const { BindedFormItem } = this;
 
 		return (
 			<Container>
@@ -38,28 +44,27 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<CreateFormItem label="采购单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
+								<BindedFormItem label="采购单单号" rules={true} keyValue="a">
 									<Input style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="收货店铺编号及名称" rules={true} keyValue="d" getFieldDecorator={getFieldDecorator}>
+								</BindedFormItem>
+								<BindedFormItem label="收货店铺编号及名称" rules={true} keyValue="d">
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="供货仓库编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
+								</BindedFormItem>
+								<BindedFormItem label="供货仓库编号及名称" rules={true} keyValue="c">
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
-								<CreateFormItem label="采购日期"
+								</BindedFormItem>
+								<BindedFormItem label="采购日期"
 									initialValue={moment().startOf('day')}
 									rules={true}
 									keyValue="b"
-									getFieldDecorator={getFieldDecorator}
 								>
 									<DatePicker allowClear={false} />
-								</CreateFormItem>
+								</BindedFormItem>
 							</div>
 							<div className="flex-vcenter">
-								<CreateFormItem label="备注" keyValue="note" getFieldDecorator={getFieldDecorator}>
+								<BindedFormItem label="备注" keyValue="note">
 									<Input style={{ width: 350 }} />
-								</CreateFormItem>
+								</BindedFormItem>
 							</div>
 						</HandleArea>
 					</Form>

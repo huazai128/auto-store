@@ -66,7 +66,7 @@ export default class extends Component {
 	render() {
 		return (
 			<Container>
-				<Header update={this.store.getData}>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
@@ -84,7 +84,10 @@ export default class extends Component {
 						title={this.props.name}
 						dataSource={this.store.dataSource}
 						columns={this.store.columns}
-						className=""
+						edit={{
+							store: this.store
+						}}
+						store={this.store}
 						loading={this.store.tableLoading}
 						pagination={{ total: this.store.count }}
 					/>

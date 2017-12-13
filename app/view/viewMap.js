@@ -6,9 +6,9 @@ export default [
 	{ name: '门店管理', icon: 'shop', url: '/store', Component: asyncComponent(() => import('view/Store')), children: [], },
 	{ name: '供应商管理', icon: 'contacts', url: '/supplier', Component: asyncComponent(() => import('view/Supplier')), children: [], },
 
-	// { name: '采购管理', icon: 'shopping-cart', url: '/purchase', Component: asyncComponent(() => import('view/Purchase')), children: [], },
-	// { name: '采购制单', url: '/purchase/create', Component: asyncComponent(() => import('view/Purchase/Create')), children: [] },
-	// { name: '采购单编辑', url: '/purchase/:id', Component: asyncComponent(() => import('view/Purchase/Create')), children: [] },
+	{ name: '采购管理', icon: 'shopping-cart', url: '/purchase', Component: asyncComponent(() => import('view/Purchase')), children: [], },
+	{ name: '采购制单', url: '/purchase/create', Component: asyncComponent(() => import('view/Purchase/Create')), children: [] },
+	{ name: '采购单编辑', url: '/purchase/:id', Component: asyncComponent(() => import('view/Purchase/Create')), children: [] },
 
 	// { name: '入库管理', icon: 'download', url: '/storage', Component: asyncComponent(() => import('view/Storage')), children: [], },
 	// { name: '入库制单', url: '/storage/create', Component: asyncComponent(() => import('view/Storage/Create')), children: [], },

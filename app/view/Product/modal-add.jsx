@@ -11,12 +11,12 @@ import CustomFrom from 'components/Form';
 export default class extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.refs.form.validateFields((err, values) => {
+		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
+				console.log(values);
 				this.props.onConfirmLoading(true);
-				setTimeout(() => {
-					this.props.handleCancel();
-				}, 2000);
+				await this.props.product.create(values);
+				this.props.handleCancel();
 			}
 		});
 	}

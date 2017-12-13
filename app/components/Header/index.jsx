@@ -10,7 +10,10 @@ const { Search } = Input;
 @observer
 export default class Header extends Component {
 	static defaultProps = {
-		update: () => { }
+		update: () => { },
+		store: {
+			getData: () => { console.log('onSearch'); }
+		},
 	}
 
 	state = {
@@ -25,7 +28,7 @@ export default class Header extends Component {
 			<header className={`${styles.header} flex-vcenter jc-between`}>
 				<div className="flex-vcenter">
 					<h2 className="flex-vcenter">{children}</h2>
-					{this.props.type !== 'create' && <Button onClick={update} className="ml20" shape="circle" type="primary" icon="reload" />}
+					{this.props.type !== 'create' && <Button onClick={() => this.props.store.getData()} className="ml20" shape="circle" type="primary" icon="reload" />}
 					{btn && <Button className="ml20" type="primary"><Link to={btn.to}>{btn.text || '保存'}</Link></Button>}
 					{
 						asyncBack &&
@@ -50,7 +53,13 @@ export default class Header extends Component {
 						</Button>
 					}
 				</div>
-				{this.props.type !== 'create' && <Search style={{ width: 200 }} placeholder="输入关键字搜索..." />}
+				{this.props.type !== 'create'
+					&&
+					<Search
+						style={{ width: 200 }}
+						onSearch={value => this.props.store.getData({ query: value })}
+						placeholder="输入关键字搜索..."
+					/>}
 			</header>
 		);
 	}

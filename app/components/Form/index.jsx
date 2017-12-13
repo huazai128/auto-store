@@ -30,7 +30,7 @@ export default class extends React.Component {
 			return (
 				<FormItem key={key} label={label} {...formItemLayout}>
 					{getFieldDecorator(key, {
-						rules: rules ? [{ required: true, message: `请输入${label}!`, ...rules }] : [],
+						rules: rules ? [{ message: `请输入${label}!`, ...rules }] : [],
 						...reset
 					})(node)}
 				</FormItem>

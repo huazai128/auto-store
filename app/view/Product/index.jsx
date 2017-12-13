@@ -5,12 +5,10 @@ import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import { Container, Content, HandleArea, TableMain } from 'components/Layout';
 import DyunFrom from 'components/Form';
+import HandleButtonOrigin from 'components/Button';
 import popover from 'hoc/modal/popover';
-
 import ModalAdd from './modal-add';
-
 const ButtonGroup = Button.Group;
-
 // 综合筛选商品
 @popover
 class Popover_ extends Component {
@@ -21,8 +19,6 @@ class Popover_ extends Component {
 	}
 }
 
-
-
 @inject('product')
 @observer
 export default class extends Component {
@@ -32,17 +28,19 @@ export default class extends Component {
 	}
 
 	render() {
-		const { tableLoading } = this.store;
+		const { tableLoading, selectedRows } = this.store;
+		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
+
 		return (
 			<Container>
-				<Header update={this.store.getData}>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<Button icon="check-circle-o" type="primary" ghost>应用</Button>
-							<Button icon="close-circle-o" type="primary" ghost>反应用</Button>
+							<HandleButton method="invoke" state="created" icon="check-circle-o">应用</HandleButton>
+							<HandleButton method="uninvoke" state="invoke" icon="close-circle-o">反应用</HandleButton>
 						</ButtonGroup>
-						<Button className="ml20" disabled type="danger">删除</Button>
+						<HandleButton method="delete" className="ml20" type="danger" state="created">删除</HandleButton>
 						<ModalAdd>
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
@@ -56,8 +54,12 @@ export default class extends Component {
 						title={this.props.name}
 						dataSource={this.store.dataSource}
 						columns={this.store.columns}
-						className="edit"
+						edit={{
+							store: this.store
+						}}
+						store={this.store}
 						loading={tableLoading}
+						pagination={{ total: this.store.count }}
 					/>
 				</Content>
 			</Container>
