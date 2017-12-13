@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 
-export default ({ children, selectedRows = [], method, state = '', store, ...reset }) => {
+export default ({ children, selectedRows = [], method, state = '', store, confirm, ...reset }) => {
 	const ids = selectedRows.map(i => i.id);
 
 	const checkout = (selectedRows, state) => {
@@ -10,6 +10,15 @@ export default ({ children, selectedRows = [], method, state = '', store, ...res
 	};
 
 	const onClick = () => {
+		if (confirm) {
+			return Modal.confirm({
+				title: confirm.title,
+				okType: 'danger',
+				onOk: async () => {
+					return await store.handle(method, ids);
+				},
+			});
+		}
 		store.handle(method, ids);
 	};
 

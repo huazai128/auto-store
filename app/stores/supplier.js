@@ -23,6 +23,8 @@ class Store extends TablePrototype {
 
 	@observable query = {
 		query: '',
+		end: null,
+		start: null,
 	};
 
 	@observable data = []
@@ -77,7 +79,6 @@ class Store extends TablePrototype {
 	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
 
 	@computed get dataSource() { return toJS(this.data); }
-
 	@computed get fields() { return this.getFields(this.columns); }
 }
 

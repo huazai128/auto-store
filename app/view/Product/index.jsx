@@ -40,7 +40,15 @@ export default class extends Component {
 							<HandleButton method="invoke" state="created" icon="check-circle-o">应用</HandleButton>
 							<HandleButton method="uninvoke" state="invoke" icon="close-circle-o">反应用</HandleButton>
 						</ButtonGroup>
-						<HandleButton method="delete" className="ml20" type="danger" state="created">删除</HandleButton>
+						<HandleButton
+							method="delete"
+							className="ml20"
+							type="danger"
+							state="created"
+							confirm={{title: '确定要删除选中货品？'}}
+						>
+							删除
+						</HandleButton>
 						<ModalAdd>
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>

@@ -7,38 +7,14 @@ import { observer, inject } from 'mobx-react';
 import { stateFilters } from 'mapStore/filter';
 const ButtonGroup = Button.Group;
 
+@inject('prurchase')
 @observer
 export default class extends Component {
+	store = this.props.prurchase
 
 	render() {
-		const dataSource = [{
-			key: '1',
-			name: '胡彦斌',
-			age: 32,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}, {
-			key: '2',
-			name: '胡彦祖',
-			age: 42,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}];
-
-		const columns = [
-			{ width: 100, title: '单据状态', key: 'name', render: () => <Tag>未应用</Tag>, ...stateFilters },
-			{ width: 150, title: '单号', key: 'b', },
-			{ width: 150, title: '收货仓店编号及名称', key: 'c', },
-			{ width: 150, title: '供应商编号及名称', key: 'd', },
-			{ width: 100, title: '采购数量', key: 'e', },
-			{ width: 100, title: '备注', key: 'note', },
-			{ width: 100, title: '制单人', key: 'f', },
-			{ width: 80, title: '制单日期', key: 'g', type: 'date' },
-			{ width: 100, title: '审核人', key: 'aa', },
-			{ width: 80, title: '审核日期', key: 'bb', type: 'date' },
-			{ width: 100, title: '登账人', key: 'cc', },
-			{ width: 80, title: '登账日期', key: 'dd', type: 'date' },
-		];
+		const { store } = this;
+		const { RenderRangePicker } = store;
 
 		return (
 			<Container>
@@ -55,14 +31,13 @@ export default class extends Component {
 						</ButtonGroup>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<div className="flex-vcenter ml50">
-							查询日期：
-							<RangePicker />
+							查询日期：<store.RenderRangePicker />
 						</div>
 					</HandleArea>
 					<TableMain
-						dataSource={dataSource}
+						dataSource={this.store.dataSource}
 						title={this.props.name}
-						columns={columns} />
+						columns={this.store.columns} />
 				</Content>
 			</Container>
 		);

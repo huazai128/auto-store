@@ -13,10 +13,13 @@ export default class extends Component {
 		e.preventDefault();
 		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
-				console.log(values);
 				this.props.onConfirmLoading(true);
-				await this.props.product.create(values);
-				this.props.handleCancel();
+				try {
+					await this.props.product.create(values);
+					this.props.handleCancel();
+				} catch (error) {
+					this.props.handleCancel();
+				}
 			}
 		});
 	}

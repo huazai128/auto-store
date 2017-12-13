@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { get, post, postByParam } from 'utils';
+import { RangePicker } from 'components/DatePicker';
+
 import axios from 'axios';
 
 useStrict(true);
+
 class Store {
 	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
 
@@ -27,6 +30,25 @@ class Store {
 		return;
 	}
 
+	@action handleRangePicker = (dates) => {
+		const start = dates[0] && dates [0].valueOf();
+		const end = dates[1] && dates [1].valueOf();
+
+		this.query.start = start;
+		this.query.end = end;
+
+		this.getData();
+	}
+
+	@action handleSearch = (value) => {
+		this.query.query = value;
+		this.getData();
+	}
+
+	@action getData = () => {
+		console.log(this.query);
+	}
+
 	getFields = (columns = []) => {
 		return columns.filter(i => i.created).map(item => ({
 			label: item.mark,
@@ -34,6 +56,9 @@ class Store {
 			...item.created
 		}));
 	}
+
+	RenderRangePicker = () => React.cloneElement(<RangePicker />, { onChange: this.handleRangePicker });
+
 	// @action create = async (query) => {
 	// 	const { data } = await post('/api/skus/create', query);
 	// 	runInAction(this.getData);

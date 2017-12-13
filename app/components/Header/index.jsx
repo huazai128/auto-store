@@ -57,7 +57,7 @@ export default class Header extends Component {
 					&&
 					<Search
 						style={{ width: 200 }}
-						onSearch={value => this.props.store.getData({ query: value })}
+						onSearch={value => this.props.store.handleSearch(value)}
 						placeholder="输入关键字搜索..."
 					/>}
 			</header>
