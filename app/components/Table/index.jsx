@@ -3,7 +3,7 @@ import { Table, Tag, Popover, Tooltip, Button } from 'antd';
 import { toJS } from 'mobx';
 import moment from 'moment';
 import { observer, inject } from 'mobx-react';
-
+import CreateTable from './CreateTable';
 import DyunFrom from 'components/Form';
 import popover from 'hoc/modal/popover';
 
@@ -80,14 +80,13 @@ class EditPopover extends Component {
 @observer
 export default class extends Component {
 	static defaultProps = {
-		loading: false,
 		store: {},
 	}
 
 	constructor(props) {
 		super(props);
 
-		this.columns = props.columns.map(item => {
+		this.columns = props.store.columns.map(item => {
 			item.title = item.title || item.mark;
 			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
 
@@ -96,7 +95,7 @@ export default class extends Component {
 				dataIndex: item.key,
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
-					if (item.type == 'date') return moment(text || new Date().valueOf()).format('YYYY.MM.DD');
+					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
 					if (item.created && item.created.edit) {
 
@@ -161,19 +160,19 @@ export default class extends Component {
 		if (info.type === 'store') return this.renderStoreState(text, info);
 
 		if (text == 'confirmed') return (
-			<StatePopover content={info.confirmed}>
+			<StatePopover content={info.confirmed || '已登账的单据，只可进行反登操作!'}>
 				<Tag color="#999">已登账</Tag>
 			</StatePopover>
 		);
 
 		if (text == 'checked') return (
-			<StatePopover content={info.checked}>
+			<StatePopover content={info.checked || '已审核过的单据，可直接登账操作，也可进行反审核操作!'}>
 				<Tag color="#3a99d9">已审核</Tag>
 			</StatePopover>
 		);
 
-		if (text == 'pending') return (
-			<StatePopover conteent={info.pending}>
+		if (text == 'created') return (
+			<StatePopover content={info.created || '新建或未审核的单据，可进行审核操作，也可删除改单据!'}>
 				<Tag color="#e2574c">待审核</Tag>
 			</StatePopover>
 		);
@@ -188,9 +187,9 @@ export default class extends Component {
 	}
 
 	render() {
-		const { selectedRows = [] } = this.props.store;
+		const { selectedRows = [], tableLoading, dataSource, onChangeTable } = this.props.store;
 
-		console.log(this.props);
+		const { title, pagination, ...reset } = this.props;
 
 		const rowSelection = {
 			onChange: (_, selectedRows) => {
@@ -207,16 +206,19 @@ export default class extends Component {
 					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
-							<div><strong>{this.props.title}列表</strong>（共{this.props.pagination ? this.props.pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
+							<div><strong>{title}列表</strong>（共{pagination ? pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
 							<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
 						</div>
 					)}
-					dataSource={this.props.dataSource || []}
+					dataSource={dataSource || []}
+					onChange={onChangeTable}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
-					loading={this.props.loading}
-					pagination={{ pageSize: 20, ...this.props.pagination }}
-					columns={this.columns} />
-				<div>这是一段文字</div>
+					loading={tableLoading}
+					pagination={{ pageSize: 20, ...pagination }}
+					columns={this.columns}
+					{...reset}
+				/>
+				{/* <div>这是一段文字</div> */}
 			</div>
 		);
 	}

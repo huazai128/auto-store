@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag, Form, Icon, Input, Select, Modal, DatePicker } from 'antd';
+import { Button, Tag, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
 
 const ButtonGroup = Button.Group;
-const { TextArea } = Input;
-const Option = Select.Option;
 
 
 @inject('warehouse')
@@ -18,11 +16,14 @@ const Option = Select.Option;
 class AddStoreModal extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.refs.form.validateFields(async (err, values) => {
+		this.refs.form.validateFields((err, values) => {
 			if (!err) {
+				// console.log('Received values of form: ', values);
 				this.props.onConfirmLoading(true);
-				await this.props.supplier.createSupplier(values);
-				this.props.handleCancel();
+
+				setTimeout(() => {
+					this.props.handleCancel();
+				}, 2000);
 			}
 		});
 	}
@@ -35,7 +36,8 @@ class AddStoreModal extends Component {
 
 		return (
 			<Modal
-				title="添加仓库"
+				key="Modal"
+				title="添加仓库资料"
 				visible={visible}
 				onOk={this.handleSubmit}
 				afterClose={this.afterClose}
@@ -50,18 +52,14 @@ class AddStoreModal extends Component {
 	}
 }
 
-/* main */
-// ============================================================
-
 @inject('warehouse')
 @observer
 export default class extends Component {
 	store = this.props.warehouse
 
 	componentDidMount() {
-		// this.store.getData();
+		this.store.getData();
 	}
-
 	render() {
 		return (
 			<Container>
@@ -74,18 +72,14 @@ export default class extends Component {
 						</ButtonGroup>
 						<Button className="ml20" disabled type="danger">删除</Button>
 						<AddStoreModal>
-							<Button key="Button" className="ml40" type="primary">手动添加仓库</Button>
+							<Button key="Button" className="ml40" type="primary">手动添加仓库资料</Button>
 						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 					</HandleArea>
-					<TableMain
+					<this.store.RenderMainTable
 						edit
 						title={this.props.name}
-						dataSource={this.store.dataSource}
-						columns={this.store.columns}
-						store={this.store}
-						loading={this.store.tableLoading}
 						pagination={{ total: this.store.count }}
 					/>
 				</Content>

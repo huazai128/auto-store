@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
 import { observer, inject } from 'mobx-react';
-
 import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
-import DyunFrom from 'components/Form';
+import { Container, Content, HandleArea } from 'components/Layout';
 import HandleButtonOrigin from 'components/Button';
 import popover from 'hoc/modal/popover';
 import ModalAdd from './modal-add';
+
 const ButtonGroup = Button.Group;
-// 综合筛选商品
 @popover
 class Popover_ extends Component {
 	render() {
@@ -24,7 +22,7 @@ class Popover_ extends Component {
 export default class extends Component {
 	store = this.props.product
 	componentDidMount() {
-		// this.store.getData();
+		this.store.getData();
 	}
 
 	render() {
@@ -58,13 +56,9 @@ export default class extends Component {
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</Popover_>
 					</HandleArea>
-					<TableMain
-						title={this.props.name}
-						dataSource={this.store.dataSource}
-						columns={this.store.columns}
+					<this.store.RenderMainTable
 						edit
-						store={this.store}
-						loading={this.store.tableLoading}
+						title={this.props.name}
 						pagination={{ total: this.store.count }}
 					/>
 				</Content>

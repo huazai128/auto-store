@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://192.168.0.209:3721';
 axios.defaults.timeout = 2000;
 axios.defaults.params = {
-	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTMxNzM0MjAsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6ImU4M2M3MTIxLTc5YmMtNDgyYy1iYjFkLTlhZDhkNjQ3NDcyNSIsImNsaWVudF9pZCI6IlR4eEdqWVpDQVViUWd4aXBLeldadGp2WXVnR0dvUWRWSVlTVVN2QWhxS1dQbFdOeXFkWlNPT0lNVmNVSlFMRnciLCJzY29wZSI6WyJmd2FwaV9iYXNlIl19.mTafRUL5Am48hHWXcdGzsib-oZbnZqgM-6sXpvDzXfI'
+	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTMyNjE1MjQsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IjNmZGZmODJlLWZjZGQtNDA3My1iZjIwLWUwY2RiNmU2NmY3MSIsImNsaWVudF9pZCI6IlR4eEdqWVpDQVViUWd4aXBLeldadGp2WXVnR0dvUWRWSVlTVVN2QWhxS1dQbFdOeXFkWlNPT0lNVmNVSlFMRnciLCJzY29wZSI6WyJmd2FwaV9iYXNlIl19.KXT3pRoMGN4ws9Use3ZLzeeU_YWYjMrKF8kaMGy3W38'
 };
 
 export const get = (url, params = {}) => {

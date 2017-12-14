@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag, Form, Icon, Input, Select, Modal, DatePicker } from 'antd';
+import { Button, Table, Tag, Form, Icon, Input, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
+import HandleButtonOrigin from 'components/Button';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
 
 const ButtonGroup = Button.Group;
-const { TextArea } = Input;
-const Option = Select.Option;
 
 
 @inject('supplier')
@@ -21,7 +20,7 @@ class AddStoreModal extends Component {
 		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
 				this.props.onConfirmLoading(true);
-				await this.props.supplier.createSupplier(values);
+				await this.props.supplier.create(values);
 				this.props.handleCancel();
 			}
 		});
@@ -64,29 +63,37 @@ export default class extends Component {
 	}
 
 	render() {
+		const { selectedRows } = this.store;
+		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<Button icon="lock" type="primary" ghost>冻结</Button>
-							<Button icon="unlock" type="primary" ghost>取消冻结</Button>
+							<HandleButton state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
+							<HandleButton icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
-						<Button className="ml20" disabled type="danger">删除</Button>
+						<HandleButton
+							className="ml20"
+							type="danger"
+							state="created_no"
+							method="delete"
+							confirm={{
+								title: '确定删除选中供应商？'
+							}}
+						>删除
+						</HandleButton>
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加供应商</Button>
 						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 					</HandleArea>
-					<TableMain
+					<this.store.RenderMainTable
 						edit
 						title={this.props.name}
-						dataSource={this.store.dataSource}
-						columns={this.store.columns}
-						store={this.store}
-						loading={this.store.tableLoading}
 						pagination={{ total: this.store.count }}
 					/>
 				</Content>

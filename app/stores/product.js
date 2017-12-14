@@ -3,7 +3,7 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { Input, Select } from 'antd';
 
 import { get, post, postByParam } from 'utils';
-import { skuStateFilters } from 'mapStore/filter';
+import { productStateFilters } from 'mapStore/filter';
 import axios from 'axios';
 
 import TablePrototype from './TablePrototype';
@@ -18,6 +18,7 @@ class Store extends TablePrototype {
 		super();
 		this.url = 'api/skus';
 
+		this.getData = this.getData.bind(this, { url: this.url });
 		this.handle = this.handle.bind(this, { url: this.url });
 		this.create = this.create.bind(this, { url: this.url });
 		this.update = this.update.bind(this, { url: this.url });
@@ -44,7 +45,7 @@ class Store extends TablePrototype {
 				invoke_no: '货品资料已在系统内生效，但尚未产生数据，可以修改供应商信息及自定义属性内容！',
 				created: '货品资料没有在系统内生效，可修改所有资料内容，也可进行删除！'
 			},
-			...skuStateFilters
+			...productStateFilters
 		},
 		{ width: 100, mark: '商品编号', key: 'number', created: { edit: false, rules: { required: true, }, }, },
 		{ width: 150, mark: '商品名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
@@ -76,15 +77,6 @@ class Store extends TablePrototype {
 		{ width: 80, mark: '结算价', key: 'price', created: { edit: true, rules: { required: true, }, type: 'number' }, },
 		{
 			width: 100,
-			mark: '备注',
-			key: 'note',
-			created: {
-				edit: true,
-				node: <TextArea rows={4} />
-			},
-		},
-		{
-			width: 100,
 			mark: '供应商编号',
 			key: 'supplierNumber',
 			created: {
@@ -101,24 +93,19 @@ class Store extends TablePrototype {
 			}
 		},
 		{ width: 100, mark: '供应商名称', key: 'supplierName', },
+		{
+			width: 100,
+			mark: '备注',
+			key: 'note',
+			created: {
+				edit: true,
+				node: <TextArea rows={4} />
+			},
+		},
 		{ width: 80, mark: '录入人', key: 'createdBy', },
 		{ width: 80, mark: '修改人', key: 'modifiedBy', },
 		{ width: 100, mark: '最后修改日期', key: 'modifiedDate', type: 'date' },
 	];
-
-	@action getData = async (otherData) => {
-		this.query = { ...this.query, ...otherData };
-
-		this.tableLoading = true;
-		const [{ data }, { data: count }] = await Promise.all([get(this.url, this.query), get(`${this.url}/count`, this.query)]);
-		runInAction(() => {
-			data.forEach(i => i.key = i.id);
-			this.data = data;
-			this.count = count;
-			this.tableLoading = false;
-			this.selectedRows = [];
-		});
-	}
 
 	@computed get dataSource() { return toJS(this.data); }
 	@computed get fields() { return this.getFields(this.columns); }

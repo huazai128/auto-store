@@ -41,7 +41,8 @@ export default class Header extends Component {
 									await this.props.asyncBack.asyncAction();
 									this.setState({ loading: false }, () => {
 										Modal.success({
-											title: '操作成功'
+											title: '操作成功',
+											onOk: asyncBack.cb
 										});
 									});
 								} catch (error) {

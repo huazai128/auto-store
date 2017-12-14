@@ -16,9 +16,11 @@ class TabPanes extends Component {
 			<Tabs style={{ height: '100%' }} key="tags" className="main-tags" onEdit={key => store.remove(key, history.push)} activeKey={location.pathname} onChange={key => history.push(key)} type="card">
 				{store.activeTag.map(tag => {
 					const { Component } = tag;
+
 					return (
 						<TabPane tab={<div onDoubleClick={() => store.remove(tag.pathname, history.push)}>{tag.name}</div>} key={tag.pathname}>
-							{Component ? <Component {...tag} /> : <div>content...</div>}
+							{/* {Component ? <Component activeKey={location.pathname} push={history.push} {...tag} /> : <div>content...</div>} */}
+							{Component ? <Component push={history.push} {...tag} /> : <div>content...</div>}
 						</TabPane>
 					);
 				})}

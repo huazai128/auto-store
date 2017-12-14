@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import { Button, Tag, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
+import HandleButtonOrigin from 'components/Button';
 
 const ButtonGroup = Button.Group;
 
 
+@inject('store')
 @modal
 @observer
 class AddStoreModal extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.refs.form.validateFields((err, values) => {
+		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
-				// console.log('Received values of form: ', values);
 				this.props.onConfirmLoading(true);
-
-				setTimeout(() => {
-					this.props.handleCancel();
-				}, 2000);
+				await this.props.store.create(values);
+				this.props.handleCancel();
 			}
 		});
 	}
@@ -43,72 +42,43 @@ class AddStoreModal extends Component {
 				confirmLoading={confirmLoading}
 				onCancel={e => handleCancel()}
 			>
-				<DyunFrom ref="form" fields={[
-					{ label: '门店名称', key: 'a', rules: true, },
-					{ label: '门店编号', key: 'b', rules: true, },
-					{ label: '门店面积', key: 'casd', },
-					{ label: '开业时间', key: 'd', node: <DatePicker /> },
-					{ label: '门店地址', key: 'e', },
-					{ label: '联系人', key: 'f', },
-					{ label: '联系方式', key: 'g', },
-					{ label: '物业联系人', key: 'h', },
-				]} />
+				<DyunFrom ref="form" fields={[...this.props.store.fields]} />
 			</Modal>
 		);
 	}
 }
 
+@inject('store')
 @observer
 export default class extends Component {
+	store = this.props.store
+
+	componentDidMount() {
+		this.store.getData();
+	}
 	render() {
-		const dataSource = [];
-
-		for (let index = 0; index < 20; index++) {
-			dataSource.push({
-				key: index,
-				age: 32,
-				address: '西湖区湖底公园1号',
-				time: new Date().valueOf()
-			});
-		}
-
-		const columns = [
-			{ width: 100, title: '单据状态', key: 'state', render: () => <Tag>营业中</Tag>, },
-			{ width: 150, title: '门店名称', key: 'b', },
-			{ width: 150, title: '门店编号', key: 'c', },
-			{ width: 80, title: '开业时间', key: 'd', type: 'date' },
-			{ width: 100, title: '门店地址', key: 'e', },
-			{ width: 100, title: '门店面积', key: 'note', },
-			{ width: 100, title: '联系人', key: 'f', },
-			{ width: 100, title: '联系电话', key: 'g', },
-			{ width: 100, title: '备注', key: 'aa', },
-			{ width: 100, title: '物业联系人', key: 'bb', },
-			{ width: 100, title: '物业联系方式', key: 'cc', },
-			{ width: 120, title: '物业备注', key: 'ddd', },
-			{ width: 100, title: '运营负责人', key: 'ccc', },
-			{ width: 100, title: '运营联系方式', key: 'ddfdf', },
-		];
+		const { selectedRows } = this.store;
+		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 		return (
 			<Container>
-				<Header>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<Button icon="lock" type="primary" ghost>冻结</Button>
-							<Button icon="unlock" type="primary" ghost>取消冻结</Button>
+							<HandleButton icon="lock" >冻结</HandleButton>
+							<HandleButton icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
-						<Button className="ml20" disabled type="danger">删除</Button>
+						<HandleButton className="ml20" type="danger" confirm>删除</HandleButton>
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
 						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 					</HandleArea>
-					<TableMain
+					<this.store.RenderMainTable
+						edit
 						title={this.props.name}
-						dataSource={dataSource}
-						columns={columns}
-						className=""
+						pagination={{ total: this.store.count }}
 					/>
 				</Content>
 			</Container>

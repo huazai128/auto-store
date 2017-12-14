@@ -12,7 +12,10 @@ export default class extends Component {
 		],
 		dataSource: [
 			{ key: '1', number: 'test-10086', count: 100, contdsd: '123' },
-			{ key: '2', number: 'test-10086', count: 100, contdsd: '123312' },
+			{ key: '234', number: 'test-10086', count: 100, contdsd: '123312' },
+			{ key: '14', number: 'test-10086', count: 100, contdsd: '123' },
+			{ key: '25', number: 'test-10086', count: 100, contdsd: '123312' },
+			{ key: '16', number: 'test-10086', count: 100, contdsd: '123' },
 		]
 	}
 
@@ -32,6 +35,11 @@ export default class extends Component {
 		this.state = {
 			item: this.props.item || []
 		};
+	}
+
+	componentDidMount() {
+		const otherH = 70;
+		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -55,15 +63,17 @@ export default class extends Component {
 
 	render() {
 		return (
-			<Table
-				className="main-table"
-				size="middle"
-				scroll={{ x: this.getXSrcoll(this.columns), y: 600 }}
-				title={this.props.title}
-				dataSource={this.props.dataSource || []}
-				loading={false}
-				pagination={false}
-				columns={this.columns} />
+			<div className="flex-g-1" ref="wrap">
+				<Table
+					className="main-table"
+					size="middle"
+					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight || 600 }}
+					title={this.props.title}
+					dataSource={this.props.dataSource || []}
+					loading={false}
+					pagination={false}
+					columns={this.columns} />
+			</div>
 		);
 	}
 }

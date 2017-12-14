@@ -1,43 +1,56 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag } from 'antd';
+import { Button } from 'antd';
 import Header from 'components/Header';
-import { RangePicker } from 'components/DatePicker';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
-import { stateFilters } from 'mapStore/filter';
+import HandleButtonOrigin from 'components/Button';
+
 const ButtonGroup = Button.Group;
 
 @inject('prurchase')
 @observer
 export default class extends Component {
 	store = this.props.prurchase
+	componentDidMount() {
+		this.store.getData();
+	}
 
 	render() {
-		const { store } = this;
-		const { RenderRangePicker } = store;
+		const { RenderRangePicker, selectedRows } = this.store;
+		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
+
 
 		return (
 			<Container>
-				<Header btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>
+				<Header store={this.store} btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">
-							<Button type="primary" ghost>审核</Button>
-							<Button type="primary" ghost>登账</Button>
+							<HandleButton method="check" state="created">审核</HandleButton>
+							<HandleButton method="confirm" state="checked">登账</HandleButton>
 						</ButtonGroup>
 						<ButtonGroup>
-							<Button type="primary" ghost>反审</Button>
-							<Button type="primary" ghost>反登</Button>
+							<HandleButton method="uncheck" state="checked">反审</HandleButton>
+							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
+						<HandleButton
+							method="delete"
+							state="created"
+							className="ml20"
+							type="danger"
+							confirm
+						>删除
+						</HandleButton>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<div className="flex-vcenter ml50">
-							查询日期：<store.RenderRangePicker />
+							查询日期：<this.store.RenderRangePicker />
 						</div>
 					</HandleArea>
-					<TableMain
-						dataSource={this.store.dataSource}
+					<this.store.RenderMainTable
 						title={this.props.name}
-						columns={this.store.columns} />
+						pagination={{ total: this.store.count }}
+
+					/>
 				</Content>
 			</Container>
 		);

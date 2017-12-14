@@ -4,33 +4,48 @@ import { observer, inject } from 'mobx-react';
 import moment from 'moment';
 
 import Header from 'components/Header';
-import CreateTable from 'components/CreateTable';
+import CreateTable from 'components/Table/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
+
 import SearchSku from 'components/SearchSku';
-import modal from 'hoc/modal';
 
-@inject('Create') @Form.create() @observer
+@inject(store => ({
+	body: store.body,
+	prurchase: store.prurchase
+}))
+@Form.create()
+@observer
 export default class extends Component {
-	store = new this.props.Create();
-
 	constructor(props) {
 		super(props);
 		const { getFieldDecorator } = props.form;
 		this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
+
+		this.columns = [
+			{ width: 100, title: '商品编号', key: 'number' },
+			{ width: 100, title: '价格', key: 'count', edit: { type: 'number', min: 0 } },
+			{ width: 100, title: '数量', key: 'contdsd', },
+		];
 	}
 
 	handleSubmit = async () => {
-		return await new Promise((resolve, reject) => {
-			this.props.form.validateFields(async (err, values) => {
-				if (!err) {
-					// console.log(values);
-					setTimeout(() => {
-						resolve(values);
-					}, 2000);
-				} else reject('');
-			});
-		});
+		console.log(this.refs.table.getItems());
+		// return await new Promise((resolve, reject) => {
+		// 	this.props.form.validateFields(async (err, values) => {
+		// 		if (!err) {
+		// 			// console.log(values);
+		// 			setTimeout(() => {
+		// 				resolve(values);
+		// 			}, 2000);
+		// 		} else reject('');
+		// 	});
+		// });
+	}
+
+	cb = () => {
+		// this.props.body.remove(this.props.pathname, this.props.push);
+		// this.props.prurchase.getData();
 	}
 
 	render() {
@@ -39,7 +54,7 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
+				<Header asyncBack={{ asyncAction: this.handleSubmit, cb: this.cb }} type="create">{this.props.name}</Header>
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
@@ -68,14 +83,14 @@ export default class extends Component {
 							</div>
 						</HandleArea>
 					</Form>
-					<CreateTable title={() => (
+					<CreateTable ref="table" title={() => (
 						<div>
 							<strong>单据明细编辑</strong>
 							<SearchSku />
 							<Button type="primary" ghost className="ml20">选择添加商品</Button>
 							<Button type="primary" ghost className="ml20">Excel导入商品</Button>
 						</div>
-					)} />
+					)} columns={this.columns} />
 				</Content>
 			</Container>
 		);

@@ -3,7 +3,7 @@ import { Button, Table, Tag } from 'antd';
 import { observer, inject } from 'mobx-react';
 
 import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { RangePicker } from 'components/DatePicker';
 
 const ButtonGroup = Button.Group;
@@ -49,10 +49,10 @@ export default class extends Component {
 							<RangePicker />
 						</div>
 					</HandleArea>
-					<TableMain
+					{/* <TableMain
 						dataSource={dataSource}
 						title={this.props.name}
-						columns={columns} />
+						columns={columns} /> */}
 				</Content>
 			</Container>
 		);
