@@ -5,6 +5,8 @@ export default [
 	{ name: '货品管理', icon: 'profile', url: '/product', Component: asyncComponent(() => import('view/Product')), children: [] },
 	{ name: '门店管理', icon: 'shop', url: '/store', Component: asyncComponent(() => import('view/Store')), children: [], },
 	{ name: '供应商管理', icon: 'contacts', url: '/supplier', Component: asyncComponent(() => import('view/Supplier')), children: [], },
+	{ name: '仓库管理', icon: 'home', url: '/warehouse', Component: asyncComponent(() => import('view/Warehouse')), children: [], },
+
 
 	{ name: '采购管理', icon: 'shopping-cart', url: '/purchase', Component: asyncComponent(() => import('view/Purchase')), children: [], },
 	{ name: '采购制单', url: '/purchase/create', Component: asyncComponent(() => import('view/Purchase/Create')), children: [] },

@@ -101,7 +101,7 @@ export default class extends Component {
 					if (item.created && item.created.edit) {
 
 						return (
-							<EditPopover title="修改资料：" item={item} record={record} store={this.props.edit.store}>
+							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
 								<div className="td-edit">{text || <br />}</div>
 							</EditPopover>
 						);
@@ -214,6 +214,7 @@ export default class extends Component {
 					loading={this.props.loading}
 					pagination={{ pageSize: 20, ...this.props.pagination }}
 					columns={this.columns} />
+				<div>这是一段文字</div>
 			</div>
 		);
 	}

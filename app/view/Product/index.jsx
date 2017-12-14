@@ -28,7 +28,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { tableLoading, selectedRows } = this.store;
+		const { selectedRows } = this.store;
 		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 
 		return (
@@ -45,7 +45,7 @@ export default class extends Component {
 							className="ml20"
 							type="danger"
 							state="created"
-							confirm={{title: '确定要删除选中货品？'}}
+							confirm={{ title: '确定要删除选中货品？' }}
 						>
 							删除
 						</HandleButton>
@@ -62,11 +62,9 @@ export default class extends Component {
 						title={this.props.name}
 						dataSource={this.store.dataSource}
 						columns={this.store.columns}
-						edit={{
-							store: this.store
-						}}
+						edit
 						store={this.store}
-						loading={tableLoading}
+						loading={this.store.tableLoading}
 						pagination={{ total: this.store.count }}
 					/>
 				</Content>

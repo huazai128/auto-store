@@ -12,7 +12,7 @@ const { TextArea } = Input;
 const Option = Select.Option;
 
 
-@inject('supplier')
+@inject('warehouse')
 @modal
 @observer
 class AddStoreModal extends Component {
@@ -35,8 +35,7 @@ class AddStoreModal extends Component {
 
 		return (
 			<Modal
-				key="Modal"
-				title="添加供应商"
+				title="添加仓库"
 				visible={visible}
 				onOk={this.handleSubmit}
 				afterClose={this.afterClose}
@@ -44,7 +43,7 @@ class AddStoreModal extends Component {
 				onCancel={e => handleCancel()}
 			>
 				<DyunFrom ref="form" fields={[
-					...this.props.supplier.fields
+					...this.props.warehouse.fields
 				]} />
 			</Modal>
 		);
@@ -54,13 +53,13 @@ class AddStoreModal extends Component {
 /* main */
 // ============================================================
 
-@inject('supplier')
+@inject('warehouse')
 @observer
 export default class extends Component {
-	store = this.props.supplier
+	store = this.props.warehouse
 
 	componentDidMount() {
-		this.store.getData();
+		// this.store.getData();
 	}
 
 	render() {
@@ -75,7 +74,7 @@ export default class extends Component {
 						</ButtonGroup>
 						<Button className="ml20" disabled type="danger">删除</Button>
 						<AddStoreModal>
-							<Button key="Button" className="ml40" type="primary">手动添加供应商</Button>
+							<Button key="Button" className="ml40" type="primary">手动添加仓库</Button>
 						</AddStoreModal>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
