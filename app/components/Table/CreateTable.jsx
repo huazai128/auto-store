@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { Table, Popconfirm, InputNumber, Input, Icon } from 'antd';
 import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 @observer
 export default class extends Component {
 	static defaultProps = {
 		columns: [],
-		items: [
-			{ key: '1', number: 'test-10086', count: 100, contdsd: '123' },
-			{ key: '234', number: 'test-10086', count: 100, contdsd: '123312' },
-			{ key: '14', number: 'test-10086', count: 100, contdsd: '123' },
-			{ key: '25', number: 'test-10086', count: 100, contdsd: '123312' },
-			{ key: '16', number: 'test-10086', count: 100, contdsd: '123' },
-		]
 	}
 
 	constructor(props) {
@@ -30,7 +24,7 @@ export default class extends Component {
 				};
 
 				return (
-					<Popconfirm title='确定删除?' onConfirm={() => this.deleteItem(record)}>
+					<Popconfirm title='确定删除?' onConfirm={() => this.props.deleteItem(record)}>
 						<span style={style}><Icon type="delete" /></span>
 					</Popconfirm>
 				);
@@ -49,7 +43,7 @@ export default class extends Component {
 						if (type == 'number') return (
 							<div>
 								<InputNumber
-									onChange={this.handleIpuntChange.bind(this, item.key, record)}
+									onChange={this.props.handleIpuntChange.bind(this, item.key, record)}
 									value={text}
 									style={{ width: 80 }}
 									size="small"
@@ -60,30 +54,18 @@ export default class extends Component {
 						else return (
 							<div>
 								<Input
-									style={{ width: 80 }}
+									style={{ width: 100 }}
 									size="small"
+									value={text}
+									onChange={this.props.handleIpuntChange.bind(this, item.key, record)}
 									{...inputProps}
 								/>
 							</div>
 						);
 					}
-
-					// ============================================================
 					return text;
 				}
 			};
-		});
-
-		this.state = {
-			items: this.props.items || []
-		};
-	}
-
-	getItems = () => this.state.items
-	addItems = (newItems = []) => {
-		const { items } = this.state;
-		this.setState({
-			items: [...items, ...newItems]
 		});
 	}
 
@@ -92,30 +74,10 @@ export default class extends Component {
 		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH;
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const { items } = nextProps;
-		this.setState({ items });
-	}
-
 	getXSrcoll(columns = []) {
 		let x = 0;
 		columns.forEach(items => x += items.width);
 		return x;
-	}
-
-	handleIpuntChange = (field, record, e) => {
-		const { items } = this.state;
-		record[field] = typeof e !== 'object' ? e : e.target.value;
-		this.setState({
-			items
-		});
-	}
-
-	deleteItem = (record) => {
-		const { items } = this.state;
-		this.setState({
-			items: items.filter(i => i !== record)
-		});
 	}
 
 	render() {
@@ -126,7 +88,7 @@ export default class extends Component {
 					size="middle"
 					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight || 600 }}
 					title={this.props.title}
-					dataSource={this.state.items}
+					dataSource={this.props.items}
 					loading={false}
 					pagination={false}
 					columns={this.columns} />

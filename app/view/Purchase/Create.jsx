@@ -2,26 +2,23 @@ import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
-
 import Header from 'components/Header';
-import CreateTable from 'components/Table/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
-import CreateFormItem from 'components/Form/CreateFormItem';
-
 import SearchSku from 'components/SearchSku';
+
+import create from 'hoc/create-table';
+
 
 @inject(store => ({
 	body: store.body,
-	prurchase: store.prurchase
+	prurchase: store.prurchase,
 }))
-@Form.create()
-@observer
+@create({
+	url: ''
+})
 export default class extends Component {
 	constructor(props) {
 		super(props);
-		const { getFieldDecorator } = props.form;
-		this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
-
 		this.columns = [
 			{ width: 100, title: '商品编号', key: 'number' },
 			{ width: 100, title: '价格', key: 'count', edit: { type: 'number', min: 0 } },
@@ -30,27 +27,25 @@ export default class extends Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.refs.table.getItems());
-		// return await new Promise((resolve, reject) => {
-		// 	this.props.form.validateFields(async (err, values) => {
-		// 		if (!err) {
-		// 			// console.log(values);
-		// 			setTimeout(() => {
-		// 				resolve(values);
-		// 			}, 2000);
-		// 		} else reject('');
-		// 	});
-		// });
+		return await new Promise((resolve, reject) => {
+			this.props.form.validateFields(async (err, values) => {
+				if (!err) {
+					// console.log(values);
+					setTimeout(() => {
+						resolve(values);
+					}, 2000);
+				} else reject('');
+			});
+		});
 	}
 
 	cb = () => {
-		// this.props.body.remove(this.props.pathname, this.props.push);
-		// this.props.prurchase.getData();
+		this.props.body.remove(this.props.pathname, this.props.push);
+		this.props.prurchase.getData();
 	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
-		const { BindedFormItem } = this;
+		const { RenderCreateTable, BindedFormItem } = this.props;
 
 		return (
 			<Container>
@@ -83,14 +78,17 @@ export default class extends Component {
 							</div>
 						</HandleArea>
 					</Form>
-					<CreateTable ref="table" title={() => (
-						<div>
-							<strong>单据明细编辑</strong>
-							<SearchSku />
-							<Button type="primary" ghost className="ml20">选择添加商品</Button>
-							<Button type="primary" ghost className="ml20">Excel导入商品</Button>
-						</div>
-					)} columns={this.columns} />
+
+					<RenderCreateTable
+						title={() => (
+							<div>
+								<strong>单据明细编辑</strong>
+								<SearchSku />
+								<Button type="primary" ghost className="ml20">选择添加商品</Button>
+								<Button type="primary" onClick={() => this.props.addItems()} ghost className="ml20">Excel导入商品</Button>
+							</div>)}
+						columns={this.columns}
+					/>
 				</Content>
 			</Container>
 		);
