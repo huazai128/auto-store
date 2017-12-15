@@ -21,16 +21,18 @@ export default class Header extends Component {
 	}
 
 	render() {
-		const { children, btn, asyncBack, update } = this.props;
+		const { children, btn, update, handleSubmit } = this.props;
 
 		const { loading } = this.state;
 		return (
 			<header className={`${styles.header} flex-vcenter jc-between`}>
 				<div className="flex-vcenter">
 					<h2 className="flex-vcenter">{children}</h2>
-					{this.props.type !== 'create' && <Button onClick={() => this.props.store.getData()} className="ml20" shape="circle" type="primary" icon="reload" />}
+					{this.props.type !== 'create' ?
+						<Button onClick={() => this.props.store.getData()} className="ml20" shape="circle" type="primary" icon="reload" /> :
+						<Button onClick={() => this.props.handleSubmit()} className="ml20" type="primary">保存</Button>}
 					{btn && <Button className="ml20" type="primary"><Link to={btn.to}>{btn.text || '保存'}</Link></Button>}
-					{
+					{/* {
 						asyncBack &&
 						<Button
 							className="ml20"
@@ -52,7 +54,7 @@ export default class Header extends Component {
 							type="primary">
 							保存
 						</Button>
-					}
+					} */}
 				</div>
 				{this.props.type !== 'create'
 					&&

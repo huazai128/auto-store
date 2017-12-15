@@ -3,11 +3,16 @@ import React, { Component } from 'react';
 export default WrappedComponent => {
 	return class extends React.Component {
 		state = {
-			visible: false,
+			visible: this.props.visible || false,
 			confirmLoading: false,
 		}
 
 		showModal = () => this.setState({ visible: true, });
+
+		componentWillReceiveProps(nextProps) {
+			const { visible } = nextProps;
+			this.setState({ visible });
+		}
 
 		onConfirmLoading = (boolean) => this.setState({ confirmLoading: boolean, });
 

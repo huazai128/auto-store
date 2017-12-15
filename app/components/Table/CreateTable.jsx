@@ -81,6 +81,8 @@ export default class extends Component {
 	}
 
 	render() {
+		this.props.items.forEach(i => i.key = i.id);
+
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table

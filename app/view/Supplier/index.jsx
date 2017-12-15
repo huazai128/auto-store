@@ -72,8 +72,8 @@ export default class extends Component {
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<HandleButton state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
-							<HandleButton icon="unlock" >取消冻结</HandleButton>
+							<HandleButton method="freeze" state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
+							<HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
 						<HandleButton
 							className="ml20"

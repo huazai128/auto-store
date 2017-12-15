@@ -5,53 +5,40 @@ import moment from 'moment';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchSku from 'components/SearchSku';
-import Upload from 'components/Upload';
 import create from 'hoc/create-table';
-
 
 @inject(store => ({
 	body: store.body,
 	prurchase: store.prurchase,
 }))
 @create({
-	url: ''
+	url: 'api/prurchase',
+	columns: [
+		{ width: 200, title: '款号', key: 'number' },
+		{ width: 150, title: '款号名称', key: 'name' },
+		{ width: 80, title: '单款现价', key: 'price' },
+		{ width: 80, title: '折扣', key: 'discount' },
+		{ width: 100, title: '补货数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 200, title: '备注', key: 'note', },
+	]
 })
 export default class extends Component {
-	constructor(props) {
-		super(props);
-		this.columns = [
-			{ width: 100, title: '商品编号', key: 'number' },
-			{ width: 100, title: '价格', key: 'count', edit: { type: 'number', min: 0 } },
-			{ width: 100, title: '数量', key: 'contdsd', },
-		];
-	}
-
-
-
-	handleSubmit = async () => {
-		return await new Promise((resolve, reject) => {
-			this.props.form.validateFields(async (err, values) => {
-				if (!err) {
-					console.log(values);
-					setTimeout(() => {
-						resolve(values);
-					}, 2000);
-				} else reject('');
-			});
-		});
-	}
-
 	cb = () => {
 		this.props.body.remove(this.props.pathname, this.props.push);
 		this.props.prurchase.getData();
 	}
 
-	render() {
-		const { RenderCreateTable, BindedFormItem } = this.props;
+	ok = async () => {
+		const values = this.props.handleSubmit();
+		if (!values) return;
+		return await this.props.create(values);
+	}
 
+	render() {
+		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit } = this.props;
 		return (
 			<Container>
-				<Header asyncBack={{ asyncAction: this.handleSubmit, cb: this.cb }} type="create">{this.props.name}</Header>
+				<Header handleSubmit={this.ok} type="create">{this.props.name}</Header>
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<BindedFormItem keyValue="toWarehoseId" />
@@ -84,16 +71,14 @@ export default class extends Component {
 							</div>
 						</HandleArea>
 					</Form>
-					<Upload />
 					<RenderCreateTable
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
 								<SearchSku />
 								<Button type="primary" ghost className="ml20">选择添加商品</Button>
-								<Button type="primary" onClick={() => this.props.addItems()} ghost className="ml20">Excel导入商品</Button>
+								<RenderUpload><Button type="primary" ghost className="ml20">Excel导入商品</Button></RenderUpload>
 							</div>)}
-						columns={this.columns}
 					/>
 				</Content>
 			</Container>

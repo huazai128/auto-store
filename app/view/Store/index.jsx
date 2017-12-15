@@ -65,10 +65,19 @@ export default class extends Component {
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<HandleButton icon="lock" >冻结</HandleButton>
-							<HandleButton icon="unlock" >取消冻结</HandleButton>
+							<HandleButton method="freeze" state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
+							<HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
-						<HandleButton className="ml20" type="danger" confirm>删除</HandleButton>
+						<HandleButton
+							className="ml20"
+							type="danger"
+							state="created_no"
+							method="delete"
+							confirm={{
+								title: '确定删除选中门店？'
+							}}
+						>删除
+						</HandleButton>
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
 						</AddStoreModal>
