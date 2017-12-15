@@ -6,8 +6,6 @@ class Store {
 	@observable activeTag = []
 
 	@action remove = (key, push) => {
-		console.log(key, push);
-
 		if(this.activeTag.length == 1 ) return;
 
 		const index = this.activeTag.map(i => i.pathname).indexOf(key);

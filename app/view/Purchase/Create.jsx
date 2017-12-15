@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
-import Header from 'components/Header';
+import CreateHearder from 'components/Header/CreateHearder';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchSku from 'components/SearchSku';
 import create from 'hoc/create-table';
@@ -28,17 +28,15 @@ export default class extends Component {
 		this.props.prurchase.getData();
 	}
 
-	ok = async () => {
-		const values = this.props.handleSubmit();
-		if (!values) return;
-		return await this.props.create(values);
+	computedQuery = (value) => {
+		value.name = 'damao';
 	}
 
 	render() {
 		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit } = this.props;
 		return (
 			<Container>
-				<Header handleSubmit={this.ok} type="create">{this.props.name}</Header>
+				<CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<BindedFormItem keyValue="toWarehoseId" />

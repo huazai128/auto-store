@@ -46,29 +46,40 @@ export default (options = {}) => WrappedComponent => {
 			});
 		}
 
-		handleSubmit = () => {
-			let result;
-			this.props.form.validateFields((err, values) => {
-				if (!err) {
-					for (const key in values) {
-						if (values[key] && values[key].constructor.name == 'Moment') values[key] = moment(values[key]).valueOf();
-					}
+		handleSubmit = async (pass) => {
+			return await new Promise((reslove, reject) => {
+				this.props.form.validateFields(async (err, values) => {
+					if (!err) {
+						for (const key in values) {
+							if (values[key] && values[key].constructor.name == 'Moment') values[key] = moment(values[key]).valueOf();
+						}
 
-					if (this.state.items.length == 0) return Modal.error({
-						title: '货品数据不能为空'
-					});
+						if (this.state.items.length == 0) return reject(Modal.error({
+							title: '货品数据不能为空'
+						}));
 
-					result = {
-						...values,
-						items: this.state.items,
-					};
-				}
+						const result = {
+							...values,
+							items: this.state.items,
+						};
+
+						pass(result);
+
+						try {
+							reslove(await this.create(result));
+						} catch (error) {
+							reject(Modal.error({
+								title: '保存出现错误!',
+								content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>,
+
+							}));
+						}
+					} else reject();
+				});
 			});
-			return result;
 		}
 
-		create = (query) => post(`${url}/create`, query);
-
+		create = async (query) => await post(`${url}/create`, query);
 
 		handleIpuntChange = (field, record, e) => {
 			const { items } = this.state;
