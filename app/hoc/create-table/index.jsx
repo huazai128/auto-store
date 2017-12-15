@@ -67,7 +67,7 @@ export default (options = {}) => WrappedComponent => {
 			return result;
 		}
 
-		create = async (query) => await post(`${url}/create`, query);
+		create = (query) => post(`${url}/create`, query);
 
 
 		handleIpuntChange = (field, record, e) => {
