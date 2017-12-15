@@ -17,10 +17,12 @@ class TabPanes extends Component {
 				{store.activeTag.map(tag => {
 					const { Component } = tag;
 
+					// tag.close = store.remove.bind(this, tag.pathname, history.push);
+
 					return (
 						<TabPane tab={<div onDoubleClick={() => store.remove(tag.pathname, history.push)}>{tag.name}</div>} key={tag.pathname}>
 							{/* {Component ? <Component activeKey={location.pathname} push={history.push} {...tag} /> : <div>content...</div>} */}
-							{Component ? <Component push={history.push} {...tag} /> : <div>content...</div>}
+							{Component ? <Component {...tag} /> : <div>content...</div>}
 						</TabPane>
 					);
 				})}

@@ -5,7 +5,7 @@ import moment from 'moment';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchSku from 'components/SearchSku';
-
+import Upload from 'components/Upload';
 import create from 'hoc/create-table';
 
 
@@ -26,11 +26,13 @@ export default class extends Component {
 		];
 	}
 
+
+
 	handleSubmit = async () => {
 		return await new Promise((resolve, reject) => {
 			this.props.form.validateFields(async (err, values) => {
 				if (!err) {
-					// console.log(values);
+					console.log(values);
 					setTimeout(() => {
 						resolve(values);
 					}, 2000);
@@ -52,6 +54,10 @@ export default class extends Component {
 				<Header asyncBack={{ asyncAction: this.handleSubmit, cb: this.cb }} type="create">{this.props.name}</Header>
 				<Content style={{ padding: 10 }}>
 					<Form>
+						<BindedFormItem keyValue="toWarehoseId" />
+						<BindedFormItem keyValue="toWarehoseName" />
+						<BindedFormItem keyValue="fromWarehoseId" />
+						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
 								<BindedFormItem label="采购单单号" rules={true} keyValue="a">
@@ -78,7 +84,7 @@ export default class extends Component {
 							</div>
 						</HandleArea>
 					</Form>
-
+					<Upload />
 					<RenderCreateTable
 						title={() => (
 							<div>
