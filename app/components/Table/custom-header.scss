@@ -1,0 +1,20 @@
+.custom, .fix {
+	:global {
+		.ant-checkbox-group {
+			width: 600px;
+		}
+		.ant-checkbox-wrapper {
+			margin-bottom: 5px;
+			width: 100%;
+		}
+	}
+}
+
+
+.custom {
+	:global {
+		.ant-checkbox-wrapper {
+			width: 23%;
+		}
+	}
+}

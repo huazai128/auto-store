@@ -33,6 +33,7 @@ class Store extends TablePrototype {
 
 	@observable columns = [
 		{
+			fix: true,
 			width: 80,
 			mark: '状态',
 			key: 'state',
@@ -46,10 +47,10 @@ class Store extends TablePrototype {
 			},
 			...skuStateFilters
 		},
-		{ width: 100, mark: '门店名称', key: 'name', created: { rules: { required: true, }, }, },
-		{ width: 150, mark: '门店编号', key: 'number', created: { rules: { required: true, }, }, },
+		{ fix: true, width: 100, mark: '门店名称', key: 'name', created: { rules: { required: true, }, }, },
+		{ fix: true, width: 150, mark: '门店编号', key: 'number', created: { rules: { required: true, }, }, },
 		{ width: 100, mark: '门店面积', key: 'area', created: { edit: true, }, },
-		{ width: 100, mark: '开业时间', key: 'openDate', type: 'date', created: { edit: true, node: <DatePicker /> }, },
+		{ width: 100, mark: '开业时间', key: 'openDate', type: 'date', created: { node: <DatePicker /> }, },
 		{ width: 100, mark: '门店地址', key: 'address', created: { edit: true, }, },
 		{ width: 100, mark: '联系人', key: 'contact', created: { edit: true, }, },
 		{ width: 80, mark: '联系方式', key: 'contactWay', created: { edit: true, }, },

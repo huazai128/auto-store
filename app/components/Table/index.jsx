@@ -5,7 +5,9 @@ import moment from 'moment';
 import { observer, inject } from 'mobx-react';
 import CreateTable from './CreateTable';
 import DyunFrom from 'components/Form';
-import popover from 'hoc/modal/popover';
+import popover from 'hoc/popover';
+import CustomHeader from './custom-header';
+
 
 /* 状态说明 */
 const StatePopover = ({ content = '', children }) => (
@@ -25,7 +27,7 @@ const StatePopover = ({ content = '', children }) => (
 
 
 /* 编辑popover */
-@popover
+@popover()
 @observer
 class EditPopover extends Component {
 	state = { confirmLoading: false, }
@@ -81,35 +83,6 @@ class EditPopover extends Component {
 export default class extends Component {
 	static defaultProps = {
 		store: {},
-	}
-
-	constructor(props) {
-		super(props);
-
-		this.columns = props.store.columns.map(item => {
-			item.title = item.title || item.mark;
-			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
-
-			return {
-				...item,
-				dataIndex: item.key,
-				className: 'text-overflow',
-				render: item.render ? item.render : (text, record) => {
-					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
-					if (item.type == 'state') return this.renderState(text, item.stateInfo);
-					if (item.created && item.created.edit) {
-
-						return (
-							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
-								<div className="td-edit">{text || <br />}</div>
-							</EditPopover>
-						);
-					}
-					return text;
-					// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				}
-			};
-		});
 	}
 
 	componentDidMount() {
@@ -177,6 +150,7 @@ export default class extends Component {
 			</StatePopover>
 		);
 
+
 		return text;
 	}
 
@@ -187,9 +161,32 @@ export default class extends Component {
 	}
 
 	render() {
-		const { selectedRows = [], tableLoading, dataSource, onChangeTable } = this.props.store;
-
 		const { title, pagination, ...reset } = this.props;
+		const { selectedRows = [], tableLoading, dataSource, onChangeTable, columns } = this.props.store;
+
+		const filterColumns = columns.map(item => {
+			item.title = item.title || item.mark;
+			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
+
+			return {
+				...item,
+				dataIndex: item.key,
+				className: 'text-overflow',
+				render: item.render ? item.render : (text, record) => {
+					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
+					if (item.type == 'state') return this.renderState(text, item.stateInfo);
+					if (item.created && item.created.edit) {
+						return (
+							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
+								<div className="td-edit">{text || <br />}</div>
+							</EditPopover>
+						);
+					}
+					return text;
+					// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+				}
+			};
+		}).filter(i => i.checked || i.fix);
 
 		const rowSelection = {
 			onChange: (_, selectedRows) => {
@@ -203,11 +200,13 @@ export default class extends Component {
 				<Table
 					className={`${this.props.className} ${this.props.edit ? 'edit' : ''} main-table`}
 					size="middle"
-					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight }}
+					scroll={{ x: this.getXSrcoll(filterColumns), y: this.tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
 							<div><strong>{title}列表</strong>（共{pagination ? pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
-							<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
+							<CustomHeader store={this.props.store}>
+								<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
+							</CustomHeader>
 						</div>
 					)}
 					dataSource={dataSource || []}
@@ -215,7 +214,7 @@ export default class extends Component {
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={tableLoading}
 					pagination={{ pageSize: 20, ...pagination }}
-					columns={this.columns}
+					columns={filterColumns}
 					{...reset}
 				/>
 				{/* <div>这是一段文字</div> */}

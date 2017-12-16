@@ -16,8 +16,9 @@ export default [
 	// { name: '入库制单', url: '/storage/create', Component: asyncComponent(() => import('view/Storage/Create')), children: [], },
 	// { name: '入库单编辑', url: '/storage/:id', Component: asyncComponent(() => import('view/Storage/Create')), children: [], },
 
-	// { name: '配货管理', icon: 'gift', url: '/distribution', Component: asyncComponent(() => import('view/Distribution')), children: [], },
-	// // { name: '配货单制单', url: '/return/create', Component: asyncComponent(() => import('view/Return/Create')), children: [], },
+	{ name: '配货管理', icon: 'gift', url: '/distributions', Component: asyncComponent(() => import('view/Distributions')), children: [], },
+	{ name: '配货单制单', url: '/distributions/create', Component: asyncComponent(() => import('view/Distributions/Create')), children: [], },
+	{ name: '配货单编辑', url: '/distributions/:id', Component: asyncComponent(() => import('view/Distributions/Create')), children: [], },
 
 	// { name: '发货管理', icon: 'logout', url: '/send', Component: asyncComponent(() => import('view/Send')), children: [], },
 

@@ -9,10 +9,10 @@ import create from 'hoc/create-table';
 
 @inject(store => ({
 	body: store.body,
-	prurchase: store.prurchase,
+	distributions: store.distributions,
 }))
 @create({
-	url: 'api/purchaseOrders',
+	url: 'api/distributions',
 })
 export default class extends Component {
 	columns = [
@@ -26,11 +26,11 @@ export default class extends Component {
 
 	cb = () => {
 		this.props.body.remove(this.props.pathname, this.props.push);
-		this.props.prurchase.getData();
+		this.props.distributions.getData();
 	}
 
 	computedQuery = (value) => {
-		value.name = 'damao';
+		value.items.forEach(item => delete item.id);
 	}
 
 	render() {
@@ -38,7 +38,7 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
+				<CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<BindedFormItem keyValue="toWarehoseId" />
@@ -47,19 +47,19 @@ export default class extends Component {
 						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<BindedFormItem label="采购单单号" rules={true} keyValue="a">
-									<Input style={{ width: 200 }} />
-								</BindedFormItem>
-								<BindedFormItem label="收货店铺编号及名称" rules={true} keyValue="toWarehouseId">
+								{/* <BindedFormItem label="采购单单号" keyValue="sequence">
+									<Input style={{ width: 200 }} disabled />
+								</BindedFormItem> */}
+								<BindedFormItem label="收货地编号及名称" rules={true} keyValue="toWarehouseId">
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</BindedFormItem>
-								<BindedFormItem label="供应商编号及名称" rules={true} keyValue="supplierId">
+								<BindedFormItem label="供货地编号及名称" rules={true} keyValue="fromWarehouseId">
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</BindedFormItem>
-								<BindedFormItem label="采购日期"
+								<BindedFormItem label="发货日期"
 									initialValue={moment().startOf('day')}
 									rules={true}
-									keyValue="purchaseDate"
+									keyValue="shipDate"
 								>
 									<DatePicker allowClear={false} />
 								</BindedFormItem>

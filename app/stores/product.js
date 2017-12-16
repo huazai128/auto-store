@@ -34,6 +34,7 @@ class Store extends TablePrototype {
 	@observable count = 0
 	@observable columns = [
 		{
+			fix: true,
 			width: 100,
 			mark: '状态',
 			key: 'state',
@@ -47,8 +48,8 @@ class Store extends TablePrototype {
 			},
 			...productStateFilters
 		},
-		{ width: 100, mark: '商品编号', key: 'number', created: { edit: false, rules: { required: true, }, }, },
-		{ width: 150, mark: '商品名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
+		{ fix: true, width: 100, mark: '商品编号', key: 'number', created: { edit: false, rules: { required: true, }, }, },
+		{ fix: true, width: 150, mark: '商品名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
 		{ width: 100, mark: '品牌', key: 'brand', created: { edit: true, rules: { required: true, }, }, },
 		{
 			width: 100,

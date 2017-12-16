@@ -7,10 +7,10 @@ import HandleButtonOrigin from 'components/Button';
 
 const ButtonGroup = Button.Group;
 
-@inject('prurchase')
+@inject('distributions')
 @observer
 export default class extends Component {
-	store = this.props.prurchase
+	store = this.props.distributions
 	componentDidMount() {
 		this.store.getData();
 	}
@@ -20,7 +20,7 @@ export default class extends Component {
 		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 		return (
 			<Container>
-				<Header store={this.store} btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>
+				<Header store={this.store} btn={{ to: '/distributions/create', text: '配货制单' }}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">
@@ -44,7 +44,7 @@ export default class extends Component {
 							查询日期：<this.store.RenderRangePicker />
 						</div>
 					</HandleArea>
-					<this.store.RenderMainTable title={this.props.name} />
+					<this.store.RenderMainTable title={this.props.name}/>
 				</Content>
 			</Container>
 		);

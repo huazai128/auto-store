@@ -10,19 +10,21 @@ import { get, post, postByParam } from 'utils';
 
 @Form.create()
 export default (options = {}) => WrappedComponent => {
-	const { url, columns } = options;
+	const { url } = options;
 
 	return class extends React.Component {
 
 		constructor(props) {
 			super(props);
 
+			this.id = this.props.params.id;
+
+
 			const { getFieldDecorator } = props.form;
 			this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
 			this.RenderUpload = ({ children, ...reset }) => React.cloneElement(<Upload>{children}</Upload>, {
 				handleConfirm: this.addItems,
 				url,
-				columns,
 				...reset
 			});
 
@@ -30,13 +32,26 @@ export default (options = {}) => WrappedComponent => {
 				deleteItem: this.deleteItem,
 				handleIpuntChange: this.handleIpuntChange,
 				items: this.state.items,
-				columns,
 				...props
 			});
 
 			this.state = {
-				items: []
+				items: [
+					{
+						id: 2,
+						skuId: 2,
+						name: '瞄99',
+						number: 'test-sku-003',
+						amount: 3
+					},
+				]
 			};
+		}
+
+		componentDidMount() {
+			if (this.id) {
+				this.getData(this.id);
+			}
 		}
 
 		addItems = (newItems = []) => {
@@ -45,6 +60,8 @@ export default (options = {}) => WrappedComponent => {
 				items: data,
 			});
 		}
+
+
 
 		handleSubmit = async (pass) => {
 			return await new Promise((reslove, reject) => {
@@ -67,17 +84,15 @@ export default (options = {}) => WrappedComponent => {
 
 						try {
 							reslove(await this.create(result));
-						} catch (error) {
-							reject(Modal.error({
-								title: '保存出现错误!',
-								content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>,
-
-							}));
+						} catch (err) {
+							reject();
 						}
 					} else reject();
 				});
 			});
 		}
+
+		getData = async (id) => await get(`${url}/detail`, { id });
 
 		create = async (query) => await post(`${url}/create`, query);
 

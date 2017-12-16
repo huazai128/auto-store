@@ -4,15 +4,18 @@ import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import HandleButtonOrigin from 'components/Button';
-import popover from 'hoc/modal/popover';
+import popover from 'hoc/popover';
 import ModalAdd from './modal-add';
 
 const ButtonGroup = Button.Group;
-@popover
-class Popover_ extends Component {
+
+@popover({
+	confirm: true
+})
+class ConfirmPopover extends Component {
 	render() {
 		return (
-			<Button onClick={this.props.hide}>close</Button>
+			<div>content</div>
 		);
 	}
 }
@@ -52,15 +55,11 @@ export default class extends Component {
 						</ModalAdd>
 						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
-						<Popover_ title="综合筛选">
+						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
-						</Popover_>
+						</ConfirmPopover>
 					</HandleArea>
-					<this.store.RenderMainTable
-						edit
-						title={this.props.name}
-						pagination={{ total: this.store.count }}
-					/>
+					<this.store.RenderMainTable edit title={this.props.name}/>
 				</Content>
 			</Container>
 		);

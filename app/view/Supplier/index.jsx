@@ -10,7 +10,6 @@ import modal from 'hoc/modal';
 
 const ButtonGroup = Button.Group;
 
-
 @inject('supplier')
 @modal
 @observer
@@ -94,7 +93,6 @@ export default class extends Component {
 					<this.store.RenderMainTable
 						edit
 						title={this.props.name}
-						pagination={{ total: this.store.count }}
 					/>
 				</Content>
 			</Container>

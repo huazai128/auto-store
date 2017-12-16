@@ -1,9 +1,18 @@
+import React from 'react';
 import axios from 'axios';
+import { Modal } from 'antd';
 
-axios.defaults.baseURL = 'http://192.168.0.209:3721';
-axios.defaults.timeout = 2000;
+axios.defaults.baseURL = 'http://192.168.0.133:3721';
+axios.defaults.timeout = 3000;
 axios.defaults.params = {
-	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTMzNDY4MDYsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6ImJjMTlmYmFhLWNiNmItNDVhMy1iOTFiLWE1Mzk1MWQ4YTY4YSIsImNsaWVudF9pZCI6IlR4eEdqWVpDQVViUWd4aXBLeldadGp2WXVnR0dvUWRWSVlTVVN2QWhxS1dQbFdOeXFkWlNPT0lNVmNVSlFMRnciLCJzY29wZSI6WyJmd2FwaV9iYXNlIl19.m2juGcR9OfAUh1pHOiBNmOH8UIPBzCZguYk-EoP0yhQ'
+	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTM0Mzc4NTksInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsiZndhcGlfYmFzZSJdLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiYjY4YmJhM2ItYjVkMS00NGYzLTg3YmItYmQzMmZmNjk0MGUzIiwiY2xpZW50X2lkIjoiVHh4R2pZWkNBVWJRZ3hpcEt6V1p0anZZdWdHR29RZFZJWVNVU3ZBaHFLV1BsV055cWRaU09PSU1WY1VKUUxGdyJ9.-SxxKmXYs0w_hPPOfAwGodIdt0gDfkkCETe7qbdxxvo'
+};
+
+export const showError = (error) => {
+	return Modal.error({
+		title: '操作错误',
+		content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
+	});
 };
 
 export const get = (url, params = {}) => {
@@ -16,8 +25,14 @@ export const get = (url, params = {}) => {
 			// 	cancel = c
 			// })
 		}).then(res => {
-			resolve(res.data);
-		}).catch(error => reject(error));
+			const { data } = res;
+			if (data.code !== 0) {
+				reject(showError(data));
+			}
+			resolve(data);
+		}).catch(error => {
+			reject(showError(error));
+		});
 	});
 };
 
@@ -28,8 +43,12 @@ export const post = (url, params) => {
 			url,
 			data: params,
 		}).then(res => {
-			resolve(res.data);
-		}).catch(error => reject(error));
+			const { data } = res;
+			if (data.code !== 0) {
+				reject(showError(data));
+			}
+			resolve(data);
+		}).catch(error => reject(showError(error)));
 	});
 };
 
@@ -40,8 +59,12 @@ export const postByParam = (url, params = {}) => {
 			url,
 			params,
 		}).then(res => {
-			resolve(res.data);
-		}).catch(error => reject(error));
+			const { data } = res;
+			if (data.code !== 0) {
+				reject(showError(data));
+			}
+			resolve(data);
+		}).catch(error => reject(showError(error)));
 	});
 };
 

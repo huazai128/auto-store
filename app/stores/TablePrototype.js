@@ -9,6 +9,13 @@ import axios from 'axios';
 useStrict(true);
 
 export default class {
+	constructor() {
+		// 不设置checked的时候，默认为true
+		this.columns.forEach(column => {
+			if (column.checked === undefined) column.checked = true;
+		});
+	}
+
 	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
 
 	// 单据操作
@@ -67,12 +74,21 @@ export default class {
 
 
 	@action onChangeTable = (pagination, filters) => {
-		const [state] = filters.state;
+		const { current, pageSize } = pagination;
 
-		this.query.state = state;
+		if (Array.isArray(filters.state)) this.query.state = filters.state[0];
+		this.query.from = (current - 1) * pageSize;
 		this.getData();
 	}
 
+	@action onFilterTableHeader = (checkedList) => {
+		this.columns.forEach(item => {
+			if (checkedList.includes(item.mark)) item.checked = true;
+			else item.checked = false;
+		});
+
+		this.columns = observable.shallowArray(this.columns);
+	}
 
 	getFields = (columns = []) => {
 		return columns.filter(i => i.created).map(item => ({
@@ -83,6 +99,6 @@ export default class {
 	}
 
 
-	RenderMainTable = props => { return React.cloneElement(<TableMain />, { store: this, ...props }); }
+	RenderMainTable = props => { return React.cloneElement(<TableMain />, { pagination: { total: this.count }, store: this, ...props }); }
 	RenderRangePicker = () => React.cloneElement(<RangePicker />, { onChange: this.handleRangePicker });
 }

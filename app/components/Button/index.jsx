@@ -12,7 +12,6 @@ export default ({ children, selectedRows = [], method, state = '', store, confir
 			selectedRows.forEach(item => {
 				if (!state.includes(item.state)) result = false;
 			});
-			console.log(result);
 			return result;
 		}
 		if (selectedRows.some(item => item.state !== state)) return;

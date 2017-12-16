@@ -5,6 +5,7 @@ import product from './product.js';
 import supplier from './supplier';
 import prurchase from './prurchase';
 import warehouse from './warehouse';
+import distributions from './distributions';
 
 const stores = {
 	body,
@@ -14,6 +15,7 @@ const stores = {
 	supplier,
 	prurchase,
 	warehouse,
+	distributions,
 };
 
 export default stores;

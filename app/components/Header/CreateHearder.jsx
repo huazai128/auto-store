@@ -14,8 +14,8 @@ export default class Header extends Component {
 			await this.props.handleSubmit();
 			this.setState({ loading: false }, () => {
 				Modal.success({
-					title: '操作成功！'
-
+					title: '操作成功！',
+					onOk: this.props.cb
 				});
 			});
 		} catch (error) {

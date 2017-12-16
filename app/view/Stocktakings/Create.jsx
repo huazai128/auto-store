@@ -5,7 +5,7 @@ import Header from 'components/Header';
 import CreateTable from 'components/CreateTable';
 import { Container, Content, HandleArea } from 'components/Layout';
 import CreateFormItem from 'components/Form/CreateFormItem';
-import SearchSku from 'components/SearchSku';
+import SearchPro from 'components/SearchPro';
 import modal from 'hoc/modal';
 import moment from 'moment';
 
@@ -77,7 +77,7 @@ export default class extends Component {
 					<CreateTable title={() => (
 						<div>
 							<strong>单据明细编辑</strong>
-							<SearchSku />
+							<SearchPro />
 							<Button type="primary" ghost className="ml20">选择添加商品</Button>
 							<Button type="primary" ghost className="ml20">Excel导入商品</Button>
 						</div>
