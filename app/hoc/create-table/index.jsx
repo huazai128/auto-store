@@ -19,7 +19,6 @@ export default (options = {}) => WrappedComponent => {
 
 			this.id = this.props.params.id;
 
-
 			const { getFieldDecorator } = props.form;
 			this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
 			this.RenderUpload = ({ children, ...reset }) => React.cloneElement(<Upload>{children}</Upload>, {
@@ -50,7 +49,9 @@ export default (options = {}) => WrappedComponent => {
 
 		componentDidMount() {
 			if (this.id) {
-				this.getData(this.id);
+				this.props.form.setFieldsValue({
+					sequence: 'test-10086',
+				});
 			}
 		}
 

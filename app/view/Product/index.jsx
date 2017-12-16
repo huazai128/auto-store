@@ -25,7 +25,7 @@ class ConfirmPopover extends Component {
 export default class extends Component {
 	store = this.props.product
 	componentDidMount() {
-		this.store.getData();
+		// this.store.getData();
 	}
 
 	render() {

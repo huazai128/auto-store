@@ -47,9 +47,9 @@ export default class extends Component {
 						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								{/* <BindedFormItem label="采购单单号" keyValue="sequence">
+								{this.props.params.id && <BindedFormItem label="采购单单号" keyValue="sequence">
 									<Input style={{ width: 200 }} disabled />
-								</BindedFormItem> */}
+								</BindedFormItem>}
 								<BindedFormItem label="收货地编号及名称" rules={true} keyValue="toWarehouseId">
 									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
 								</BindedFormItem>

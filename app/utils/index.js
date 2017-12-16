@@ -9,10 +9,11 @@ axios.defaults.params = {
 };
 
 export const showError = (error) => {
-	return Modal.error({
-		title: '操作错误',
-		content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
-	});
+	return error;
+	// return Modal.error({
+	// 	title: '操作错误',
+	// 	content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
+	// });
 };
 
 export const get = (url, params = {}) => {

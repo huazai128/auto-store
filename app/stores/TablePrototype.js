@@ -10,9 +10,9 @@ useStrict(true);
 
 export default class {
 	constructor() {
-		// 不设置checked的时候，默认为true
+		// 不设置checked和fix的时候，默认为true
 		this.columns.forEach(column => {
-			if (column.checked === undefined) column.checked = true;
+			if (column.checked === undefined && !column.fix) column.checked = true;
 		});
 	}
 
