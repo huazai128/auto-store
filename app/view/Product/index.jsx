@@ -35,6 +35,8 @@ export default class extends Component {
 		const { selectedRows } = this.store;
 		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 
+		console.log(123333);
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>

@@ -3,7 +3,7 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { get, post, postByParam } from 'utils';
 import { RangePicker } from 'components/DatePicker';
 import TableMain from 'components/Table';
-
+import moment from 'moment';
 import axios from 'axios';
 
 useStrict(true);
@@ -43,26 +43,26 @@ export default class {
 
 	// 选择时间段
 	@action handleRangePicker = (dates) => {
-		const start = dates[0] && dates[0].valueOf();
-		const end = dates[1] && dates[1].valueOf();
-
-		this.query.start = start;
-		this.query.end = end;
-
+		this.query.start = dates[0];
+		this.query.end = dates[1];
 		this.getData();
 	}
 
 	// 搜索关键字
-	@action handleSearch = (value) => {
+	@action handleSearchChange = (value) => {
 		this.query.query = value;
 		this.getData();
 	}
 
 	@action getData = async ({ url }) => {
-		const query = { ...this.query };
+		const query = toJS({ ...this.query });
+
+		for (const key in query) {
+			if (query[key] && query[key].constructor.name == 'Moment') query[key] = moment(query[key]).valueOf();
+		}
 
 		this.tableLoading = true;
-		const [{ data }, { data: count }] = await Promise.all([get(url, this.query), get(`${url}/count`, query)]);
+		const [{ data }, { data: count }] = await Promise.all([get(url, query), get(`${url}/count`, query)]);
 		runInAction(() => {
 			data.forEach(i => i.key = i.id);
 			this.data = data;
@@ -99,5 +99,5 @@ export default class {
 
 
 	RenderMainTable = props => { return React.cloneElement(<TableMain />, { pagination: { total: this.count }, store: this, ...props }); }
-	RenderRangePicker = () => React.cloneElement(<RangePicker />, { onChange: this.handleRangePicker });
+	RenderRangePicker = () => React.cloneElement(<RangePicker />, { store: this });
 }

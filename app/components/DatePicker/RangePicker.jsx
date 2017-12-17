@@ -5,12 +5,21 @@ import { observer } from 'mobx-react';
 
 const { RangePicker } = DatePicker;
 
-export default observer(props => (
-	<RangePicker
-		{...props}
-		ranges={{
-			'今天': [moment().startOf('day'), moment().startOf('day')],
-			'近7天': [moment().subtract(6, 'days').startOf('day'), moment().startOf('day')],
-			'本月': [moment().startOf('month'), moment().startOf('day')],
-		}} />
-));
+@observer
+export default class extends Component {
+	render() {
+		const { store, ...reset } = this.props;
+
+		return (
+			<RangePicker
+				onChange={store.handleRangePicker}
+				value={[store.query.start, store.query.end]}
+				{...reset}
+				ranges={{
+					'今天': [moment().startOf('day'), moment().startOf('day')],
+					'近7天': [moment().subtract(6, 'days').startOf('day'), moment().startOf('day')],
+					'本月': [moment().startOf('month'), moment().startOf('day')],
+				}} />
+		);
+	}
+}

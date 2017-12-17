@@ -10,7 +10,6 @@ const { Search } = Input;
 @observer
 export default class Header extends Component {
 	static defaultProps = {
-		update: () => { },
 		store: {
 			getData: () => { console.log('onSearch'); }
 		},
@@ -21,8 +20,7 @@ export default class Header extends Component {
 	}
 
 	render() {
-		const { children, btn, update } = this.props;
-
+		const { children, btn } = this.props;
 		const { loading } = this.state;
 		return (
 			<header className={`${styles.header} flex-vcenter jc-between`}>
@@ -33,7 +31,8 @@ export default class Header extends Component {
 				</div>
 				<Search
 					style={{ width: 200 }}
-					onSearch={value => this.props.store.handleSearch(value)}
+					onChange={e => this.props.store.handleSearchChange(e.target.value)}
+					value={this.props.store.query.query}
 					placeholder="输入关键字搜索..."
 				/>
 			</header>
