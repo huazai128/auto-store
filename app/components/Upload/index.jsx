@@ -1,7 +1,7 @@
 import { Upload, message, Button, Icon, Modal, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import modal from 'hoc/modal';
-import BasicTable from '../Table/basic-table';
+import UploadTable from '../Table/upload-table';
 import './style.global.scss';
 import { filterRepeat } from 'utils';
 
@@ -40,7 +40,7 @@ export default class extends Component {
 					</Tooltip>
 				</div>
 			),
-			content: <BasicTable
+			content: <UploadTable
 				file={file}
 				dataSource={items}
 				columns={this.props.columns.filter(i => i.key !== 'delete')}

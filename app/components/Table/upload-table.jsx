@@ -3,6 +3,7 @@ import { Table, Tag, Tooltip, Icon } from 'antd';
 import { toJS } from 'mobx';
 import moment from 'moment';
 import { observer } from 'mobx-react';
+import { getXSrcoll, computeColumns } from './utils';
 
 @observer
 export default class extends Component {
@@ -14,24 +15,18 @@ export default class extends Component {
 	constructor(props) {
 		super(props);
 
-		this.columns = props.columns.map(item => {
-			return {
-				...item,
-				dataIndex: item.key,
-				className: 'text-overflow',
-				render: item.render ? item.render : (text, record) => {
-					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
+		this.columns = computeColumns(props.columns);
 
-					return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				}
-			};
-		});
-	}
-
-	getXSrcoll(columns = []) {
-		let x = 0;
-		columns.forEach(item => x += item.width);
-		return x;
+		// this.columns = props.columns.map(item => {
+		// 	return {
+		// 		...item,
+		// 		dataIndex: item.key,
+		// 		className: 'text-overflow',
+		// 		render: item.render ? item.render : (text) => {
+		// 			return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+		// 		}
+		// 	};
+		// });
 	}
 
 	renderTitle = (file) => {
@@ -64,7 +59,7 @@ export default class extends Component {
 			<Table
 				size="small"
 				bordered
-				scroll={{ x: this.getXSrcoll(this.columns), y: 600 }}
+				scroll={{ x: getXSrcoll(this.columns), y: 600 }}
 				dataSource={dataSource}
 				title={() => this.renderTitle(file)}
 				columns={this.columns}

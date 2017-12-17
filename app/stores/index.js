@@ -1,3 +1,4 @@
+import tag from './tag.js';
 import body from './body.js';
 import store from './store';
 import Create from './Create.js';
@@ -8,6 +9,7 @@ import warehouse from './warehouse';
 import distributions from './distributions';
 
 const stores = {
+	tag,
 	body,
 	store,
 	Create,

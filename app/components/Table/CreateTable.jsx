@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Popconfirm, InputNumber, Input, Icon } from 'antd';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
+import { getXSrcoll } from './utils';
 
 @observer
 export default class extends Component {
@@ -73,13 +74,6 @@ export default class extends Component {
 		const otherH = 70;
 		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH;
 	}
-
-	getXSrcoll(columns = []) {
-		let x = 0;
-		columns.forEach(items => x += items.width);
-		return x;
-	}
-
 	render() {
 		this.props.items.forEach((i, index) => i.key = index);
 
@@ -88,7 +82,7 @@ export default class extends Component {
 				<Table
 					className="main-table"
 					size="middle"
-					scroll={{ x: this.getXSrcoll(this.columns), y: this.tableInnerHeight || 600 }}
+					scroll={{ x: getXSrcoll(this.columns), y: this.tableInnerHeight || 600 }}
 					title={this.props.title}
 					dataSource={this.props.items}
 					loading={false}

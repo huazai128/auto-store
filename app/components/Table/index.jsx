@@ -8,6 +8,7 @@ import DyunFrom from 'components/Form';
 import popover from 'hoc/popover';
 import CustomHeader from './custom-header';
 
+import { getXSrcoll } from './utils';
 
 /* 状态说明 */
 const StatePopover = ({ content = '', children }) => (
@@ -42,8 +43,12 @@ class EditPopover extends Component {
 					...values,
 				};
 				this.setState({ confirmLoading: true, });
-				await this.props.store.update(query);
-				this.setState({ confirmLoading: false, }, this.props.hide);
+				try {
+					await this.props.store.update(query);
+					this.setState({ confirmLoading: false, }, this.props.hide);
+				} catch (error) {
+					this.setState({ confirmLoading: false, });
+				}
 			}
 		});
 	}
@@ -154,12 +159,6 @@ export default class extends Component {
 		return text;
 	}
 
-	getXSrcoll(columns = []) {
-		let x = 0;
-		columns.forEach(item => x += item.width);
-		return x;
-	}
-
 	render() {
 		const { title, pagination, ...reset } = this.props;
 		const { selectedRows = [], tableLoading, dataSource, onChangeTable, columns } = this.props.store;
@@ -200,7 +199,7 @@ export default class extends Component {
 				<Table
 					className={`${this.props.className} ${this.props.edit ? 'edit' : ''} main-table`}
 					size="middle"
-					scroll={{ x: this.getXSrcoll(filterColumns), y: this.tableInnerHeight }}
+					scroll={{ x: getXSrcoll(filterColumns), y: this.tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
 							<div><strong>{title}列表</strong>（共{pagination ? pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>

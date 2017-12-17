@@ -7,6 +7,7 @@ import { get, post } from 'utils';
 import { skuStateFilters } from 'mapStore/filter';
 import axios from 'axios';
 const { TextArea } = Input;
+const { Option } = Select;
 
 useStrict(true);
 class Store extends TablePrototype {
@@ -18,6 +19,8 @@ class Store extends TablePrototype {
 		this.handle = this.handle.bind(this, { url: this.url });
 		this.create = this.create.bind(this, { url: this.url });
 		this.update = this.update.bind(this, { url: this.url });
+
+		this.getData();
 	}
 
 	@observable query = {

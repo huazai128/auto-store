@@ -56,11 +56,6 @@ class AddStoreModal extends Component {
 @observer
 export default class extends Component {
 	store = this.props.supplier
-
-	componentDidMount() {
-		this.store.getData();
-	}
-
 	render() {
 		const { selectedRows } = this.store;
 		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });

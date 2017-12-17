@@ -20,12 +20,15 @@ class ConfirmPopover extends Component {
 	}
 }
 
-@inject('product')
+@inject(stores => ({
+	product: stores.product,
+	tag: stores.tag,
+}))
 @observer
 export default class extends Component {
 	store = this.props.product
 	componentDidMount() {
-		// this.store.getData();
+		this.store.getData();
 	}
 
 	render() {
@@ -59,7 +62,7 @@ export default class extends Component {
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>
 					</HandleArea>
-					<this.store.RenderMainTable edit title={this.props.name}/>
+					<this.store.RenderMainTable edit title={this.props.name} />
 				</Content>
 			</Container>
 		);

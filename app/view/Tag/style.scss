@@ -1,0 +1,10 @@
+.listWrap {
+	width: 60%;
+	margin-left: 20px;
+	:global {
+		.ant-list-sm .ant-list-item {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+	}
+}

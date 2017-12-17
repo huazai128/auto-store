@@ -5,7 +5,9 @@ import modal from 'hoc/modal';
 import CustomFrom from 'components/Form';
 
 
-@inject('product')
+@inject(stores => ({
+	product: stores.product,
+}))
 @modal
 @observer
 export default class extends Component {
@@ -14,6 +16,8 @@ export default class extends Component {
 		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
 				this.props.onConfirmLoading(true);
+				values.bigStyleId = values.styles[0];
+				values.smallStyleId = values.styles[1];
 				try {
 					await this.props.product.create(values);
 					this.props.handleCancel();

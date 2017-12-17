@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { Input, Select } from 'antd';
-
 import { get, post, postByParam } from 'utils';
 import { productStateFilters } from 'mapStore/filter';
 import axios from 'axios';
-
+import TagSelect from 'components/Select/tag-select';
+import SupplierSelect from 'components/Select/supplier-select';
 import TablePrototype from './TablePrototype';
 
 const { TextArea } = Input;
@@ -22,6 +22,8 @@ class Store extends TablePrototype {
 		this.handle = this.handle.bind(this, { url: this.url });
 		this.create = this.create.bind(this, { url: this.url });
 		this.update = this.update.bind(this, { url: this.url });
+
+
 	}
 
 	@observable query = {
@@ -53,25 +55,20 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '品牌', key: 'brand', created: { edit: true, rules: { required: true, }, }, },
 		{
 			width: 100,
-			mark: '大品类',
+			mark: '品类',
 			key: 'bigStyle',
 			created: {
-				key: 'bigStyleId',
-				edit: true,
+				key: 'styles',
+				// edit: true,
 				rules: { required: true, },
-				type: 'number'
+				getWrap: true,
+				node: <TagSelect />
 			},
 		},
 		{
 			width: 100,
 			mark: '小品类',
 			key: 'smallStyle',
-			created: {
-				key: 'smallStyleId',
-				edit: true,
-				rules: { required: true, },
-				type: 'number'
-			},
 		},
 		{ width: 100, mark: '规格', key: 'specification', created: { edit: true, rules: { required: true, }, }, },
 		{ width: 80, mark: '采购价', key: 'costPrice', created: { edit: true, rules: { required: true, }, type: 'number' }, },
@@ -83,14 +80,9 @@ class Store extends TablePrototype {
 			created: {
 				key: 'supplierId',
 				rules: { required: true, },
-				edit: true,
+				// edit: true,
 				getWrap: true,
-				node: (
-					<Select>
-						<Option value={1}>RMB</Option>
-						<Option value={2}>Dollar</Option>
-					</Select>
-				)
+				node: <SupplierSelect />
 			}
 		},
 		{ width: 100, mark: '供应商名称', key: 'supplierName', },

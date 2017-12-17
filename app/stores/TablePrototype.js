@@ -72,7 +72,6 @@ export default class {
 		});
 	}
 
-
 	@action onChangeTable = (pagination, filters) => {
 		const { current, pageSize } = pagination;
 

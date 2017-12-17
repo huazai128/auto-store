@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
+import { Modal } from 'antd';
 
 export default WrappedComponent => {
 	return class extends React.Component {
+		constructor(props) {
+			super(props);
+
+			/* onCancel, confirmLoading, visible */
+			this.HocModal = ({ children, ...reset }) => React.cloneElement(<Modal>{children}</Modal>, {
+				onCancel: () => this.handleCancel(),
+				confirmLoading: this.state.confirmLoading,
+				visible: this.state.visible,
+				...reset
+			});
+
+		}
+
 		state = {
 			visible: this.props.visible || false,
 			confirmLoading: false,
@@ -24,13 +38,14 @@ export default WrappedComponent => {
 		}
 
 		render() {
+
 			return (
 				[
 					React.cloneElement(this.props.children, { onClick: this.showModal, key: 'outer' }),
 					<WrappedComponent
 						key="WrappedComponent"
+						HocModal={this.HocModal}
 						onConfirmLoading={this.onConfirmLoading}
-						showModal={this.showModal}
 						handleCancel={this.handleCancel}
 						{...this.state}
 						{...this.props}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import asyncComponent from 'app/hoc/asyncComponent';
 
 export default [
+	{ name: '品类管理', icon: 'tags-o	', url: '/tag', Component: asyncComponent(() => import('view/Tag')), children: [] },
 	{ name: '货品管理', icon: 'profile', url: '/product', Component: asyncComponent(() => import('view/Product')), children: [] },
 	{ name: '门店管理', icon: 'shop', url: '/store', Component: asyncComponent(() => import('view/Store')), children: [], },
 	{ name: '供应商管理', icon: 'contacts', url: '/supplier', Component: asyncComponent(() => import('view/Supplier')), children: [], },

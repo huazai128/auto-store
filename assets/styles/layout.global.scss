@@ -52,7 +52,13 @@ $fs-list : (
 	color: $primary-color;
 }
 
+.warn-color {
+	color: $warn-color;
+}
 
+.pointer {
+	cursor: pointer;
+}
 
 .text-overflow {
 	/* 不换行, 省略号代替 */
