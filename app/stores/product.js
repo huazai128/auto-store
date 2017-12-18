@@ -22,12 +22,11 @@ class Store extends TablePrototype {
 		this.handle = this.handle.bind(this, { url: this.url });
 		this.create = this.create.bind(this, { url: this.url });
 		this.update = this.update.bind(this, { url: this.url });
-
-
 	}
 
 	@observable query = {
 		query: '',
+		supplierids: [],
 	};
 
 	@observable tableLoading = false

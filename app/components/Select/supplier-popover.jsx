@@ -22,6 +22,7 @@ export default class extends Component {
 		this.state = {
 			data: [],
 			loading: false,
+			selectedRowKeys: props.selectedRowKeys || [],
 		};
 	}
 
@@ -31,12 +32,26 @@ export default class extends Component {
 
 	getData = async () => {
 		this.setState({ loading: true });
-		const { data } = await get('api/suppliers/search', { query: this.query });
+		// const { data } = await get('api/suppliers/search', { query: this.query });
+		const data = [
+			{ name: '大毛', id: 1, number: 'test-1' },
+			{ name: '大毛1', id: 2, number: 'test-1' },
+			{ name: '大毛2', id: 3, number: 'test-1' },
+		];
 		this.setState({ data, loading: false });
 	}
 
 	onConfirm = () => {
+		const { selectedRowKeys } = this.state;
+		this.props.onChange(selectedRowKeys);
 		this.props.hide();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { selectedRowKeys = [] } = nextProps;
+		this.setState({
+			selectedRowKeys
+		});
 	}
 
 	onChange = (e) => {
@@ -44,10 +59,15 @@ export default class extends Component {
 		this.query = value;
 	}
 
-
-
 	render() {
-		const { data } = this.state;
+		const { data, selectedRowKeys } = this.state;
+
+		const rowSelection = {
+			onChange: (selectedRowKeys) => {
+				this.setState({ selectedRowKeys });
+			},
+			selectedRowKeys
+		};
 
 		return (
 			<div>
@@ -56,14 +76,14 @@ export default class extends Component {
 					<div style={{ minHeight: 400, margin: '20px 0' }}>
 						<BasicTable
 							columns={this.columns}
-							rowSelection={{}}
+							rowSelection={rowSelection}
 							loading={this.state.loading}
 							dataSource={data} />
 					</div>
 					<Button type="primary" className="mr20" onClick={this.onConfirm}>确定</Button>
 					<Button onClick={this.props.hide}>取消</Button>
 				</div>
-			</div>
+			</div >
 		);
 	}
 }

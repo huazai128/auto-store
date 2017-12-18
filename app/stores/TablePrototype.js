@@ -6,6 +6,7 @@ import TableMain from 'components/Table';
 import HandleButtonOrigin from 'components/Button';
 import moment from 'moment';
 import axios from 'axios';
+import SupplierPopover from 'components/Select/supplier-popover';
 
 useStrict(true);
 
@@ -18,7 +19,12 @@ export default class {
 	}
 
 	@action initQuery = () => {
-		this.query = {};
+		this.query = {
+			supplierids: [],
+			warehouseIds: [],
+			toWarehouseIds: [],
+			fromWarehouseIds: [],
+		};
 	}
 
 	@action init = () => {
@@ -66,10 +72,13 @@ export default class {
 
 	@action getData = async ({ url }) => {
 
-		const query = toJS({ ...this.query });
+		const query = toJS(this.query);
 
 		for (const key in query) {
 			if (moment.isMoment(query[key])) query[key] = moment(query[key]).valueOf();
+			if (Array.isArray(query[key]) && query[key].length == 0) {
+				delete query[key];
+			} else query[key] = query[key].toString();
 		}
 
 		this.tableLoading = true;
@@ -100,6 +109,11 @@ export default class {
 		this.columns = observable.shallowArray(this.columns);
 	}
 
+	@action onChangeSupplier = (selectedRowKeys) => {
+		this.query.supplierids = selectedRowKeys;
+		this.getData();
+	}
+
 	getFields = (columns = []) => {
 		return columns.filter(i => i.created).map(item => ({
 			label: item.mark,
@@ -114,4 +128,5 @@ export default class {
 	});
 	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
 
+	RenderSupplierPopover = ({ children, ...reset }) => React.cloneElement(<SupplierPopover>{children}</SupplierPopover>, { onChange: this.onChangeSupplier, ...reset });
 }
