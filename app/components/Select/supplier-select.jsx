@@ -5,7 +5,6 @@ import { get } from 'utils';
 
 const Option = Select.Option;
 
-@inject('supplier')
 @observer
 export default class extends Component {
 	state = {
@@ -13,7 +12,7 @@ export default class extends Component {
 	}
 
 	async componentDidMount() {
-		const { data } = await get('api/suppliers', { size: 9999 });
+		const { data } = await get('api/suppliers/search', { size: 9999 });
 		this.setState({ data });
 	}
 

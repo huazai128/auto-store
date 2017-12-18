@@ -3,12 +3,13 @@ import { Button } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
+
 const ButtonGroup = Button.Group;
 
-@inject('send')
+@inject('refunds')
 @observer
 export default class extends Component {
-	store = this.props.send
+	store = this.props.refunds
 	componentDidMount() {
 		this.store.init();
 	}
@@ -17,7 +18,7 @@ export default class extends Component {
 		const { HandleButton } = this.store;
 		return (
 			<Container>
-				<Header btn={{ to: '/storage/create', text: '入库制单' }} store={this.store}>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">

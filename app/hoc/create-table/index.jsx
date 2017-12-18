@@ -37,20 +37,29 @@ export default (options = {}) => WrappedComponent => {
 			this.state = {
 				items: [
 					{
-						id: 2,
-						skuId: 2,
+						id: 3,
+						skuId: 3,
 						name: '瞄99',
 						number: 'test-sku-003',
 						amount: 3
 					},
-				]
+				],
+				ready: true,
 			};
 		}
 
-		componentDidMount() {
+		async componentDidMount() {
 			if (this.id) {
+				this.setState({ready: false,});
+				const { data } = await get(`${url}/detail`, { id: this.id });
+				const fields = data[0];
+
+				this.setState({
+					ready: true,
+					items: fields.items
+				});
 				this.props.form.setFieldsValue({
-					sequence: 'test-10086',
+					sequence: fields.sequence
 				});
 			}
 		}
@@ -73,7 +82,11 @@ export default (options = {}) => WrappedComponent => {
 						}
 
 						if (this.state.items.length == 0) return reject(Modal.error({
-							title: '货品数据不能为空'
+							title: '货品数据不能为空!'
+						}));
+
+						if (this.state.items.some(item => !item.amount)) return reject(Modal.error({
+							title: '货品数量填写有误!'
 						}));
 
 						const result = {
@@ -110,8 +123,10 @@ export default (options = {}) => WrappedComponent => {
 		}
 
 		render() {
+			const { ready } = this.state;
+
 			return (
-				<WrappedComponent
+				ready ?<WrappedComponent
 					{...this.props}
 					{...this.state}
 					handleSubmit={this.handleSubmit}
@@ -120,7 +135,7 @@ export default (options = {}) => WrappedComponent => {
 					RenderUpload={this.RenderUpload}
 					BindedFormItem={this.BindedFormItem}
 					RenderCreateTable={this.RenderCreateTable}
-				/>
+				/> : 'loading...'
 			);
 		}
 	};

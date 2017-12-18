@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
+import { observer } from 'mobx-react';
 
-export default ({ children, selectedRows = [], method, state = '', store, confirm, ...reset }) => {
-	const ids = selectedRows.map(i => i.id);
+export default observer(({ children, method, state = '', store, confirm, ...reset }) => {
+	const ids = store.selectedRows.map(i => i.id);
 
 	const checkout = (selectedRows, state) => {
 		if (selectedRows.length == 0) return;
@@ -38,7 +39,7 @@ export default ({ children, selectedRows = [], method, state = '', store, confir
 	const handleButton = React.cloneElement(
 		<Button>{children}</Button>,
 		{
-			disabled: !checkout(selectedRows, state),
+			disabled: !checkout(store.selectedRows, state),
 			onClick,
 			type: 'primary',
 			ghost: true,
@@ -47,4 +48,4 @@ export default ({ children, selectedRows = [], method, state = '', store, confir
 	);
 
 	return handleButton;
-};
+});

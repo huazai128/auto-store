@@ -26,6 +26,11 @@ table {
 		padding: 6px 8px;
 	}
 
+	.active td {
+		background-color: rgba($primary-color, 0.2) !important;
+		border-bottom-color: rgba($primary-color, 0.4);
+	}
+
 	&.edit {
 		.ant-table-middle .ant-table-tbody > tr > td {
 			// padding: 7px 8px;

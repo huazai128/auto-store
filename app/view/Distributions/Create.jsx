@@ -18,9 +18,10 @@ export default class extends Component {
 	columns = [
 		{ width: 200, title: '款号', key: 'number' },
 		{ width: 150, title: '款号名称', key: 'name' },
-		{ width: 80, title: '单款现价', key: 'price' },
-		{ width: 80, title: '折扣', key: 'discount' },
-		{ width: 100, title: '补货数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 80, title: '品类', key: 'bigStyle' },
+		{ width: 80, title: '采购价', key: 'costPrice' },
+		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
@@ -30,11 +31,14 @@ export default class extends Component {
 	}
 
 	computedQuery = (value) => {
-		value.items.forEach(item => delete item.id);
+		value.items.forEach(item => {
+			item.skuId = item.id;
+			delete item.id;
+		});
 	}
 
 	render() {
-		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit } = this.props;
+		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit, addItems } = this.props;
 
 		return (
 			<Container>
@@ -76,7 +80,7 @@ export default class extends Component {
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<SearchPro />
+								<SearchPro onChange={item => addItems([item])} />
 								<Button type="primary" ghost className="ml20">选择添加商品</Button>
 								<RenderUpload columns={this.columns}><Button type="primary" ghost className="ml20">Excel导入商品</Button></RenderUpload>
 							</div>)}

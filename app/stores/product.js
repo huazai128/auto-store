@@ -45,7 +45,7 @@ class Store extends TablePrototype {
 				type: 'product',
 
 				invoke: '货品资料已在系统内生效，且已有数据产生，不可反应用，但可以修改供应商信息及自定义属性内容！',
-				invoke_no: '货品资料已在系统内生效，但尚未产生数据，可以修改供应商信息及自定义属性内容！',
+				invoked_no: '货品资料已在系统内生效，但尚未产生数据，可以修改供应商信息及自定义属性内容！',
 				created: '货品资料没有在系统内生效，可修改所有资料内容，也可进行删除！'
 			},
 			...productStateFilters

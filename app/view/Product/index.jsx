@@ -3,9 +3,10 @@ import { Button } from 'antd';
 import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
-import HandleButtonOrigin from 'components/Button';
 import popover from 'hoc/popover';
 import ModalAdd from './modal-add';
+
+import SupplierPopover from 'components/Select/supplier-popover';
 
 const ButtonGroup = Button.Group;
 
@@ -20,22 +21,16 @@ class ConfirmPopover extends Component {
 	}
 }
 
-@inject(stores => ({
-	product: stores.product,
-	tag: stores.tag,
-}))
+@inject('product')
 @observer
 export default class extends Component {
 	store = this.props.product
 	componentDidMount() {
-		this.store.getData();
+		this.store.init();
 	}
 
 	render() {
-		const { selectedRows } = this.store;
-		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
-
-		console.log(123333);
+		const { HandleButton } = this.store;
 
 		return (
 			<Container>
@@ -63,6 +58,9 @@ export default class extends Component {
 						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>
+						<SupplierPopover title="选择供应商">
+							<Button className="ml20" icon="filter" type="primary">供应商选择</Button>
+						</SupplierPopover>
 					</HandleArea>
 					<this.store.RenderMainTable edit title={this.props.name} />
 				</Content>

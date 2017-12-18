@@ -6,7 +6,6 @@ import { observer, inject } from 'mobx-react';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
-import HandleButtonOrigin from 'components/Button';
 
 const ButtonGroup = Button.Group;
 
@@ -57,8 +56,7 @@ export default class extends Component {
 		this.store.getData();
 	}
 	render() {
-		const { selectedRows } = this.store;
-		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
+		const { HandleButton } = this.store;
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>

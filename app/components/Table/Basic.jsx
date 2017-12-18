@@ -11,7 +11,7 @@ import { getXSrcoll, computeColumns } from './utils';
 export default class extends Component {
 	static defaultProps = {
 		columns: [{ width: 100, title: '姓名', key: 'name', }],
-		dataSource: [{ id: 1, name: '小云' }],
+		dataSource: [],
 	}
 
 	constructor(props) {

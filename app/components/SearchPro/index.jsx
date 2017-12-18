@@ -1,23 +1,33 @@
 import React from 'react';
 import { AutoComplete } from 'antd';
+import { get } from 'utils';
+import { observer } from 'mobx-react';
 
-function onSelect(value) {
-	console.log('onSelect', value);
-}
-
+@observer
 export default class Complete extends React.Component {
 	state = {
 		dataSource: [],
 	}
 
-	handleSearch = (value) => {
+	async componentDidMount() {
+		this.getData();
+	}
+
+	getData = async (query = '') => {
+		const { data } = await get('/api/skus', { query });
 		this.setState({
-			dataSource: !value ? [] : [
-				value,
-				value + value,
-				value + value + value,
-			],
+			dataSource: data.map(item => ({ value: item.id, text: item.name, ...item }))
 		});
+	}
+
+	handleSearch = (value) => {
+		this.getData(value);
+	}
+
+	onSelect = (value) => {
+		const target = this.state.dataSource.find(item => item.value == value);
+
+		this.props.onChange(target);
 	}
 
 	render() {
@@ -26,7 +36,7 @@ export default class Complete extends React.Component {
 			<AutoComplete
 				dataSource={dataSource}
 				style={{ width: 200, margin: '0 10px', ...this.props.style }}
-				onSelect={onSelect}
+				onSelect={this.onSelect}
 				onSearch={this.handleSearch}
 				placeholder="搜索商品添加"
 			/>

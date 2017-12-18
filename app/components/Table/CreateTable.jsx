@@ -48,6 +48,7 @@ export default class extends Component {
 									value={text}
 									style={{ width: 80 }}
 									size="small"
+									min={1}
 									{...inputProps}
 								/>
 							</div>

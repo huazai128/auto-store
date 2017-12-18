@@ -13,7 +13,7 @@ export default class extends React.Component {
 	store = this.props.body
 
 	state = {
-		collapsed: true,
+		collapsed: false,
 	}
 
 	onCollapse = (collapsed) => { this.setState({ collapsed }); }

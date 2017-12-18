@@ -3,6 +3,7 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { get, post, postByParam } from 'utils';
 import { RangePicker } from 'components/DatePicker';
 import TableMain from 'components/Table';
+import HandleButtonOrigin from 'components/Button';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -14,6 +15,15 @@ export default class {
 		this.columns.forEach(column => {
 			if (column.checked === undefined && !column.fix) column.checked = true;
 		});
+	}
+
+	@action initQuery = () => {
+		this.query = {};
+	}
+
+	@action init = () => {
+		this.initQuery();
+		this.getData();
 	}
 
 	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
@@ -55,13 +65,15 @@ export default class {
 	}
 
 	@action getData = async ({ url }) => {
+
 		const query = toJS({ ...this.query });
 
 		for (const key in query) {
-			if (query[key] && query[key].constructor.name == 'Moment') query[key] = moment(query[key]).valueOf();
+			if (moment.isMoment(query[key])) query[key] = moment(query[key]).valueOf();
 		}
 
 		this.tableLoading = true;
+
 		const [{ data }, { data: count }] = await Promise.all([get(url, query), get(`${url}/count`, query)]);
 		runInAction(() => {
 			data.forEach(i => i.key = i.id);
@@ -85,7 +97,6 @@ export default class {
 			if (checkedList.includes(item.mark)) item.checked = true;
 			else item.checked = false;
 		});
-
 		this.columns = observable.shallowArray(this.columns);
 	}
 
@@ -97,7 +108,10 @@ export default class {
 		}));
 	}
 
-
 	RenderMainTable = props => { return React.cloneElement(<TableMain />, { pagination: { total: this.count }, store: this, ...props }); }
-	RenderRangePicker = () => React.cloneElement(<RangePicker />, { store: this });
+	RenderRangePicker = () => React.cloneElement(<RangePicker />, {
+		onChange: this.handleRangePicker,
+	});
+	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
+
 }

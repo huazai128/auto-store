@@ -3,7 +3,6 @@ import { Button, Table, Tag, Form, Icon, Input, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
-import HandleButtonOrigin from 'components/Button';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
@@ -56,10 +55,13 @@ class AddStoreModal extends Component {
 @observer
 export default class extends Component {
 	store = this.props.supplier
-	render() {
-		const { selectedRows } = this.store;
-		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 
+	componentDidMount() {
+		this.store.init();
+	}
+
+	render() {
+		const { HandleButton } = this.store;
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>

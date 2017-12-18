@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
-import HandleButtonOrigin from 'components/Button';
 
 const ButtonGroup = Button.Group;
 
@@ -12,13 +11,12 @@ const ButtonGroup = Button.Group;
 export default class extends Component {
 	store = this.props.prurchase
 	componentDidMount() {
-		this.store.getData();
+		this.store.init();
 	}
 
 	render() {
-		const { RenderRangePicker, selectedRows } = this.store;
+		const { HandleButton } = this.store;
 
-		const HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { selectedRows, store: this.store, ...reset });
 		return (
 			<Container>
 				<Header store={this.store} btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>

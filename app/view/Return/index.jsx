@@ -1,57 +1,48 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag } from 'antd';
+import { Button } from 'antd';
+import Header from 'components/Header';
+import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
 
-import Header from 'components/Header';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
-import { RangePicker } from 'components/DatePicker';
 const ButtonGroup = Button.Group;
 
+@inject('return_')
 @observer
 export default class extends Component {
+	store = this.props.return_
+	componentDidMount() {
+		this.store.init();
+	}
 
 	render() {
-		const dataSource = [{
-			key: '1',
-			name: '胡彦斌',
-			age: 32,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}, {
-			key: '2',
-			name: '胡彦祖',
-			age: 42,
-			address: '西湖区湖底公园1号',
-			time: new Date().valueOf()
-		}];
-
-		const columns = [
-			{ title: '姓名', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }];
-
+		const { HandleButton } = this.store;
 		return (
 			<Container>
-				<Header btn={{ to: '/return/create', text: '退厂单制单' }}>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">
-							<Button type="primary" ghost>审核</Button>
-							<Button type="primary" ghost>登账</Button>
+							<HandleButton method="check" state="created">审核</HandleButton>
+							<HandleButton method="confirm" state="checked">登账</HandleButton>
 						</ButtonGroup>
 						<ButtonGroup>
-							<Button type="primary" ghost>反审</Button>
-							<Button type="primary" ghost>反登</Button>
+							<HandleButton method="uncheck" state="checked">反审</HandleButton>
+							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
+						<HandleButton
+							method="delete"
+							state="created"
+							className="ml20"
+							type="danger"
+							confirm
+						>删除
+						</HandleButton>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<div className="flex-vcenter ml50">
-							查询日期：
-							<RangePicker />
+							查询日期：<this.store.RenderRangePicker />
 						</div>
 					</HandleArea>
-					<TableMain
-						dataSource={dataSource}
-						title={this.props.name}
-						columns={columns} />
+					<this.store.RenderMainTable title={this.props.name} />
 				</Content>
 			</Container>
 		);

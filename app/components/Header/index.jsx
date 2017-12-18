@@ -32,7 +32,6 @@ export default class Header extends Component {
 				<Search
 					style={{ width: 200 }}
 					onChange={e => this.props.store.handleSearchChange(e.target.value)}
-					value={this.props.store.query.query}
 					placeholder="输入关键字搜索..."
 				/>
 			</header>

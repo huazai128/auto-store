@@ -28,8 +28,8 @@ class Store extends TablePrototype {
 	@observable count = 0
 
 	@observable columns = [
-		{ width: 200, title: '姓名', key: 'name', },
-		{ width: 200, title: '调整属性展示顺序', key: 'ddfs', render: () => 123 },
+		{ width: 200, title: '属性名', key: 'name', },
+		// { width: 200, title: '调整属性展示顺序', key: 'ddfs', render: () => 123 },
 		{ width: 400, title: '操作', key: 'action', render: () => '操作' },
 	];
 

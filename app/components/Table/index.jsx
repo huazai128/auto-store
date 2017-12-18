@@ -108,8 +108,8 @@ export default class extends Component {
 			</StatePopover>
 		);
 
-		if (text == 'invoke_no') return (
-			<StatePopover conteent={info.invoke_no}>
+		if (text == 'invoked_no') return (
+			<StatePopover content={info.invoked_no}>
 				<Tag color="#3a99d9">已应用</Tag>
 			</StatePopover>
 		);
@@ -161,7 +161,7 @@ export default class extends Component {
 
 	render() {
 		const { title, pagination, ...reset } = this.props;
-		const { selectedRows = [], tableLoading, dataSource, onChangeTable, columns } = this.props.store;
+		const { selectedRows = [], tableLoading, dataSource, onChangeTable, columns, count } = this.props.store;
 
 		const filterColumns = columns.map(item => {
 			item.title = item.title || item.mark;
@@ -181,8 +181,8 @@ export default class extends Component {
 							</EditPopover>
 						);
 					}
-					return text;
-					// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+					// return text;
+					return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
 				}
 			};
 		}).filter(i => i.checked || i.fix);
@@ -202,7 +202,7 @@ export default class extends Component {
 					scroll={{ x: getXSrcoll(filterColumns), y: this.tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
-							<div><strong>{title}列表</strong>（共{pagination ? pagination.total : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
+							<div><strong>{title}列表</strong>（共{count ? count : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
 							<CustomHeader store={this.props.store}>
 								<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
 							</CustomHeader>
