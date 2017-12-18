@@ -37,6 +37,21 @@ export default class extends Component {
 			{ name: '大毛', id: 1, number: 'test-1' },
 			{ name: '大毛1', id: 2, number: 'test-1' },
 			{ name: '大毛2', id: 3, number: 'test-1' },
+			{ name: '大毛', id: 12, number: 'test-1' },
+			{ name: '大毛1', id: 22, number: 'test-1' },
+			{ name: '大毛2', id: 33, number: 'test-1' },
+			{ name: '大毛', id: 14, number: 'test-1' },
+			{ name: '大毛1', id: 25, number: 'test-1' },
+			{ name: '大毛2', id: 37, number: 'test-1' },
+			{ name: '大毛', id: 18, number: 'test-1' },
+			{ name: '大毛1', id: 29, number: 'test-1' },
+			{ name: '大毛2', id: 30, number: 'test-1' },
+			{ name: '大毛', id: 184, number: 'test-1' },
+			{ name: '大毛1', id: 259, number: 'test-1' },
+			{ name: '大毛2', id: 360, number: 'test-1' },
+			{ name: '大毛', id: 178, number: 'test-1' },
+			{ name: '大毛1', id: 289, number: 'test-1' },
+			{ name: '大毛2', id: 390, number: 'test-1' },
 		];
 		this.setState({ data, loading: false });
 	}
@@ -77,6 +92,8 @@ export default class extends Component {
 						<BasicTable
 							columns={this.columns}
 							rowSelection={rowSelection}
+							scroll={{ y: 400 }}
+							pagination={false}
 							loading={this.state.loading}
 							dataSource={data} />
 					</div>

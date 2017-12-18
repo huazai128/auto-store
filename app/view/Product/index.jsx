@@ -59,7 +59,7 @@ export default class extends Component {
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>
 						<RenderSupplierPopover selectedRowKeys={this.store.query.supplierids} title="选择供应商">
-							<Button className="ml20" icon="filter" type="primary">供应商选择</Button>
+							<Button className="ml20" icon="filter" type={this.store.query.supplierids.length !== 0 ? 'primary' : ''}>供应商选择</Button>
 						</RenderSupplierPopover>
 					</HandleArea>
 					<this.store.RenderMainTable edit title={this.props.name} />
