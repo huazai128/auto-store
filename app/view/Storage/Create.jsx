@@ -13,7 +13,6 @@ import modal from 'hoc/modal';
 
 import styles from './style.scss';
 
-
 const columns = [
 	{ width: 15, title: '', key: 'dilidili', render: () => <Icon className="fs16 color-6" type="link" /> },
 	{ width: 100, title: '货品名', key: 'name', },
@@ -35,7 +34,9 @@ const columns2 = [
 @observer
 class ReferModal extends Component {
 	state = {
-		data: [],
+		data: [{
+			id: 1, name: '大毛'
+		}],
 		record: {},
 	}
 
