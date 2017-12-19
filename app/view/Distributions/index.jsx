@@ -15,7 +15,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { HandleButton } = this.store;
+		const { HandleButton, DeleteButton } = this.store;
 		return (
 			<Container>
 				<Header store={this.store} btn={{ to: '/distributions/create', text: '配货制单' }}>{this.props.name}</Header>
@@ -29,20 +29,13 @@ export default class extends Component {
 							<HandleButton method="uncheck" state="checked">反审</HandleButton>
 							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
-						<HandleButton
-							method="delete"
-							state="created"
-							className="ml20"
-							type="danger"
-							confirm
-						>删除
-						</HandleButton>
+						<DeleteButton>删除</DeleteButton>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<div className="flex-vcenter ml50">
 							查询日期：<this.store.RenderRangePicker />
 						</div>
 					</HandleArea>
-					<this.store.RenderMainTable title={this.props.name}/>
+					<this.store.RenderMainTable className="two-row" title={this.props.name}/>
 				</Content>
 			</Container>
 		);

@@ -38,28 +38,31 @@ export default class extends Component {
 	}
 
 	render() {
-		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit, addItems } = this.props;
+		const {
+			RenderCreateTable,
+			BindedFormItem,
+			RenderUpload,
+			handleSubmit,
+			addItems,
+
+			toWarehouseField,
+			fromWarehouseField,
+			warehouseField,
+			supplierField
+		} = this.props;
 
 		return (
 			<Container>
 				<CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
 				<Content style={{ padding: 10 }}>
 					<Form>
-						<BindedFormItem keyValue="toWarehoseId" />
-						<BindedFormItem keyValue="toWarehoseName" />
-						<BindedFormItem keyValue="fromWarehoseId" />
-						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
 								{this.props.params.id && <BindedFormItem label="采购单单号" keyValue="sequence">
 									<Input style={{ width: 200 }} disabled />
 								</BindedFormItem>}
-								<BindedFormItem label="收货地编号及名称" rules={true} keyValue="toWarehouseId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
-								<BindedFormItem label="供货地编号及名称" rules={true} keyValue="fromWarehouseId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
+								{toWarehouseField}
+								{fromWarehouseField}
 								<BindedFormItem label="发货日期"
 									initialValue={moment().startOf('day')}
 									rules={true}

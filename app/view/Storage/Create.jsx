@@ -7,7 +7,7 @@ import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import Upload from 'components/Upload';
 import BasicTable from 'components/Table/Basic';
-
+import { get } from 'utils';
 import create from 'hoc/create-table';
 import modal from 'hoc/modal';
 
@@ -21,38 +21,21 @@ const columns = [
 ];
 
 const columns2 = [
-	{ width: 150, title: '采购单号', key: 'a', },
-	{ width: 150, title: '收货仓店编号及名称', key: 'b', },
-	{ width: 150, title: '供应商编号及名称', key: 'c', },
-	{ width: 80, title: '计划完成', key: 'd', },
-	{ width: 80, title: '采购数量', key: 'e', },
-	{ width: 80, title: '已入库数', key: 'f', },
-	{ width: 80, title: '未入库数', key: 'g', },
-	{ width: 100, title: '可绑定入库数', key: 'h', },
-
+	{ width: 150, title: '采购单号', key: 'sequence', },
+	{ width: 180, title: '收货仓店编号及名称', key: 'warehouse', },
+	{ width: 180, title: '供应商编号及名称', key: 'supplier', },
+	{ width: 80, title: '采购数量', key: 'amount', },
+	{ width: 80, title: '已入库数', key: 'stockInAmount', },
+	{ width: 80, title: '未入库数', key: 'unbound', },
+	{ width: 80, title: '可绑定入库数', key: 'bound', },
 ];
+
 
 @modal
 @observer
 class ReferModal extends Component {
 	state = {
-		data: [
-			{ id: 1, name: '小云' },
-			{ id: 2, name: '小风' },
-			{ id: 3, name: '小云' },
-			{ id: 4, name: '小风' },
-			{ id: 5, name: '小云' },
-			{ id: 13, name: '小云' },
-			{ id: 24, name: '小风' },
-			{ id: 35, name: '小云' },
-			{ id: 46, name: '小风' },
-			{ id: 51, name: '小云' },
-			{ id: 12, name: '小云' },
-			{ id: 23, name: '小风' },
-			{ id: 34, name: '小云' },
-			{ id: 45, name: '小风' },
-			{ id: 56, name: '小云' },
-		],
+		data: [],
 		record: {},
 	}
 
@@ -64,17 +47,29 @@ class ReferModal extends Component {
 		this.setState({ record });
 	}
 
+	addPro = async (item) => {
+		const { id: skuId } = item;
+		const { supplierId } = this.props;
+		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId });
+
+		data.forEach(item => {
+			item.unbound = item.amount - item.stockInAmount;
+			item.bound = item.amount - item.boundStockInAmount;
+		});
+
+		item.orderAmountMap = data;
+
+		this.setState({
+			data: [item]
+		});
+	}
+
+
 	render() {
-		const { HocModal } = this.props;
+		const { HocModal, supplierId } = this.props;
 		const { data, record } = this.state;
 
-		data.forEach(i => {
-			i.items = [
-				{ id: 1, a: 'test-100', b: 'dasd', c: '计划完成', d: 100, e: 100, f: 100 },
-				{ id: 2, a: 'test-100', b: 'dasd', c: '计划完成', d: 100, e: 100, f: 100 },
-				{ id: 3, a: 'test-100', b: 'dasd', c: '计划完成', d: 100, e: 100, f: 100 },
-			];
-		});
+		const { orderAmountMap = [] } = record;
 
 		return (
 			<HocModal
@@ -97,7 +92,7 @@ class ReferModal extends Component {
 								<strong className="mr20">添加入库货品</strong>
 								<Upload columns={this.columns}><Button type="primary" ghost className="ml20">Excel导入商品</Button></Upload>
 							</div>
-							<div className="mt10"><SearchPro onChange={e => console.log(e)} /></div>
+							<div className="mt10"><SearchPro onChange={item => this.addPro(item)} /></div>
 						</div>
 						<div>
 							<BasicTable
@@ -116,7 +111,7 @@ class ReferModal extends Component {
 					<Col className={styles.right} span={19}>
 						<BasicTable
 							columns={columns2}
-							dataSource={record.items}
+							dataSource={orderAmountMap}
 							scroll={{ y: 450 }}
 							title={() => {
 								return <div>{record.name ? <div>商品<span className="color-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>;
@@ -161,20 +156,27 @@ export default class extends Component {
 	}
 
 	render() {
-		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit, addItems } = this.props;
+		const {
+			RenderCreateTable,
+			BindedFormItem,
+			RenderUpload,
+			handleSubmit,
+			addItems,
+
+			toWarehouseField,
+			fromWarehouseField,
+			warehouseField,
+			supplierField
+		} = this.props;
 
 		return (
 			<Container>
 				<CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
 				<Content style={{ padding: 10 }}>
 					<Form>
-						<BindedFormItem keyValue="toWarehoseId" />
-						<BindedFormItem keyValue="toWarehoseName" />
-						<BindedFormItem keyValue="fromWarehoseId" />
-						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								{this.props.params.id && <BindedFormItem label="入库单单号" keyValue="sequence">
+								{this.props.params.id && <BindedFormItem label="单号" keyValue="sequence">
 									<Input style={{ width: 200 }} disabled />
 								</BindedFormItem>}
 								<BindedFormItem label="到货日期"
@@ -184,12 +186,8 @@ export default class extends Component {
 								>
 									<DatePicker allowClear={false} />
 								</BindedFormItem>
-								<BindedFormItem label="供应商信息" rules={true} keyValue="toWarehouseId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
-								<BindedFormItem label="仓库信息" rules={true} keyValue="fromWarehouseId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
+								{warehouseField}
+								{supplierField}
 							</div>
 							<div className="flex-vcenter">
 								<BindedFormItem label="备注" keyValue="note">
@@ -203,7 +201,7 @@ export default class extends Component {
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<ReferModal><Button type="primary" className="ml20">参照制单</Button></ReferModal>
+								<ReferModal supplierId={this.props.form.getFieldsValue().supplierId}><Button type="primary" className="ml20">参照制单</Button></ReferModal>
 							</div>)}
 					/>
 				</Content>

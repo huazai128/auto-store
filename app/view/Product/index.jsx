@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import popover from 'hoc/popover';
 import ModalAdd from './modal-add';
-
-import SupplierPopover from 'components/Select/supplier-popover';
 
 const ButtonGroup = Button.Group;
 
@@ -30,9 +28,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { HandleButton, RenderSupplierPopover } = this.store;
-
-		// console.log(this.store.query.supplierids);
+		const { HandleButton, RenderWarehousePopover } = this.store;
 
 		return (
 			<Container>
@@ -60,9 +56,6 @@ export default class extends Component {
 						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>
-						<RenderSupplierPopover title="选择供应商">
-							<Button className="ml20" icon="filter">供应商选择</Button>
-						</RenderSupplierPopover>
 					</HandleArea>
 					<this.store.RenderMainTable edit title={this.props.name} />
 				</Content>

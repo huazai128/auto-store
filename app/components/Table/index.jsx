@@ -90,10 +90,10 @@ export default class extends Component {
 		store: {},
 	}
 
-	componentDidMount() {
-		const otherH = 18 + 26 + 34 + 56;
-		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 25;
-	}
+	// componentDidMount() {
+	// 	const otherH = 18 + 26 + 34 + 56;
+	// 	this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 25;
+	// }
 
 	renderProductState(text, info = {}) {
 		if (text == 'created') return (
@@ -160,12 +160,48 @@ export default class extends Component {
 	}
 
 	render() {
-		const { title, pagination, ...reset } = this.props;
-		const { selectedRows = [], tableLoading, dataSource, onChangeTable, columns, count } = this.props.store;
+		const { title, className, ...reset } = this.props;
+		const {
+			selectedRows = [],
+			tableLoading,
+			dataSource,
+			onChangeTable,
+			columns,
+			count,
+			RenderSupplierPopover,
+			RenderWarehousePopover,
+			RenderToWarehousePopover,
+			RenderFromWarehousePopover
+		} = this.props.store;
+
+		const otherH = 18 + 26 + 34 + 56;
+		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5;
 
 		const filterColumns = columns.map(item => {
 			item.title = item.title || item.mark;
 			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
+
+			// ============================================================
+			if (item.key == 'toWarehouseIds') {
+				item.title = <div className="flex-vcenter">{item.mark}<RenderToWarehousePopover /></div>;
+				item.render = (_, record) => <div><p>{record.toWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.toWarehouseName}</p></div>;
+			}
+
+			if (item.key == 'warehouseIds') {
+				item.title = <div className="flex-vcenter">{item.mark}<RenderWarehousePopover /></div>;
+				item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>;
+			}
+
+			if (item.key == 'fromWarehouseIds') {
+				item.title = <div className="flex-vcenter">{item.mark}<RenderFromWarehousePopover /></div>;
+				item.render = (_, record) => <div><p>{record.fromWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.fromWarehouseName}</p></div>;
+			}
+
+			if (item.key == 'supplierIds') {
+				item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
+				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
+			}
+			// ============================================================
 
 			return {
 				...item,
@@ -197,9 +233,9 @@ export default class extends Component {
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table
-					className={`${this.props.className} ${this.props.edit ? 'edit' : ''} main-table`}
+					className={`${className} ${this.props.edit ? 'edit' : ''} main-table`}
 					size="middle"
-					scroll={{ x: getXSrcoll(filterColumns), y: this.tableInnerHeight }}
+					scroll={{ x: getXSrcoll(filterColumns), y: tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
 							<div><strong>{title}列表</strong>（共{count ? count : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
@@ -212,7 +248,7 @@ export default class extends Component {
 					onChange={onChangeTable}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={tableLoading}
-					pagination={{ pageSize: 20, ...pagination }}
+					pagination={{ pageSize: 20, total: count }}
 					columns={filterColumns}
 					{...reset}
 				/>

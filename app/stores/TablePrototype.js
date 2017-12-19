@@ -6,7 +6,7 @@ import TableMain from 'components/Table';
 import HandleButtonOrigin from 'components/Button';
 import moment from 'moment';
 import axios from 'axios';
-import SupplierPopover from 'components/Select/supplier-binded-popover';
+import BindedPopover from 'components/Select/comprehensive-binded-popover';
 
 useStrict(true);
 
@@ -20,7 +20,7 @@ export default class {
 
 	@action initQuery = () => {
 		this.query = {
-			supplierids: [],
+			supplierIds: [],
 			warehouseIds: [],
 			toWarehouseIds: [],
 			fromWarehouseIds: [],
@@ -78,7 +78,7 @@ export default class {
 			if (moment.isMoment(query[key])) query[key] = moment(query[key]).valueOf();
 			if (Array.isArray(query[key]) && query[key].length == 0) {
 				delete query[key];
-			} else query[key] = query[key].toString();
+			} else if (Array.isArray(query[key])) query[key] = query[key].toString();
 		}
 
 		this.tableLoading = true;
@@ -110,7 +110,22 @@ export default class {
 	}
 
 	@action onChangeSupplier = (selectedRowKeys) => {
-		this.query.supplierids = selectedRowKeys;
+		this.query.supplierIds = selectedRowKeys;
+		this.getData();
+	}
+
+	@action onChangeWarehouse = (selectedRowKeys) => {
+		this.query.warehouseIds = selectedRowKeys;
+		this.getData();
+	}
+
+	@action onChangeToWarehouse = (selectedRowKeys) => {
+		this.query.toWarehouseIds = selectedRowKeys;
+		this.getData();
+	}
+
+	@action onChangeFromWarehouse = (selectedRowKeys) => {
+		this.query.fromWarehouseIds = selectedRowKeys;
 		this.getData();
 	}
 
@@ -122,14 +137,34 @@ export default class {
 		}));
 	}
 
-	RenderMainTable = props => { return React.cloneElement(<TableMain />, { pagination: { total: this.count }, store: this, ...props }); }
+	RenderMainTable = props => { return React.cloneElement(<TableMain />, { store: this, ...props }); }
 	RenderRangePicker = () => React.cloneElement(<RangePicker />, {
 		onChange: this.handleRangePicker,
 	});
 	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
+	DeleteButton = ({ children, ...reset }) => <this.HandleButton method="delete" state="created" className="ml20" type="danger" confirm {...reset}>{children}</this.HandleButton>
 
-	RenderSupplierPopover = ({ children, ...reset }) => React.cloneElement(<SupplierPopover>{children}</SupplierPopover>, {
+	RenderSupplierPopover = (props) => React.cloneElement(<BindedPopover />, {
 		store: this,
-		...reset
+		type: 'supplier',
+		...props
+	});
+
+	RenderWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+		store: this,
+		type: 'warehouse',
+		...props
+	});
+
+	RenderToWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+		store: this,
+		type: 'toWarehouse',
+		...props
+	});
+
+	RenderFromWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+		store: this,
+		type: 'fromWarehouse',
+		...props
 	});
 }

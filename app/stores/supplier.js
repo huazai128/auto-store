@@ -19,8 +19,6 @@ class Store extends TablePrototype {
 
 	@observable query = {
 		query: '',
-		end: null,
-		start: null,
 	};
 
 	@observable data = []

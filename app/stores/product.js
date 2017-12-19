@@ -26,7 +26,6 @@ class Store extends TablePrototype {
 
 	@observable query = {
 		query: '',
-		supplierids: [],
 	};
 
 	@observable tableLoading = false

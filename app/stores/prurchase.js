@@ -30,8 +30,8 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 100, mark: '单据状态', key: 'state', type: 'state', ...stateFilters },
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
-		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseName', },
-		{ fix: true, width: 150, mark: '供应商编号及名称', key: 'supplierName', },
+		{ fix: true, width: 200, mark: '收货仓店编号及名称', key: 'toWarehouseIds', },
+		{ fix: true, width: 200, mark: '供应商编号及名称', key: 'supplierIds', },
 		{ fix: true, width: 100, mark: '采购数量', key: 'amount', },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },

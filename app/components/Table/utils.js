@@ -9,12 +9,20 @@ export function getXSrcoll(columns = []) {
 
 export function computeColumns(columns = []) {
 	return columns.map(item => {
+		if (item.key == 'warehouse') {
+			item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>;
+		}
+		if (item.key == 'supplier') {
+			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
+		}
+
 		return {
 			...item,
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+				return text;
 			}
 		};
 	});

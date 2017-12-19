@@ -30,32 +30,38 @@ export default class extends Component {
 	}
 
 	computedQuery = (value) => {
-		value.name = 'damao';
+		value.items.forEach(item => {
+			item.skuId = item.id;
+			delete item.id;
+		});
 	}
 
 	render() {
-		const { RenderCreateTable, BindedFormItem, RenderUpload, handleSubmit } = this.props;
+		const {
+			RenderCreateTable,
+			BindedFormItem,
+			RenderUpload,
+			handleSubmit,
+			addItems,
+
+			toWarehouseField,
+			fromWarehouseField,
+			warehouseField,
+			supplierField
+		} = this.props;
 
 		return (
 			<Container>
 				<CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
 				<Content style={{ padding: 10 }}>
 					<Form>
-						<BindedFormItem keyValue="toWarehoseId" />
-						<BindedFormItem keyValue="toWarehoseName" />
-						<BindedFormItem keyValue="fromWarehoseId" />
-						<BindedFormItem keyValue="fromWarehoseName" />
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<BindedFormItem label="采购单单号" rules={true} keyValue="a">
-									<Input style={{ width: 200 }} />
-								</BindedFormItem>
-								<BindedFormItem label="收货店铺编号及名称" rules={true} keyValue="toWarehouseId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
-								<BindedFormItem label="供应商编号及名称" rules={true} keyValue="supplierId">
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</BindedFormItem>
+								{this.props.params.id && <BindedFormItem label="采购单单号" keyValue="sequence">
+									<Input style={{ width: 200 }} disabled />
+								</BindedFormItem>}
+								{toWarehouseField}
+								{supplierField}
 								<BindedFormItem label="采购日期"
 									initialValue={moment().startOf('day')}
 									rules={true}
@@ -76,7 +82,7 @@ export default class extends Component {
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<SearchPro />
+								<SearchPro onChange={item => addItems([item])} />
 								<Button type="primary" ghost className="ml20">选择添加商品</Button>
 								<RenderUpload columns={this.columns}><Button type="primary" ghost className="ml20">Excel导入商品</Button></RenderUpload>
 							</div>)}
