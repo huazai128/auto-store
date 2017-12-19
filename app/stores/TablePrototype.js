@@ -6,7 +6,7 @@ import TableMain from 'components/Table';
 import HandleButtonOrigin from 'components/Button';
 import moment from 'moment';
 import axios from 'axios';
-import SupplierPopover from 'components/Select/supplier-popover';
+import SupplierPopover from 'components/Select/supplier-binded-popover';
 
 useStrict(true);
 
@@ -128,5 +128,8 @@ export default class {
 	});
 	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
 
-	RenderSupplierPopover = ({ children, ...reset }) => React.cloneElement(<SupplierPopover>{children}</SupplierPopover>, { onChange: this.onChangeSupplier, ...reset });
+	RenderSupplierPopover = ({ children, ...reset }) => React.cloneElement(<SupplierPopover>{children}</SupplierPopover>, {
+		store: this,
+		...reset
+	});
 }

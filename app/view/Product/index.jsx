@@ -32,6 +32,8 @@ export default class extends Component {
 	render() {
 		const { HandleButton, RenderSupplierPopover } = this.store;
 
+		// console.log(this.store.query.supplierids);
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
@@ -58,8 +60,8 @@ export default class extends Component {
 						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>
-						<RenderSupplierPopover selectedRowKeys={this.store.query.supplierids} title="选择供应商">
-							<Button className="ml20" icon="filter" type={this.store.query.supplierids.length !== 0 ? 'primary' : ''}>供应商选择</Button>
+						<RenderSupplierPopover title="选择供应商">
+							<Button className="ml20" icon="filter">供应商选择</Button>
 						</RenderSupplierPopover>
 					</HandleArea>
 					<this.store.RenderMainTable edit title={this.props.name} />

@@ -84,6 +84,8 @@ export default class extends Component {
 			selectedRowKeys
 		};
 
+		console.log(selectedRowKeys);
+
 		return (
 			<div>
 				<div className="pl15">
