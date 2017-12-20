@@ -199,14 +199,11 @@ class ReferModal extends Component {
 	}
 }
 
-
 @inject(store => ({
 	body: store.body,
-	distributions: store.distributions,
+	backStore: store.storage,
 }))
-@create({
-	url: 'api/stockIns',
-})
+@create()
 @observer
 export default class extends Component {
 	columns = [
@@ -220,10 +217,10 @@ export default class extends Component {
 		{ width: 200, title: '备注', key: 'note', edit: {} },
 	]
 
-	cb = () => {
-		this.props.body.remove(this.props.pathname, this.props.push);
-		this.props.distributions.getData();
-	}
+	// cb = () => {
+	// 	this.props.body.remove(this.props.pathname, this.props.push);
+	// 	this.props.distributions.getData();
+	// }
 
 	computedQuery = (value) => {
 		value.items = value.items.map(item => ({
@@ -238,6 +235,7 @@ export default class extends Component {
 
 	render() {
 		const {
+			BackCreateHearder,
 			RenderCreateTable,
 			BindedFormItem,
 			RenderUpload,
@@ -254,7 +252,8 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
+				{/* <CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder> */}
+				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>

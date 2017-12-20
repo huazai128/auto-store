@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
-import CreateHearder from 'components/Header/CreateHearder';
+// import CreateHearder from 'components/Header/CreateHearder';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import create from 'hoc/create-table';
 
+
 @inject(store => ({
 	body: store.body,
-	prurchase: store.prurchase,
+	backStore: store.prurchase,
 }))
-@create({
-	url: 'api/purchaseOrders',
-})
+@create()
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '款号', key: 'number' },
@@ -24,11 +23,6 @@ export default class extends Component {
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
-	cb = () => {
-		this.props.body.remove(this.props.pathname, this.props.push);
-		this.props.prurchase.getData();
-	}
-
 	computedQuery = (value) => {
 		value.items.forEach(item => {
 			item.skuId = item.id;
@@ -38,6 +32,7 @@ export default class extends Component {
 
 	render() {
 		const {
+			BackCreateHearder,
 			RenderCreateTable,
 			BindedFormItem,
 			RenderUpload,
@@ -52,7 +47,8 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
+				{/* <CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder> */}
+				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
