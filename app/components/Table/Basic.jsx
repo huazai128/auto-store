@@ -21,14 +21,14 @@ export default class extends Component {
 
 
 	render() {
-		const { dataSource, columns, ...reset } = this.props;
+		const { dataSource, columns, min, ...reset } = this.props;
 
 		dataSource.forEach(i => i.key = i.id);
 
 		return (
 			<Table
 				scroll={{ x: getXSrcoll(this.columns), ...this.props.scroll }}
-				className="main-table"
+				className={`${min ? 'two-row' : ''} main-table`}
 				size="middle"
 				columns={this.columns}
 				dataSource={dataSource}

@@ -16,13 +16,17 @@ export function computeColumns(columns = []) {
 			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
 		}
 
+		if (item.type == 'info') {
+			item.render = (text) => <p className="color-6">{text}</p>;
+		}
+
 		return {
 			...item,
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				return text;
+				return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+				// return text;
 			}
 		};
 	});

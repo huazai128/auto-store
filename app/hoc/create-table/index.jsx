@@ -36,21 +36,13 @@ export default (options = {}) => WrappedComponent => {
 			});
 
 			this.state = {
-				items: [
-					{
-						id: 3,
-						skuId: 3,
-						name: '瞄99',
-						number: 'test-sku-003',
-						amount: 3
-					},
-				],
+				items: [],
 				ready: true,
 			};
 
 			// ============================================================
 			this.WarehouseFormItem = ({ label = '仓库编号及名称', BottomNode = null, value }) => (
-				<ComprehensivePopover selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
+				<ComprehensivePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
 					<this.BindedFormItem keyValue="warehouseId" />
 					<this.BindedFormItem keyValue="warehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
@@ -61,7 +53,7 @@ export default (options = {}) => WrappedComponent => {
 
 			// ============================================================
 			this.ToWarehouseFormItem = ({ label = '收货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<ComprehensivePopover disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
+				<ComprehensivePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
 					<this.BindedFormItem keyValue="toWarehouseId" />
 					<this.BindedFormItem keyValue="toWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
@@ -72,7 +64,7 @@ export default (options = {}) => WrappedComponent => {
 
 			// ============================================================
 			this.FromWarehouseFormItem = ({ label = '供货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<ComprehensivePopover disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
+				<ComprehensivePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
 					<this.BindedFormItem keyValue="fromWarehouseId" />
 					<this.BindedFormItem keyValue="fromWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
@@ -83,7 +75,7 @@ export default (options = {}) => WrappedComponent => {
 
 			// ============================================================
 			this.SupplierFormItem = ({ label = '供应商编号及名称', BottomNode = null, value }) => (
-				<ComprehensivePopover selectedRowKeys={[value]} radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
+				<ComprehensivePopover title="请选择供应商" selectedRowKeys={[value]} radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
 					<this.BindedFormItem keyValue="supplierId" />
 					<this.BindedFormItem keyValue="supplierName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
@@ -175,8 +167,6 @@ export default (options = {}) => WrappedComponent => {
 								title: '货品数量填写有误!'
 							}));
 
-							console.log(values);
-
 							const result = {
 								...values,
 								items: this.state.items,
@@ -204,13 +194,18 @@ export default (options = {}) => WrappedComponent => {
 			}
 
 			deleteItem = (record) => {
+				// const items = this.state.items.filter(i => i !== record);
 				this.setState({
 					items: this.state.items.filter(i => i !== record)
 				});
 			}
 
+			update = () => {
+				this.setState({});
+			}
+
 			render() {
-				const { ready } = this.state;
+				const { ready, items } = this.state;
 
 				const toWarehouseField = <this.ToWarehouseFormItem disabledId={this.props.form.getFieldsValue().fromWarehouseId} value={this.props.form.getFieldsValue().toWarehouseId} BottomNode={<this.BottomNode name={this.props.form.getFieldsValue().toWarehouseName} />} />;
 				const fromWarehouseField = <this.FromWarehouseFormItem disabledId={this.props.form.getFieldsValue().toWarehouseId} value={this.props.form.getFieldsValue().fromWarehouseId} BottomNode={<this.BottomNode name={this.props.form.getFieldsValue().fromWarehouseName} />} />;
@@ -223,10 +218,12 @@ export default (options = {}) => WrappedComponent => {
 						{...this.state}
 						handleSubmit={this.handleSubmit}
 						addItems={this.addItems}
+						deleteItem={this.deleteItem}
 						create={this.create}
 						RenderUpload={this.RenderUpload}
 						BindedFormItem={this.BindedFormItem}
 						RenderCreateTable={this.RenderCreateTable}
+						update={this.update}
 
 						toWarehouseField={toWarehouseField}
 						fromWarehouseField={fromWarehouseField}

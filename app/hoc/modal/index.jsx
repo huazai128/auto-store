@@ -23,10 +23,10 @@ export default WrappedComponent => {
 
 		showModal = () => this.setState({ visible: true, });
 
-		componentWillReceiveProps(nextProps) {
-			const { visible } = nextProps;
-			this.setState({ visible });
-		}
+		// componentWillReceiveProps(nextProps) {
+		// 	const { visible } = nextProps;
+		// 	this.setState({ visible });
+		// }
 
 		onConfirmLoading = (boolean) => this.setState({ confirmLoading: boolean, });
 

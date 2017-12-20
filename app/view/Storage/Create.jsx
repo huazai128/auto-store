@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
 import CreateHearder from 'components/Header/CreateHearder';
@@ -13,11 +13,6 @@ import modal from 'hoc/modal';
 
 import styles from './style.scss';
 
-const columns = [
-	{ width: 15, title: '', key: 'dilidili', render: () => <Icon className="fs16 color-6" type="link" /> },
-	{ width: 100, title: '货品名', key: 'name', },
-	{ width: 30, title: '', key: 'delete', render: () => <Icon type="delete" /> }
-];
 
 const columns2 = [
 	{ width: 150, title: '采购单号', key: 'sequence', },
@@ -26,6 +21,7 @@ const columns2 = [
 	{ width: 80, title: '采购数量', key: 'amount', },
 	{ width: 80, title: '已入库数', key: 'stockInAmount', },
 	{ width: 80, title: '未入库数', key: 'unbound', },
+	{ width: 80, title: '入库数量', key: 'bindedAmount', type: 'info' },
 	{ width: 80, title: '可绑定入库数', key: 'bound', },
 ];
 
@@ -33,44 +29,116 @@ const columns2 = [
 @modal
 @observer
 class ReferModal extends Component {
-	state = {
-		data: [{
-			id: 1, name: '大毛'
-		}],
-		record: {},
+	constructor(props) {
+		super(props);
+
+		this.columns = [
+			{
+				width: 15, title: '', key: 'dilidili', render: (_, record) => {
+					const { orderAmountMap } = record;
+
+					return <Icon className={`${orderAmountMap.some(i => i.selected) ? 'color-6' : ''} fs16`} type="link" />;
+				}
+			},
+			{ width: 100, title: '货品名', key: 'name', },
+			{
+				width: 30, title: '', key: 'delete', render: (_, record) => {
+					const style = {
+						cursor: 'pointer',
+						padding: 10,
+					};
+
+					return (
+						<Popconfirm title='确定删除?' onConfirm={() => {
+							this.props.deleteItem(record);
+						}}>
+							<span style={style}><Icon type="delete" /></span>
+						</Popconfirm>
+					);
+				}
+			}
+		];
 	}
 
 	handleSubmit = () => {
+		const { data } = this.props;
+
+		let result = true;
+		data.forEach(item => {
+			if (!item.orderAmountMap.some(i => i.selected)) result = false;
+			let amount = 0;
+			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
+			item.amount = amount;
+		});
+
+		if (!result) return Modal.error({
+			title: '存在入库货品未绑定采购单！',
+			content: '无法完成参照制单...'
+		});
+
 		this.props.handleCancel();
 	}
 
 	onRowClick = (record) => {
-		this.setState({ record });
+		this.props.data.forEach(item => {
+			if (item === record) item.highlight = true;
+			else item.highlight = false;
+		});
+		this.props.update();
 	}
 
+
 	addPro = async (item) => {
+		delete item.note;
+		if (this.props.data.map(i => i.key).includes(item.key)) return;
 		const { id: skuId } = item;
-		const { supplierId } = this.props;
-		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId });
+		const { supplierId, warehouseId } = this.props;
+		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId, warehouseId });
+
+		if (data.length == 0) return;
 
 		data.forEach(item => {
+			item.key = item.id;
 			item.unbound = item.amount - item.stockInAmount;
 			item.bound = item.amount - item.boundStockInAmount;
+			item.bindedAmount = item.bound;
 		});
 
 		item.orderAmountMap = data;
 
-		this.setState({
-			data: [item]
-		});
+		this.props.addItems([item]);
 	}
 
 
 	render() {
-		const { HocModal, supplierId } = this.props;
-		const { data, record } = this.state;
+		const { HocModal, supplierId, data } = this.props;
+
+		let record = {};
+
+		data.forEach(item => {
+			if (item.highlight) record = item;
+		});
 
 		const { orderAmountMap = [] } = record;
+
+		const selectedRowKeys = orderAmountMap.filter(i => i.selected).map(i => i.key);
+
+		const rowSelection = {
+			onChange: (selectedRowKeys, selectedRows) => {
+				orderAmountMap.forEach(i => {
+					if (selectedRowKeys.includes(i.key)) i.selected = true;
+					else i.selected = false;
+				});
+
+				this.props.data.forEach(item => {
+					let amount = 0;
+					item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
+					item.amount = amount;
+				});
+				this.props.update(this.props.data);
+			},
+			selectedRowKeys,
+		};
 
 		return (
 			<HocModal
@@ -84,10 +152,10 @@ class ReferModal extends Component {
 				maskClosable={false}
 				width={1300}
 				closable={false}
-				onOk={this.handleSubmit}
+				footer={null}
 			>
 				<Row>
-					<Col className={styles.left} span={5}>
+					<Col className={`${styles.left} flex-col`} span={5}>
 						<div style={{ padding: 10 }}>
 							<div>
 								<strong className="mr20">添加入库货品</strong>
@@ -102,18 +170,24 @@ class ReferModal extends Component {
 								})}
 								scroll={{ y: 360 }}
 								dataSource={data}
-								rowClassName={(record) => {
-									return record === this.state.record ? 'active' : '';
+								rowClassName={(r) => {
+									return r === record ? 'active' : '';
 								}}
-								columns={columns}
+								columns={this.columns}
 								pagination={false} />
+						</div>
+						<div className="flex-g-1"></div>
+						<div style={{ textAlign: 'center', marginBottom: 10 }}>
+							<Button onClick={this.handleSubmit} style={{ width: 150 }} type="primary" size="large">完成</Button>
 						</div>
 					</Col>
 					<Col className={styles.right} span={19}>
 						<BasicTable
 							columns={columns2}
+							min
 							dataSource={orderAmountMap}
 							scroll={{ y: 450 }}
+							rowSelection={rowSelection}
 							title={() => {
 								return <div>{record.name ? <div>商品<span className="color-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>;
 							}}
@@ -131,17 +205,19 @@ class ReferModal extends Component {
 	distributions: store.distributions,
 }))
 @create({
-	url: 'api/distributions',
+	url: 'api/stockIns',
 })
+@observer
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '款号', key: 'number' },
 		{ width: 150, title: '款号名称', key: 'name' },
-		{ width: 80, title: '品类', key: 'bigStyle' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
-		{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
-		{ width: 200, title: '备注', key: 'note', },
+		{ width: 100, title: '本次入库数量', key: 'amount', type: 'info' },
+		{ width: 80, title: '采购价总额', key: 'costPriceall', render: (_, record) => <p>{(record.amount * record.costPrice).toFixed(2)}</p> },
+		{ width: 80, title: '结算价总额', key: 'priceall', render: (_, record) => <p>{(record.amount * record.price).toFixed(2)}</p> },
+		{ width: 200, title: '备注', key: 'note', edit: {} },
 	]
 
 	cb = () => {
@@ -150,10 +226,14 @@ export default class extends Component {
 	}
 
 	computedQuery = (value) => {
-		// value.items.forEach(item => {
-		// 	item.skuId = item.id;
-		// 	delete item.id;
-		// });
+		value.items = value.items.map(item => ({
+			skuId: item.id,
+			note: item.note,
+			orderAmountMap: item.orderAmountMap.filter(i => i.selected).map(i => ({
+				orderId: i.id,
+				amount: i.bindedAmount,
+			}))
+		}));
 	}
 
 	render() {
@@ -170,6 +250,8 @@ export default class extends Component {
 			supplierField
 		} = this.props;
 
+		const { supplierId, warehouseId, toWarehouseId, fromWarehouseId } = this.props.form.getFieldsValue();
+
 		return (
 			<Container>
 				<CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder>
@@ -183,7 +265,7 @@ export default class extends Component {
 								<BindedFormItem label="到货日期"
 									initialValue={moment().startOf('day')}
 									rules={true}
-									keyValue="shipDate"
+									keyValue="arrivalDate"
 								>
 									<DatePicker allowClear={false} />
 								</BindedFormItem>
@@ -198,12 +280,22 @@ export default class extends Component {
 						</HandleArea>
 					</Form>
 					<RenderCreateTable
+						noDelete={false}
 						columns={this.columns}
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<ReferModal supplierId={this.props.form.getFieldsValue().supplierId}><Button type="primary" className="ml20">参照制单</Button></ReferModal>
-							</div>)}
+								<ReferModal
+									data={this.props.items}
+									deleteItem={this.props.deleteItem}
+									addItems={this.props.addItems}
+									update={this.props.update}
+									warehouseId={warehouseId}
+									supplierId={supplierId}>
+									<Button disabled={!supplierId || !warehouseId} type="primary" className="ml20">参照制单</Button>
+								</ReferModal>
+							</div>
+						)}
 					/>
 				</Content>
 			</Container>
