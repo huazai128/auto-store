@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
-// import CreateHearder from 'components/Header/CreateHearder';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import create from 'hoc/create-table';
@@ -15,11 +14,11 @@ import create from 'hoc/create-table';
 @create()
 export default class extends Component {
 	columns = [
-		{ width: 200, title: '款号', key: 'number' },
-		{ width: 150, title: '款号名称', key: 'name' },
-		{ width: 80, title: '单款现价', key: 'price' },
-		{ width: 80, title: '折扣', key: 'discount' },
-		{ width: 100, title: '补货数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 200, title: '货品', key: 'number' },
+		{ width: 150, title: '货品名称', key: 'name' },
+		{ width: 80, title: '采购价', key: 'costPrice' },
+		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 100, title: '采购数量', key: 'amount', edit: { type: 'number' } },
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
@@ -47,7 +46,6 @@ export default class extends Component {
 
 		return (
 			<Container>
-				{/* <CreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder> */}
 				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
 				<Content style={{ padding: 10 }}>
 					<Form>

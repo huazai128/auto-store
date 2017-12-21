@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Table from 'components/Table/CreateTable';
-import { Form, Modal, Input, Icon, Badge } from 'antd';
+import { Form, Modal, Input, Icon, Badge, Spin } from 'antd';
 import { observer, inject } from 'mobx-react';
 import { filterRepeat } from 'utils';
 import { get, post, postByParam } from 'utils';
@@ -9,6 +9,8 @@ import CreateFormItem from 'components/Form/CreateFormItem';
 import ComprehensivePopover from 'components/Select/comprehensive-popover';
 import moment from 'moment';
 import CreateHearder from 'components/Header/CreateHearder';
+
+import styles from './style.scss';
 
 
 @Form.create()
@@ -42,13 +44,18 @@ export default (options = {}) => WrappedComponent => {
 				ready: true,
 			};
 
+			this.sequenceField = this.props.params.id ? <this.BindedFormItem label="单号" keyValue="sequence">
+				<Input style={{ width: 200 }} disabled />
+			</this.BindedFormItem> : null;
+
+			const pointerNode = <Input className={styles.pointer} suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />;
 			// ============================================================
 			this.WarehouseFormItem = ({ label = '仓库编号及名称', BottomNode = null, value }) => (
 				<ComprehensivePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
 					<this.BindedFormItem keyValue="warehouseId" />
 					<this.BindedFormItem keyValue="warehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
-						<Input suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />
+						{pointerNode}
 					</this.BindedFormItem>
 				</ComprehensivePopover>
 			);
@@ -59,7 +66,7 @@ export default (options = {}) => WrappedComponent => {
 					<this.BindedFormItem keyValue="toWarehouseId" />
 					<this.BindedFormItem keyValue="toWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
-						<Input suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />
+						{pointerNode}
 					</this.BindedFormItem>
 				</ComprehensivePopover>
 			);
@@ -70,7 +77,7 @@ export default (options = {}) => WrappedComponent => {
 					<this.BindedFormItem keyValue="fromWarehouseId" />
 					<this.BindedFormItem keyValue="fromWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
-						<Input suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />
+						{pointerNode}
 					</this.BindedFormItem>
 				</ComprehensivePopover>
 			);
@@ -81,7 +88,7 @@ export default (options = {}) => WrappedComponent => {
 					<this.BindedFormItem keyValue="supplierId" />
 					<this.BindedFormItem keyValue="supplierName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
-						<Input suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />
+						{pointerNode}
 					</this.BindedFormItem>
 				</ComprehensivePopover>
 			);
@@ -94,18 +101,19 @@ export default (options = {}) => WrappedComponent => {
 			});
 		}
 
-		async componentDidMount() {
+
+		async componentWillMount() {
 			if (this.id) {
 				this.setState({ ready: false, });
 				const { data } = await get(`${this.props.backStore.url}/detail`, { id: this.id });
-				const fields = data[0];
 
 				this.setState({
 					ready: true,
-					items: fields.items
-				});
-				this.props.form.setFieldsValue({
-					sequence: fields.sequence
+					items: data.items
+				}, () => {
+					this.props.form.setFieldsValue({
+						sequence: data.sequence
+					});
 				});
 			}
 		}
@@ -220,8 +228,6 @@ export default (options = {}) => WrappedComponent => {
 		render() {
 			const { ready, items } = this.state;
 
-			console.log(this.props);
-
 			const toWarehouseField = <this.ToWarehouseFormItem disabledId={this.props.form.getFieldsValue().fromWarehouseId} value={this.props.form.getFieldsValue().toWarehouseId} BottomNode={<this.BottomNode name={this.props.form.getFieldsValue().toWarehouseName} />} />;
 			const fromWarehouseField = <this.FromWarehouseFormItem disabledId={this.props.form.getFieldsValue().toWarehouseId} value={this.props.form.getFieldsValue().fromWarehouseId} BottomNode={<this.BottomNode name={this.props.form.getFieldsValue().fromWarehouseName} />} />;
 			const warehouseField = <this.WarehouseFormItem value={this.props.form.getFieldsValue().warehouseId} BottomNode={<this.BottomNode name={this.props.form.getFieldsValue().warehouseName} />} />;
@@ -241,11 +247,18 @@ export default (options = {}) => WrappedComponent => {
 					RenderCreateTable={this.RenderCreateTable}
 					update={this.update}
 
+					sequenceField={this.sequenceField}
 					toWarehouseField={toWarehouseField}
 					fromWarehouseField={fromWarehouseField}
 					warehouseField={warehouseField}
 					supplierField={supplierField}
-				/> : 'loading...'
+				/> : (
+					<div className="flex-center" style={{height: '100%'}}>
+						<div style={{marginBottom: 200}}>
+							<div><Spin tip="单据加载中..." indicator={<Icon type="loading" style={{ fontSize: 30 }} spin />} /></div>
+						</div>
+					</div>
+				)
 			);
 		}
 	};

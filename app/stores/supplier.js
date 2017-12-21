@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { Input } from 'antd';
 import TablePrototype from './TablePrototype';
-import { skuStateFilters } from 'mapStore/filter';
+import { dataStateFilters } from 'mapStore/filter';
 const { TextArea } = Input;
 
 useStrict(true);
@@ -40,7 +40,7 @@ class Store extends TablePrototype {
 				created: '该供应商为合作中,且有单据产生。可修改代理商基本信息（除了编号，名称）！',
 				freeze: '不可编辑删除，只可取消冻结！'
 			},
-			...skuStateFilters
+			...dataStateFilters
 		},
 		{ fix: true, width: 100, mark: '供应商名称', key: 'name', created: { rules: { required: true, }, }, },
 		{ fix: true, width: 150, mark: '供应商编号', key: 'number', created: { rules: { required: true, }, }, },

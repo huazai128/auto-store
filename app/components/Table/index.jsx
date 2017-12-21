@@ -7,7 +7,6 @@ import CreateTable from './CreateTable';
 import DyunFrom from 'components/Form';
 import popover from 'hoc/popover';
 import CustomHeader from './custom-header';
-
 import { getXSrcoll } from './utils';
 
 /* 状态说明 */
@@ -96,39 +95,25 @@ export default class extends Component {
 	// }
 
 	renderProductState(text, info = {}) {
-		if (text == 'created') return (
-			<StatePopover content={info.created}>
-				<Tag color="#e2574c">未应用</Tag>
-			</StatePopover>
-		);
-
-		if (text == 'invoke') return (
-			<StatePopover content={info.invoke}>
-				<Tag color="#999">已应用</Tag>
-			</StatePopover>
-		);
-
-		if (text == 'invoked_no') return (
-			<StatePopover content={info.invoked_no}>
-				<Tag color="#3a99d9">已应用</Tag>
+		let tagNode = null;
+		if (text == 'created') tagNode = <Tag color="#e2574c">未应用</Tag>;
+		if (text == 'invoked') tagNode = <Tag color="#999">已应用</Tag>;
+		if (text == 'invoked_no') tagNode = <Tag color="#3a99d9">已应用</Tag>;
+		return (
+			<StatePopover content={info[text]}>
+				{tagNode}
 			</StatePopover>
 		);
 	}
 
 	renderStoreState(text, info = {}) {
-		if (text === 'created_no') return (
-			<StatePopover content={info.created_no}>
-				<Tag color="#cfc044">合作中</Tag>
-			</StatePopover>
-		);
-		if (text === 'created') return (
-			<StatePopover content={info.created}>
-				<Tag color="#52c88f">合作中</Tag>
-			</StatePopover>
-		);
-		if (text === 'freeze') return (
-			<StatePopover content={info.freeze}>
-				<Tag color="#999">已冻结</Tag>
+		let tagNode = null;
+		if (text == 'created_no') tagNode = <Tag color="#cfc044">合作中</Tag>;
+		if (text == 'created') tagNode = <Tag color="#52c88f">合作中</Tag>;
+		if (text == 'freeze') tagNode = <Tag color="#999">已冻结</Tag>;
+		return (
+			<StatePopover content={info[text]}>
+				{tagNode}
 			</StatePopover>
 		);
 	}
@@ -138,29 +123,28 @@ export default class extends Component {
 		if (info.type === 'store') return this.renderStoreState(text, info);
 
 		if (text == 'confirmed') return (
-			<StatePopover content={info.confirmed || '已登账的单据，只可进行反登操作!'}>
+			<StatePopover content={info[text] || '已登账的单据，只可进行反登操作!'}>
 				<Tag color="#999">已登账</Tag>
 			</StatePopover>
 		);
 
 		if (text == 'checked') return (
-			<StatePopover content={info.checked || '已审核过的单据，可直接登账操作，也可进行反审核操作!'}>
+			<StatePopover content={info[text] || '已审核过的单据，可直接登账操作，也可进行反审核操作!'}>
 				<Tag color="#3a99d9">已审核</Tag>
 			</StatePopover>
 		);
 
 		if (text == 'created') return (
-			<StatePopover content={info.created || '新建或未审核的单据，可进行审核操作，也可删除改单据!'}>
+			<StatePopover content={info[text] || '新建或未审核的单据，可进行审核操作，也可删除改单据!'}>
 				<Tag color="#e2574c">待审核</Tag>
 			</StatePopover>
 		);
-
 
 		return text;
 	}
 
 	render() {
-		const { title, className, ...reset } = this.props;
+		const { title, className, push, ...reset } = this.props;
 		const {
 			selectedRows = [],
 			tableLoading,
@@ -245,6 +229,10 @@ export default class extends Component {
 						</div>
 					)}
 					dataSource={dataSource || []}
+					onRow={(record) => ({
+						// onClick: this.props.store.onRowClick.bind(this, record)
+						onDoubleClick: () => this.props.store.onRowDoubleClick(record, push)
+					})}
 					onChange={onChangeTable}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={tableLoading}

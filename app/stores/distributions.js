@@ -9,6 +9,7 @@ class Store extends TablePrototype {
 	constructor() {
 		super();
 		this.url = 'api/distributions';
+		this.detailPathname = '/distributions';
 
 		this.getData = this.getData.bind(this, { url: this.url });
 		this.handle = this.handle.bind(this, { url: this.url });
@@ -32,7 +33,7 @@ class Store extends TablePrototype {
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
 		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseIds', },
 		{ fix: true, width: 150, mark: '供货仓店编号及名称', key: 'fromWarehouseIds', },
-		{ fix: true, width: 100, mark: '采购数量', key: 'amount', },
+		{ width: 100, mark: '配货数量', key: 'amount', },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
 		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },

@@ -31,11 +31,9 @@ export default class extends Component {
 						</ButtonGroup>
 						<DeleteButton>删除</DeleteButton>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
-						<div className="flex-vcenter ml50">
-							查询日期：<this.store.RenderRangePicker />
-						</div>
+						<this.store.RenderRangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable title={this.props.name} />
+					<this.store.RenderMainTable className="two-row" title={this.props.name} />
 				</Content>
 			</Container>
 		);

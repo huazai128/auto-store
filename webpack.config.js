@@ -145,11 +145,13 @@ if (process.env.NODE_ENV !== 'production') {
 				},
 			],
 		},
+
 		{
 			test: /\.global.scss$/,
 			use: [
 				'style-loader',
 				'css-loader',
+				'resolve-url-loader',
 				'postcss-loader',
 				{
 					loader: 'sass-loader',
@@ -161,6 +163,7 @@ if (process.env.NODE_ENV !== 'production') {
 				},
 			],
 		},
+
 		{
 			test: /\.(less)$/,
 			use: [
@@ -203,29 +206,14 @@ if (process.env.NODE_ENV !== 'production') {
 						minimize: true,
 					}
 				},
-					'postcss-loader'
+				'postcss-loader'
 				]
 			})
 		},
+
 		{
-			test: /\.(sass|scss)$/,
-			use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true,
-					}
-				},
-					'postcss-loader',
-					'sass-loader'
-				],
-			}),
-			include: path.resolve(__dirname, 'assets')
-		},
-		// module css
-		{
-			test: /\.(sass|scss)$/,
+			test: /\.scss$/,
+			exclude: /\.global.scss$/,
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
@@ -237,8 +225,32 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
-					'postcss-loader',
-					'resolve-url-loader',
+				'resolve-url-loader',
+				'postcss-loader',
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles'),
+						],
+					}
+				},
+				],
+			}),
+		},
+		// module css
+		{
+			test: /\.global.scss$/,
+			use: ExtractTextPlugin.extract({
+				fallback: 'style-loader',
+				use: [{
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
+				'resolve-url-loader',
+				'postcss-loader',
 				{
 					loader: 'sass-loader',
 					options: {
@@ -249,8 +261,8 @@ if (process.env.NODE_ENV !== 'production') {
 				}
 				],
 			}),
-			include: path.resolve(__dirname, 'app')
 		},
+
 		{
 			test: /\.(less)$/,
 			use: ExtractTextPlugin.extract({

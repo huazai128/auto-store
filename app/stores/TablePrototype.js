@@ -8,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 import BindedPopover from 'components/Select/comprehensive-binded-popover';
 
+
 useStrict(true);
 
 export default class {
@@ -33,6 +34,23 @@ export default class {
 	}
 
 	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
+
+	// @action onRowClick = (record) => {
+	// 	const { key } = record;
+	// 	if (this.selectedRows.map(i => i.key).includes(key)) {
+	// 		this.selectedRows = this.selectedRows.filter(item => item.key !== key);
+	// 	} else {
+	// 		this.selectedRows = [...this.selectedRows, record];
+	// 	}
+	// }
+
+	@action onRowDoubleClick = (record, push) => {
+		const { state, id } = record;
+		if (state !== 'created') return;
+		if (!this.detailPathname) return;
+
+		push(`${this.detailPathname}/${id}`);
+	}
 
 	// 单据操作
 	@action handle = async ({ url }, type, ids) => {
@@ -138,9 +156,16 @@ export default class {
 	}
 
 	RenderMainTable = props => { return React.cloneElement(<TableMain />, { store: this, ...props }); }
-	RenderRangePicker = () => React.cloneElement(<RangePicker />, {
-		onChange: this.handleRangePicker,
-	});
+	// RenderRangePicker = () => React.cloneElement(<RangePicker />, {
+	// 	onChange: this.handleRangePicker,
+	// });
+
+	RenderRangePicker = () => (
+		<div className="flex-vcenter ml50">
+			查询日期：<RangePicker onChange={this.handleRangePicker} />
+		</div>
+	)
+
 	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
 	DeleteButton = ({ children, ...reset }) => <this.HandleButton method="delete" state="created" className="ml20" type="danger" confirm {...reset}>{children}</this.HandleButton>
 

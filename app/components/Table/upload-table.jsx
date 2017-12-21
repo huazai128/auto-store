@@ -16,17 +16,6 @@ export default class extends Component {
 		super(props);
 
 		this.columns = computeColumns(props.columns);
-
-		// this.columns = props.columns.map(item => {
-		// 	return {
-		// 		...item,
-		// 		dataIndex: item.key,
-		// 		className: 'text-overflow',
-		// 		render: item.render ? item.render : (text) => {
-		// 			return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-		// 		}
-		// 	};
-		// });
 	}
 
 	renderTitle = (file) => {
@@ -38,10 +27,10 @@ export default class extends Component {
 			<section style={{ lineHeight: 1.8 }}>
 				<div className="flex-vcenter">
 					<Icon className="fs14 mr5" type="file-text" /><strong className="mr10">{file.name}</strong>
-					<p>可导入<span style={{ color: '#108ee9' }}>{success.length}</span>个款号</p>, 其中<span style={{ color: '#f04134' }}>{fail ? fail.length : 0}</span>个款号不可导入
+					<p>可导入<span style={{ color: '#108ee9' }}>{success.length}</span>个货品</p>, 其中<span style={{ color: '#f04134' }}>{fail ? fail.length : 0}</span>个货品不可导入
 				</div>
 				{fail && fail.length > 0 && <div className="flex">
-					<div style={{ color: '#f04134' }}>不可导入款号：</div>
+					<div style={{ color: '#f04134' }}>不可导入货品：</div>
 					<div className="flex">
 						<p>...</p>
 					</div>

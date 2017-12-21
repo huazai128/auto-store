@@ -6,15 +6,15 @@ export const showError = (error) => {
 	// return error;
 	return Modal.error({
 		title: '操作错误',
-		// content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
-		content: error
+		content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
+		// content: error
 	});
 };
 
-axios.defaults.baseURL = 'http://192.168.0.209:3721';
+axios.defaults.baseURL = 'http://192.168.0.133:3721';
 axios.defaults.timeout = 5000;
 axios.defaults.params = {
-	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTM3Nzc0NDcsInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsiZndhcGlfYmFzZSJdLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiZjhmNzNlNTktNTMxZC00MTM2LTg1ZmItNmM5NThhYTQ0OGU3IiwiY2xpZW50X2lkIjoiVHh4R2pZWkNBVWJRZ3hpcEt6V1p0anZZdWdHR29RZFZJWVNVU3ZBaHFLV1BsV055cWRaU09PSU1WY1VKUUxGdyJ9.Tg1QFdkCFjCL-RfdAF8rkxRWjdksfELuEmiCMMFvw5w'
+	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTM4NjU0NDIsInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsiZndhcGlfYmFzZSJdLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiOGQ4NGU5ZjgtMDg4My00Y2EzLTkwMTQtNGFiNjk5MTM1MjlhIiwiY2xpZW50X2lkIjoiVHh4R2pZWkNBVWJRZ3hpcEt6V1p0anZZdWdHR29RZFZJWVNVU3ZBaHFLV1BsV055cWRaU09PSU1WY1VKUUxGdyJ9.2OibxxRb00iGmuiBhqduKN7NXWSqPuLZi__5t15ykyw'
 };
 
 axios.interceptors.response.use(

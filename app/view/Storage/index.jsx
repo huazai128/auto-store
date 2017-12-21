@@ -15,6 +15,7 @@ export default class extends Component {
 
 	render() {
 		const { HandleButton, DeleteButton } = this.store;
+
 		return (
 			<Container>
 				<Header btn={{ to: '/storage/create', text: '入库制单' }} store={this.store}>{this.props.name}</Header>
@@ -30,11 +31,9 @@ export default class extends Component {
 						</ButtonGroup>
 						<DeleteButton>删除</DeleteButton>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
-						<div className="flex-vcenter ml50">
-							查询日期：<this.store.RenderRangePicker />
-						</div>
+						<this.store.RenderRangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable className="two-row" title={this.props.name} />
+					<this.store.RenderMainTable className="two-row" push={this.props.push} title={this.props.name} />
 				</Content>
 			</Container>
 		);

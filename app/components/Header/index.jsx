@@ -29,11 +29,11 @@ export default class Header extends Component {
 					<Button onClick={() => this.props.store.getData()} className="ml20" shape="circle" type="primary" icon="reload" />
 					{btn && <Button className="ml20" type="primary"><Link to={btn.to}>{btn.text || '保存'}</Link></Button>}
 				</div>
-				<Search
+				{!this.props.noSearch && <Search
 					style={{ width: 200 }}
 					onChange={e => this.props.store.handleSearchChange(e.target.value)}
 					placeholder="输入关键字搜索..."
-				/>
+				/>}
 			</header>
 		);
 	}

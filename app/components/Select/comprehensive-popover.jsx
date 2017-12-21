@@ -107,8 +107,8 @@ export default class extends Component {
 					<div style={{ minHeight: 400, margin: '20px 0' }}>
 						<BasicTable
 							columns={this.columns}
-							onRow={(record, index) => ({
-								onClick: this.onRowClick.bind(this, record, index)
+							onRow={(record) => ({
+								onClick: this.onRowClick.bind(this, record)
 							})}
 							rowSelection={rowSelection}
 							scroll={{ y: 400 }}

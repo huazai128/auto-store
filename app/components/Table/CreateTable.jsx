@@ -4,6 +4,14 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { getXSrcoll } from './utils';
 
+/**
+|--------------------------------------------------
+| handleIpuntChange: () => {};
+| columns: [];
+| deleteItem: () => {};  //noDelete
+|--------------------------------------------------
+*/
+
 @observer
 export default class extends Component {
 	static defaultProps = {

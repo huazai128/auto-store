@@ -68,7 +68,7 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header store={this.store}>{this.props.name}</Header>
+				<Header noSearch store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<AddModal fields={[{ label: '大类名称', key: 'name', rules: { required: true, } }]} title="添加属性">

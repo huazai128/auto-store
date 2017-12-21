@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { Input, Select, DatePicker } from 'antd';
 import TablePrototype from './TablePrototype';
-
 import { get, post } from 'utils';
-import { skuStateFilters } from 'mapStore/filter';
+import { dataStateFilters } from 'mapStore/filter';
 import axios from 'axios';
 const { TextArea } = Input;
 
@@ -43,7 +42,7 @@ class Store extends TablePrototype {
 				created: '该门店为合作中,且有单据产生。可修改代理商基本信息（除了编号，名称）！',
 				freeze: '不可编辑删除，只可取消冻结！'
 			},
-			...skuStateFilters
+			...dataStateFilters
 		},
 		{ fix: true, width: 100, mark: '门店名称', key: 'name', created: { rules: { required: true, }, }, },
 		{ fix: true, width: 150, mark: '门店编号', key: 'number', created: { rules: { required: true, }, }, },

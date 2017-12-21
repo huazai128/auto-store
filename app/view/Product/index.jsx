@@ -37,7 +37,7 @@ export default class extends Component {
 					<HandleArea>
 						<ButtonGroup>
 							<HandleButton method="invoke" state="created" icon="check-circle-o">应用</HandleButton>
-							<HandleButton method="uninvoke" state="invoke" icon="close-circle-o">反应用</HandleButton>
+							<HandleButton method="uninvoke" state="invoked_no" icon="close-circle-o">反应用</HandleButton>
 						</ButtonGroup>
 						<HandleButton
 							method="delete"

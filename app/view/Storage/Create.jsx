@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
-import CreateHearder from 'components/Header/CreateHearder';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import Upload from 'components/Upload';
@@ -207,8 +206,8 @@ class ReferModal extends Component {
 @observer
 export default class extends Component {
 	columns = [
-		{ width: 200, title: '款号', key: 'number' },
-		{ width: 150, title: '款号名称', key: 'name' },
+		{ width: 200, title: '货品', key: 'number' },
+		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
 		{ width: 100, title: '本次入库数量', key: 'amount', type: 'info' },
@@ -216,11 +215,6 @@ export default class extends Component {
 		{ width: 80, title: '结算价总额', key: 'priceall', render: (_, record) => <p>{(record.amount * record.price).toFixed(2)}</p> },
 		{ width: 200, title: '备注', key: 'note', edit: {} },
 	]
-
-	// cb = () => {
-	// 	this.props.body.remove(this.props.pathname, this.props.push);
-	// 	this.props.distributions.getData();
-	// }
 
 	computedQuery = (value) => {
 		value.items = value.items.map(item => ({
@@ -252,7 +246,6 @@ export default class extends Component {
 
 		return (
 			<Container>
-				{/* <CreateHearder cb={this.cb} handleSubmit={() => this.props.handleSubmit(this.computedQuery)}>{this.props.name}</CreateHearder> */}
 				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
 				<Content style={{ padding: 10 }}>
 					<Form>

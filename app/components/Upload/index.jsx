@@ -69,7 +69,7 @@ export default class extends Component {
 		const uploadProps = {
 			name: 'file',
 			multiple: true,
-			action: 'http://192.168.0.209:3333/api/agents/hq/orders/import?access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTMzNTA0MDQsInVzZXJfbmFtZSI6Inp5dGVzdCIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiI0YTU3ZWE4YS1mZTQxLTQwMzYtOTU5My05OTE0ODkwZjUyMjciLCJjbGllbnRfaWQiOiJUeHhHallaQ0FVYlFneGlwS3pXWnRqdll1Z0dHb1FkVklZU1VTdkFocUtXUGxXTnlxZFpTT09JTVZjVUpRTEZ3Iiwic2NvcGUiOlsiZndhcGlfYmFzZSJdfQ.LCUQp9A1-i2ZK-uoF223im1W3KklBXv_Dyrx4FgbJ8E&toWarehouseId=247&typeId=3',
+			action: 'http://192.168.0.222:3333/api/orders/import?access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTM4ODE1MDUsInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsiZndhcGlfYmFzZSJdLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiMDQ5NDQzYTUtMzVjNC00YzJlLTgyMWEtZTgxNDMyMTYwNmU0IiwiY2xpZW50X2lkIjoiVHh4R2pZWkNBVWJRZ3hpcEt6V1p0anZZdWdHR29RZFZJWVNVU3ZBaHFLV1BsV055cWRaU09PSU1WY1VKUUxGdyJ9.jiRPEXTx3V_DLKbDSAH33v8KaoBj6fHVYzfA3r5Pwqk&warehouseId=201&typeId=2',
 			onPreview: this.onPreview,
 			fileList: this.state.fileList,
 			onChange: this.onChange

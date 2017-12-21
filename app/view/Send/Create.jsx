@@ -6,9 +6,10 @@ import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import create from 'hoc/create-table';
 
+
 @inject(store => ({
 	body: store.body,
-	backStore: store.distributions,
+	backStore: store.send,
 }))
 @create()
 export default class extends Component {
@@ -17,15 +18,15 @@ export default class extends Component {
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
-		{ width: 100, title: '配货数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
 	computedQuery = (value) => {
-		value.items.forEach(item => {
-			item.skuId = item.id;
-			delete item.id;
-		});
+		value.items = value.items.map(item => ({
+			skuId: item.id,
+			amount: item.amount,
+		}));
 	}
 
 	render() {
@@ -40,10 +41,9 @@ export default class extends Component {
 			toWarehouseField,
 			fromWarehouseField,
 			warehouseField,
-			supplierField
+			supplierField,
+			sequenceField
 		} = this.props;
-
-		console.log(123);
 
 		return (
 			<Container>
@@ -52,18 +52,9 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								{this.props.params.id && <BindedFormItem label="单号" keyValue="sequence">
-									<Input style={{ width: 200 }} disabled />
-								</BindedFormItem>}
+								{sequenceField}
 								{toWarehouseField}
 								{fromWarehouseField}
-								<BindedFormItem label="发货日期"
-									initialValue={moment().startOf('day')}
-									rules={true}
-									keyValue="shipDate"
-								>
-									<DatePicker allowClear={false} />
-								</BindedFormItem>
 							</div>
 							<div className="flex-vcenter">
 								<BindedFormItem label="备注" keyValue="note">

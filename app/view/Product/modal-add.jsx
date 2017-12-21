@@ -35,7 +35,7 @@ export default class extends Component {
 
 		return (
 			<Modal
-				title="添加款号资料"
+				title="添加货品资料"
 				visible={this.props.visible}
 				afterClose={this.afterClose}
 				onOk={this.handleSubmit}
