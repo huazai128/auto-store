@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { stateFilters } from 'mapStore/filter';
 import TablePrototype from './TablePrototype';
 
 useStrict(true);

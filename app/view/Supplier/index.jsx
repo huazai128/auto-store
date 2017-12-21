@@ -3,6 +3,7 @@ import { Button, Table, Tag, Form, Icon, Input, Modal, DatePicker } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
+import Upload from 'components/Upload';
 
 import DyunFrom from 'components/Form';
 import modal from 'hoc/modal';
@@ -50,7 +51,6 @@ class AddStoreModal extends Component {
 
 /* main */
 // ============================================================
-
 @inject('supplier')
 @observer
 export default class extends Component {
@@ -84,7 +84,7 @@ export default class extends Component {
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加供应商</Button>
 						</AddStoreModal>
-						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
+						<Upload handleConfirm={() => { /* handleConfirm */ }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 					</HandleArea>
 					<this.store.RenderMainTable

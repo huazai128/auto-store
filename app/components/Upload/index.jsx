@@ -77,7 +77,7 @@ export default class extends Component {
 
 		return (
 			<Modal
-				title="Excel导入货品资料"
+				title="Excel导入资料"
 				visible={this.props.visible}
 				afterClose={this.afterClose}
 				onOk={this.onOk}

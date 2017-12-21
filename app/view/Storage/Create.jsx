@@ -158,7 +158,7 @@ class ReferModal extends Component {
 						<div style={{ padding: 10 }}>
 							<div>
 								<strong className="mr20">添加入库货品</strong>
-								<Upload columns={this.columns}><Button type="primary" ghost className="ml20">Excel导入商品</Button></Upload>
+								<Upload columns={this.columns}><Button type="primary" ghost icon="file-excel" className="ml20">Excel导入商品</Button></Upload>
 							</div>
 							<div className="mt10"><SearchPro onChange={item => this.addPro(item)} /></div>
 						</div>

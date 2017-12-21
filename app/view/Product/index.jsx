@@ -5,6 +5,7 @@ import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import popover from 'hoc/popover';
 import ModalAdd from './modal-add';
+import Upload from 'components/Upload';
 
 const ButtonGroup = Button.Group;
 
@@ -51,7 +52,7 @@ export default class extends Component {
 						<ModalAdd>
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
-						<Button className="ml20" type="primary" ghost>Excel导入资料</Button>
+						<Upload handleConfirm={() => { }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>

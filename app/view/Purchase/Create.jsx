@@ -78,7 +78,7 @@ export default class extends Component {
 								<strong>单据明细编辑</strong>
 								<SearchPro onChange={item => addItems([item])} />
 								<Button type="primary" ghost className="ml20">选择添加商品</Button>
-								<RenderUpload columns={this.columns}><Button type="primary" ghost className="ml20">Excel导入商品</Button></RenderUpload>
+								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
 							</div>)}
 					/>
 				</Content>
