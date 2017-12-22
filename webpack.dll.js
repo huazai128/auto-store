@@ -21,6 +21,14 @@ const webpackConfig = {
 	},
 
 	plugins: [
+		new webpack.optimize.UglifyJsPlugin({
+			output: {
+				comments: false,
+			},
+			compress: {
+				warnings: false
+			}
+		}),
 		new webpack.DllPlugin({
 			path: path.join(__dirname, 'dist/manifest.json'),
 			name: '[name]',

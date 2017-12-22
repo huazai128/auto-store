@@ -21,12 +21,13 @@ export function computeColumns(columns = []) {
 		}
 
 		return {
+			width: 100,
 			...item,
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				// return text;
+				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+				return text;
 			}
 		};
 	});

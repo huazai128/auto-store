@@ -8,7 +8,7 @@ useStrict(true);
 class Store extends TablePrototype {
 	constructor() {
 		super();
-		this.url = '/api/refunds';
+		this.url = '/api/store/refunds';
 
 		this.getData = this.getData.bind(this, { url: this.url });
 		this.handle = this.handle.bind(this, { url: this.url });
@@ -30,9 +30,21 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 100, mark: '单据状态', key: 'state', type: 'state', ...stateFilters },
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
-		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseName', },
-		{ fix: true, width: 150, mark: '供货仓店编号及名称', key: 'fromWarehouseName', },
-		{ fix: true, width: 100, mark: '采购数量', key: 'amount', },
+		{
+			width: 50,
+			mark: '明细',
+			key: 'view',
+			subColumns: [
+				{ title: '货品编号', key: 'skuNumber' },
+				{ title: '货品名称', key: 'skuName' },
+				{ title: '采购价', key: 'costPrice' },
+				{ title: '零售价', key: 'price' },
+				{ title: '数量', key: 'amount' },
+			]
+		},
+		{ fix: true, width: 150, mark: '收货仓库编号及名称', key: 'toWarehouseIds', },
+		{ fix: true, width: 150, mark: '退货仓库编号及名称', key: 'fromWarehouseIds', },
+		{ fix: true, width: 100, mark: '退货数量', key: 'amount', },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
 		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },

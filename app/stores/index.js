@@ -2,11 +2,13 @@ import tag from './tag.js';
 import body from './body.js';
 import send from './send';
 import store from './store';
+import sales from './sales';
 import return_ from './return';
 import storage from './storage';
 import product from './product';
 import receive from './receive';
 import refunds from './refunds';
+import database from './database';
 import supplier from './supplier';
 import prurchase from './prurchase';
 import warehouse from './warehouse';
@@ -17,11 +19,13 @@ const stores = {
 	body,
 	send,
 	store,
+	sales,
 	return_,
 	storage,
 	product,
 	receive,
 	refunds,
+	database,
 	supplier,
 	prurchase,
 	warehouse,

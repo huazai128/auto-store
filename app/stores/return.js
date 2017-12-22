@@ -16,11 +16,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url });
 	}
 
-	@observable query = {
-		query: '',
-		end: undefined,
-		start: undefined,
-	};
+	@observable query = {};
 
 	@observable tableLoading = false
 	@observable selectedRows = []
@@ -30,9 +26,21 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 100, mark: '单据状态', key: 'state', type: 'state', ...stateFilters },
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
-		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseName', },
-		{ fix: true, width: 150, mark: '供货仓店编号及名称', key: 'fromWarehouseName', },
-		{ fix: true, width: 100, mark: '采购数量', key: 'amount', },
+		{
+			width: 50,
+			mark: '明细',
+			key: 'view',
+			subColumns: [
+				{ title: '货品编号', key: 'skuNumber' },
+				{ title: '货品名称', key: 'skuName' },
+				{ title: '采购价', key: 'costPrice' },
+				{ title: '零售价', key: 'price' },
+				{ title: '数量', key: 'amount' },
+			]
+		},
+		{ fix: true, width: 150, mark: '供应商编号及名称', key: 'supplierIds', },
+		{ fix: true, width: 150, mark: '发货地编号及名称', key: 'fromWarehouseIds', },
+		{ fix: true, width: 100, mark: '退厂数量', key: 'amount', },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
 		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },

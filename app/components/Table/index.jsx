@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Tag, Popover, Tooltip, Button } from 'antd';
+import { Table, Tag, Popover, Tooltip, Button, Icon } from 'antd';
 import { toJS } from 'mobx';
 import moment from 'moment';
 import { observer, inject } from 'mobx-react';
@@ -8,6 +8,8 @@ import DyunFrom from 'components/Form';
 import popover from 'hoc/popover';
 import CustomHeader from './custom-header';
 import { getXSrcoll } from './utils';
+
+import BasicTable from './Basic';
 
 /* 状态说明 */
 const StatePopover = ({ content = '', children }) => (
@@ -184,6 +186,31 @@ export default class extends Component {
 			if (item.key == 'supplierIds') {
 				item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
 				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
+			}
+
+			// ============================================================
+			/* 单据明细 */
+			if (item.key === 'view') {
+				item.render = (_, record) => {
+					if (!Array.isArray(record.items)) return;
+					const { items, sequence } = record;
+
+					return (
+						<Popover trigger="click" placement="rightTop" title={<div>单号：{sequence}</div>} content={<div style={{ width: 700, minHeight: 400 }}>
+							<BasicTable
+								dataSource={items}
+								columns={item.subColumns}
+								size="small"
+								pagination={false}
+								scroll={{ y: 400 }}
+								title={() => '单据明细'}
+							/>
+						</div>}
+						>
+							<Button size="small"><Icon className="fs16" type="copy" /></Button>
+						</Popover>
+					);
+				};
 			}
 			// ============================================================
 

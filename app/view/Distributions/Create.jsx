@@ -43,8 +43,6 @@ export default class extends Component {
 			supplierField
 		} = this.props;
 
-		console.log(123);
-
 		return (
 			<Container>
 				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />

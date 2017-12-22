@@ -17,11 +17,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url });
 	}
 
-	@observable query = {
-		query: '',
-		end: undefined,
-		start: undefined,
-	};
+	@observable query = {};
 
 	@observable tableLoading = false
 	@observable selectedRows = []
@@ -31,6 +27,20 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 100, mark: '单据状态', key: 'state', type: 'state', ...stateFilters },
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
+		{
+			width: 50,
+			mark: '明细',
+			key: 'view',
+			subColumns: [
+				{ title: '货品编号', key: 'skuNumber' },
+				{ title: '货品名称', key: 'skuName' },
+				{ title: '采购价', key: 'costPrice' },
+				{ title: '零售价', key: 'price' },
+				{ title: '数量', key: 'amount' },
+				{ title: '采购价总额', key: 'totalCostPrice' },
+				{ title: '零售价总额', key: 'totalPrice' },
+			]
+		},
 		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseIds', },
 		{ fix: true, width: 150, mark: '供货仓店编号及名称', key: 'fromWarehouseIds', },
 		{ width: 100, mark: '配货数量', key: 'amount', },

@@ -28,7 +28,7 @@ const webpackConfig = {
 			'moment',
 		],
 		fongwell: [
-			'babel-polyfill',
+			// 'babel-polyfill',
 			path.join(__dirname, 'client/entry.dev.jsx')
 		]
 	},
@@ -98,7 +98,7 @@ const webpackConfig = {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-	webpackConfig.devtool = 'cheap-module-eval-source-map';
+	// webpackConfig.devtool = 'cheap-module-eval-source-map';
 	webpackConfig.entry.fongwell = [
 		'webpack/hot/dev-server',
 		`webpack-dev-server/client?http://${pkg.devServer.host}:${pkg.devServer.port}`,

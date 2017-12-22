@@ -31,6 +31,18 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 100, mark: '单据状态', key: 'state', type: 'state', ...stateFilters },
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
+		{
+			width: 50,
+			mark: '明细',
+			key: 'view',
+			subColumns: [
+				{ title: '货品编号', key: 'skuNumber' },
+				{ title: '货品名称', key: 'skuName' },
+				{ title: '采购价', key: 'costPrice' },
+				{ title: '零售价', key: 'price' },
+				{ title: '数量', key: 'amount' },
+			]
+		},
 		{ fix: true, width: 200, mark: '收货仓店编号及名称', key: 'toWarehouseIds', },
 		{ fix: true, width: 200, mark: '供应商编号及名称', key: 'supplierIds', },
 		{ fix: true, width: 100, mark: '采购数量', key: 'amount', },

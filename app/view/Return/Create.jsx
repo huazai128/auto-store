@@ -1,71 +1,81 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, Select, Icon, Modal } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
-import Header from 'components/Header';
-import CreateTable from 'components/CreateTable';
+import moment from 'moment';
 import { Container, Content, HandleArea } from 'components/Layout';
-import CreateFormItem from 'components/Form/CreateFormItem';
 import SearchPro from 'components/SearchPro';
-import modal from 'hoc/modal';
+import create from 'hoc/create-table';
 
-const { Option } = Select;
 
-@inject('Create') @Form.create() @observer
+@inject(store => ({
+	body: store.body,
+	backStore: store.return_,
+	returnTypes: store.database.returnTypes
+}))
+@create()
 export default class extends Component {
-	store = new this.props.Create();
+	columns = [
+		{ width: 200, title: '货品', key: 'number' },
+		{ width: 150, title: '货品名称', key: 'name' },
+		{ width: 80, title: '采购价', key: 'costPrice' },
+		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 100, title: '退厂数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 200, title: '备注', key: 'note', },
+	]
 
-	handleSubmit = async () => {
-		return await new Promise((resolve, reject) => {
-			this.props.form.validateFields(async (err, values) => {
-				if (!err) {
-					console.log(values);
-					setTimeout(() => {
-						resolve(values);
-					}, 2000);
-				} else reject('');
-			});
-		});
+	computedQuery = (value) => {
+		value.items = value.items.map(item => ({
+			skuId: item.id,
+			amount: item.amount,
+		}));
 	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
+		const {
+			BackCreateHearder,
+			RenderCreateTable,
+			BindedFormItem,
+			RenderUpload,
+			handleSubmit,
+			addItems,
+
+			toWarehouseField,
+			fromWarehouseField,
+			warehouseField,
+			supplierField,
+			sequenceField
+		} = this.props;
+
+		console.log(this.props.returnTypes);
+
 		return (
 			<Container>
-				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
+				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
 				<Content style={{ padding: 10 }}>
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								<CreateFormItem label="退厂单单号" rules={true} keyValue="a" getFieldDecorator={getFieldDecorator}>
-									<Input style={{ width: 200 }} />
-								</CreateFormItem>
-
-								<CreateFormItem label="退厂类型" rules={true} keyValue="b" getFieldDecorator={getFieldDecorator}>
-									<Select style={{ width: 150 }}>
-										<Option value="rmb">RMB</Option>
-										<Option value="dollar">Dollar</Option>
-									</Select>
-								</CreateFormItem>
-
-								<CreateFormItem label="供应商编号及名称" rules={true} keyValue="c" getFieldDecorator={getFieldDecorator}>
-									<Input suffix={<Icon type="ellipsis" />} style={{ width: 200 }} />
-								</CreateFormItem>
+								{sequenceField}
+								{fromWarehouseField}
+								{supplierField}
 							</div>
 							<div className="flex-vcenter">
-								<CreateFormItem label="备注" keyValue="note" getFieldDecorator={getFieldDecorator}>
+								<BindedFormItem label="备注" keyValue="note">
 									<Input style={{ width: 350 }} />
-								</CreateFormItem>
+								</BindedFormItem>
 							</div>
 						</HandleArea>
 					</Form>
-					<CreateTable title={() => (
-						<div>
-							<strong>单据明细编辑</strong>
-							<SearchPro />
-							<Button type="primary" ghost className="ml20">选择添加商品</Button>
-							<Button type="primary" ghost className="ml20">Excel导入商品</Button>
-						</div>
-					)} />
+					<RenderCreateTable
+						columns={this.columns}
+						title={() => (
+							<div>
+								<strong>单据明细编辑</strong>
+								<SearchPro onChange={item => addItems([item])} />
+								<Button type="primary" ghost className="ml20">选择添加商品</Button>
+								<RenderUpload columns={this.columns}><Button type="primary" ghost icon="file-excel" className="ml20">Excel导入商品</Button></RenderUpload>
+							</div>)}
+					/>
 				</Content>
 			</Container>
 		);
