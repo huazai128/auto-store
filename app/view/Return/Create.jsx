@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal, Select } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
 import { Container, Content, HandleArea } from 'components/Layout';
@@ -7,10 +7,10 @@ import SearchPro from 'components/SearchPro';
 import create from 'hoc/create-table';
 
 
-@inject(store => ({
-	body: store.body,
-	backStore: store.return_,
-	returnTypes: store.database.returnTypes
+@inject(stores => ({
+	body: stores.body,
+	backStore: stores.return_,
+	returnTypesOption: stores.database.returnTypesOption,
 }))
 @create()
 export default class extends Component {
@@ -46,8 +46,6 @@ export default class extends Component {
 			sequenceField
 		} = this.props;
 
-		console.log(this.props.returnTypes);
-
 		return (
 			<Container>
 				<BackCreateHearder handleSubmit={() => this.props.handleSubmit(this.computedQuery)} />
@@ -56,6 +54,11 @@ export default class extends Component {
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
 								{sequenceField}
+								<BindedFormItem label="退厂类型" keyValue="typeId" rules={true}>
+									<Select style={{ width: 150 }}>
+										{this.props.returnTypesOption}
+									</Select>
+								</BindedFormItem>
 								{fromWarehouseField}
 								{supplierField}
 							</div>

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal, Select } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
 import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import create from 'hoc/create-table';
 
-@inject(store => ({
-	body: store.body,
-	backStore: store.distributions,
+@inject(stores => ({
+	body: stores.body,
+	backStore: stores.distributions,
+	returnTypesOption: stores.database.returnTypesOption,
 }))
 @create()
 export default class extends Component {
@@ -42,6 +43,7 @@ export default class extends Component {
 			warehouseField,
 			supplierField
 		} = this.props;
+
 
 		return (
 			<Container>
