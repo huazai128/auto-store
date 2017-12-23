@@ -243,7 +243,8 @@ if (process.env.NODE_ENV !== 'production') {
 						loader: 'css-loader',
 						options: { minimize: true }
 					},
-					'postcss-loader',
+					// 开启'postcss-loader', 会增打生产环境下css的大小 270kb ===> 340kb
+					// 'postcss-loader',
 					{
 						loader: 'less-loader',
 						options: {
