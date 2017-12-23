@@ -1,4 +1,4 @@
-@import 'entry';
+// @import 'entry';
 
 $basic-list: (
 	mt: margin-top,
@@ -48,13 +48,13 @@ $fs-list : (
 .borderTop {
 	border-top: #dddddd solid 1px;
 }
-.color-6 {
-	color: $primary-color !important;
-}
+// .color-6 {
+// 	color: $primary-color !important;
+// }
 
-.warn-color {
-	color: $warn-color;
-}
+// .warn-color {
+// 	color: $warn-color;
+// }
 
 .pointer {
 	cursor: pointer;

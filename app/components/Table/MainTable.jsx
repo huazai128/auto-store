@@ -6,8 +6,10 @@ import { observer, inject } from 'mobx-react';
 import CreateTable from './CreateTable';
 import DyunFrom from 'components/Form';
 import popover from 'hoc/popover';
-import CustomHeader from './custom-header';
+import CustomHeader from './CustomHeader';
 import { getXSrcoll } from './utils';
+import { numeralNumber } from 'utils';
+
 
 import BasicTable from './Basic';
 
@@ -147,6 +149,7 @@ export default class extends Component {
 
 	render() {
 		const { title, className, push, ...reset } = this.props;
+
 		const {
 			selectedRows = [],
 			tableLoading,
@@ -193,20 +196,28 @@ export default class extends Component {
 			if (item.key === 'view') {
 				item.render = (_, record) => {
 					if (!Array.isArray(record.items)) return;
-					const { items, sequence } = record;
+					const { items, sequence, totalCostPrice, totalPrice } = record;
 
 					return (
-						<Popover trigger="click" placement="rightTop" title={<div>单号：{sequence}</div>} content={<div style={{ width: 700, minHeight: 400 }}>
+						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="color-6">{sequence}</strong></p>} content={<div style={{ width: 875, minHeight: 400 }}>
 							<BasicTable
 								dataSource={items}
 								columns={item.subColumns}
+								hasIndex
 								size="small"
 								pagination={false}
 								scroll={{ y: 400 }}
-								title={() => '单据明细'}
+								title={() => (
+									<div className="flex jc-between pr50">
+										单据明细
+										<p>
+											<strong style={{ margin: '0 20px' }}>单据总采购价金额：{totalCostPrice || 0}</strong>
+											<strong>单据总零售价金额：{totalPrice || 0}</strong>
+										</p>
+									</div>
+								)}
 							/>
-						</div>}
-						>
+						</div>}>
 							<Button size="small"><Icon className="fs16" type="copy" /></Button>
 						</Popover>
 					);
@@ -219,17 +230,19 @@ export default class extends Component {
 				dataIndex: item.key,
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
+
 					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
+
 					if (item.created && item.created.edit) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
-								<div className="td-edit">{text || <br />}</div>
+								<div className="td-edit">{numeralNumber(text, item.key) || <br />}</div>
 							</EditPopover>
 						);
 					}
 					// return text;
-					return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
+					return <Tooltip placement="topLeft" title={text}>{numeralNumber(text, item.key)}</Tooltip>;
 				}
 			};
 		}).filter(i => i.checked || i.fix);

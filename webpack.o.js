@@ -5,8 +5,6 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import pkg from './package.json';
-
-
 const modifyVars = {
 	// '@primary-color': '#5cdbd3',
 	'@font-size-base': '12px',
@@ -16,11 +14,7 @@ const modifyVars = {
 	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 	'@animation-duration-slow': '.2s'
 };
-
 console.info(`当前环境：${process.env.NODE_ENV}`);
-
-console.log(path.resolve(__dirname, 'node_modules'));
-
 const webpackConfig = {
 	entry: {
 		vendor: [
@@ -40,7 +34,6 @@ const webpackConfig = {
 		path: path.join(__dirname, 'dist'),
 		publicPath: '/',
 	},
-
 	resolve: {
 		modules: [
 			'node_modules',
@@ -56,10 +49,8 @@ const webpackConfig = {
 			images: path.resolve(__dirname, 'assets/images'),
 			utils: path.resolve(__dirname, 'app/utils'),
 			mapStore: path.resolve(__dirname, 'app/mapStore'),
-
 		},
 	},
-
 	module: {
 		rules: [{
 			test: /\.(eot|JPEG|woff|woff2|ttf|svg|png|jpe?g|gif|mp4|webm)(\?\S*)?$/,
@@ -98,7 +89,6 @@ const webpackConfig = {
 		}),
 	],
 };
-
 if (process.env.NODE_ENV !== 'production') {
 	// webpackConfig.devtool = 'cheap-module-eval-source-map';
 	webpackConfig.entry.fongwell = [
@@ -113,19 +103,14 @@ if (process.env.NODE_ENV !== 'production') {
 		manifest: path.join(__dirname, 'dist/manifest.json'),
 	}));
 	webpackConfig.module.rules = [
-
 		...webpackConfig.module.rules,
-
 		{
 			test: /\.css$/,
 			use: ['style-loader', 'css-loader', 'postcss-loader']
 		},
-
 		{
-			test: /\.(less)$/,
-			include: [
-				path.resolve(__dirname, 'app'),
-			],
+			test: /\.scss$/,
+			exclude: /\.global.scss$/,
 			use: [
 				'style-loader',
 				{
@@ -137,38 +122,48 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
+				'resolve-url-loader',
 				'postcss-loader',
 				{
-					loader: 'less-loader',
+					loader: 'sass-loader',
 					options: {
-						modifyVars,
-						paths: [
-							path.resolve(__dirname, 'node_modules'),
-							path.resolve(__dirname, 'assets'),
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles'),
 						],
-					},
+					}
 				},
-			]
-		},
-
-		{
-			test: /\.(less)$/,
-			exclude: [
-				path.resolve(__dirname, 'app'),
 			],
+		},
+		{
+			test: /\.global.scss$/,
 			use: [
 				'style-loader',
 				'css-loader',
+				'resolve-url-loader',
 				'postcss-loader',
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles'),
+						],
+					}
+				},
+			],
+		},
+		{
+			test: /\.(less)$/,
+			use: [
+				'style-loader',
+				'css-loader',
 				{
 					loader: 'less-loader',
 					options: {
-						modifyVars,
+						modifyVars
 					}
-				}
+				},
 			]
 		},
-
 	];
 } else {
 	webpackConfig.plugins.push(new ExtractTextPlugin('styles.css'));
@@ -183,29 +178,25 @@ if (process.env.NODE_ENV !== 'production') {
 	// webpackConfig.output.publicPath='/assets/';
 	webpackConfig.output.filename = '[name].[hash:5].js';
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js';
-
 	webpackConfig.module.rules = [
-
 		...webpackConfig.module.rules,
-
 		{
 			test: /\.css$/,
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
 					loader: 'css-loader',
-					options: { minimize: true, }
+					options: {
+						minimize: true,
+					}
 				},
 					'postcss-loader'
 				]
 			})
 		},
-
 		{
-			test: /\.(less)$/,
-			include: [
-				path.resolve(__dirname, 'app'),
-			],
+			test: /\.scss$/,
+			exclude: /\.global.scss$/,
 			use: ExtractTextPlugin.extract({
 				fallback: 'style-loader',
 				use: [{
@@ -217,42 +208,62 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
+					'resolve-url-loader',
 					'postcss-loader',
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles'),
+						],
+					}
+				},
+				],
+			}),
+		},
+		// module css
+		{
+			test: /\.global.scss$/,
+			use: ExtractTextPlugin.extract({
+				fallback: 'style-loader',
+				use: [{
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				},
+					'resolve-url-loader',
+					'postcss-loader',
+				{
+					loader: 'sass-loader',
+					options: {
+						includePaths: [
+							path.resolve(__dirname, 'assets/styles')
+						],
+					}
+				}
+				],
+			}),
+		},
+		{
+			test: /\.(less)$/,
+			use: ExtractTextPlugin.extract({
+				fallback: 'style-loader',
+				use: [{
+					loader: 'css-loader',
+					options: {
+						minimize: true
+					}
+				},
 				{
 					loader: 'less-loader',
 					options: {
-						modifyVars,
-						paths: [
-							path.resolve(__dirname, 'node_modules'),
-							path.resolve(__dirname, 'assets'),
-						],
+						modifyVars
 					}
-				}],
-			}),
-		},
-
-		{
-			test: /\.(less)$/,
-			exclude: [
-				path.resolve(__dirname, 'app'),
-			],
-			use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: [
-					{
-						loader: 'css-loader',
-						options: { minimize: true }
-					},
-					'postcss-loader',
-					{
-						loader: 'less-loader',
-						options: {
-							modifyVars
-						}
-					}],
+				},
+				],
 			}),
 		}
 	];
 }
-
 export default webpackConfig;

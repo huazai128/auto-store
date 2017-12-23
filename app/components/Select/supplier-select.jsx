@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Select } from 'antd';
-import { get } from 'utils';
+import { get } from 'utils/request';
 
 const Option = Select.Option;
 

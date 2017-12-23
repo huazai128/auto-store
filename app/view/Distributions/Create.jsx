@@ -9,7 +9,6 @@ import create from 'hoc/create-table';
 @inject(stores => ({
 	body: stores.body,
 	backStore: stores.distributions,
-	returnTypesOption: stores.database.returnTypesOption,
 }))
 @create()
 export default class extends Component {

@@ -54,10 +54,8 @@ export default class extends Component {
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
 								{sequenceField}
-								<BindedFormItem label="退厂类型" keyValue="typeId" rules={true}>
-									<Select style={{ width: 150 }}>
-										{this.props.returnTypesOption}
-									</Select>
+								<BindedFormItem label="退货类型" keyValue="typeId" rules={true}>
+									<Select style={{ width: 150 }}>{this.props.returnTypesOption}</Select>
 								</BindedFormItem>
 								{fromWarehouseField}
 								{supplierField}

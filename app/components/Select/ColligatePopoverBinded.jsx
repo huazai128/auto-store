@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ComprehensivePopover from './comprehensive-popover';
+import ColligatePopover from './ColligatePopover';
 import { Icon } from 'antd';
 import { observer } from 'mobx-react';
-import styles from './style.scss';
+import styles from './style.less';
 
 @observer
 export default class extends Component {
@@ -49,7 +49,7 @@ export default class extends Component {
 		}
 
 		return (
-			<ComprehensivePopover
+			<ColligatePopover
 				title={title}
 				api={api}
 				selectedRowKeys={selectedRowKeys}
@@ -57,7 +57,7 @@ export default class extends Component {
 				<div className={selectedRowKeys && selectedRowKeys.length > 0 ? styles.filter : ''} style={{ cursor: 'pointer' }}>
 					<Icon type="filter" />
 				</div>
-			</ComprehensivePopover>
+			</ColligatePopover>
 		);
 	}
 }

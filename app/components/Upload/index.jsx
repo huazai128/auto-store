@@ -1,8 +1,8 @@
 import { Upload, message, Button, Icon, Modal, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import modal from 'hoc/modal';
-import UploadTable from '../Table/upload-table';
-import './style.global.scss';
+import UploadTable from './UploadTable';
+import styles from './style.less';
 import { filterRepeat } from 'utils';
 
 
@@ -81,7 +81,7 @@ export default class extends Component {
 				visible={this.props.visible}
 				afterClose={this.afterClose}
 				onOk={this.onOk}
-				className="upload-modal"
+				className={styles.upload}
 				confirmLoading={this.props.confirmLoading}
 				onCancel={() => this.props.handleCancel()}
 			>

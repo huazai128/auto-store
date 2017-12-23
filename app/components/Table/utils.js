@@ -1,5 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
+import { numeralNumber } from 'utils';
+
 
 export function getXSrcoll(columns = []) {
 	let x = 0;
@@ -20,6 +22,7 @@ export function computeColumns(columns = []) {
 			item.render = (text) => <p className="color-6">{text}</p>;
 		}
 
+
 		return {
 			width: 100,
 			...item,
@@ -27,7 +30,7 @@ export function computeColumns(columns = []) {
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
 				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				return text;
+				return numeralNumber(text, item.key);
 			}
 		};
 	});

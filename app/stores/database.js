@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { get, post, postByParam } from 'utils';
+import { get, post, postByParam } from 'utils/request';
 import { Select } from 'antd';
 const { Option } = Select;
 
 useStrict(true);
 class Store {
 	constructor() {
-		// this.getDataSource('returnTypesSource', '/api/types/returnTypes');
+		this.getDataSource('returnTypesSource', '/api/types/returnTypes');
 	}
 
-	@observable returnTypesSource = [{
-		id: 1, name: '默认退货'
-	}]
+	@observable returnTypesSource = []
 
-	// @action getDataSource = async (type, url, query = {}) => {
-	// 	const { data } = await get(url, query);
-	// 	runInAction(() => this[type] = data);
-	// }
+	@action getDataSource = async (type, url, query = {}) => {
+		const { data } = await get(url, query);
+		runInAction(() => this[type] = data);
+	}
 
 	// 退厂类型 returnTypes: { label, value}
 	@computed get returnTypesOption() {

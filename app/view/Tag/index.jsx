@@ -7,7 +7,7 @@ import { Container, Content, HandleArea } from 'components/Layout';
 import modal from 'hoc/modal';
 import CustomFrom from 'components/Form';
 import BasicTable from 'components/Table/Basic';
-import styles from './style.scss';
+import styles from './style.less';
 
 @modal
 @inject('tag')

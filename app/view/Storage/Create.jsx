@@ -6,11 +6,11 @@ import { Container, Content, HandleArea } from 'components/Layout';
 import SearchPro from 'components/SearchPro';
 import Upload from 'components/Upload';
 import BasicTable from 'components/Table/Basic';
-import { get } from 'utils';
+import { get } from 'utils/request';
 import create from 'hoc/create-table';
 import modal from 'hoc/modal';
 
-import styles from './style.scss';
+import styles from './style.less';
 
 
 const columns2 = [

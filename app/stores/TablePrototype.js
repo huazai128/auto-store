@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { get, post, postByParam } from 'utils';
+import { get, post, postByParam } from 'utils/request';
 import { RangePicker } from 'components/DatePicker';
-import TableMain from 'components/Table';
+import MainTable from 'components/Table/MainTable';
 import HandleButtonOrigin from 'components/Button';
 import moment from 'moment';
 import axios from 'axios';
-import BindedPopover from 'components/Select/comprehensive-binded-popover';
+import ColligatePopoverBinded from 'components/Select/ColligatePopoverBinded';
 
 
 useStrict(true);
@@ -155,7 +155,7 @@ export default class {
 		}));
 	}
 
-	RenderMainTable = props => { return React.cloneElement(<TableMain />, { store: this, ...props }); }
+	RenderMainTable = props => { return React.cloneElement(<MainTable />, { store: this, ...props }); }
 	// RenderRangePicker = () => React.cloneElement(<RangePicker />, {
 	// 	onChange: this.handleRangePicker,
 	// });
@@ -169,25 +169,25 @@ export default class {
 	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
 	DeleteButton = ({ children, ...reset }) => <this.HandleButton method="delete" state="created" className="ml20" type="danger" confirm {...reset}>{children}</this.HandleButton>
 
-	RenderSupplierPopover = (props) => React.cloneElement(<BindedPopover />, {
+	RenderSupplierPopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
 		store: this,
 		type: 'supplier',
 		...props
 	});
 
-	RenderWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+	RenderWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
 		store: this,
 		type: 'warehouse',
 		...props
 	});
 
-	RenderToWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+	RenderToWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
 		store: this,
 		type: 'toWarehouse',
 		...props
 	});
 
-	RenderFromWarehousePopover = (props) => React.cloneElement(<BindedPopover />, {
+	RenderFromWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
 		store: this,
 		type: 'fromWarehouse',
 		...props

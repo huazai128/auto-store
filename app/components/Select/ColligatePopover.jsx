@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Input } from 'antd';
 import { observer, inject } from 'mobx-react';
 import popover from 'hoc/popover';
-import { get } from 'utils';
+import { get } from 'utils/request';
 
 import BasicTable from 'components/Table/Basic';
 

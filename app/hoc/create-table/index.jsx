@@ -3,14 +3,14 @@ import Table from 'components/Table/CreateTable';
 import { Form, Modal, Input, Icon, Badge, Spin } from 'antd';
 import { observer, inject } from 'mobx-react';
 import { filterRepeat } from 'utils';
-import { get, post, postByParam } from 'utils';
+import { get, post, postByParam } from 'utils/request';
 import Upload from 'components/Upload';
 import CreateFormItem from 'components/Form/CreateFormItem';
-import ComprehensivePopover from 'components/Select/comprehensive-popover';
+import ColligatePopover from 'components/Select/ColligatePopover';
 import moment from 'moment';
 import CreateHearder from 'components/Header/CreateHearder';
 
-import styles from './style.scss';
+import styles from './style.less';
 
 
 @Form.create()
@@ -51,46 +51,46 @@ export default (options = {}) => WrappedComponent => {
 			const pointerNode = <Input className={styles.pointer} suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} />;
 			// ============================================================
 			this.WarehouseFormItem = ({ label = '仓库编号及名称', BottomNode = null, value }) => (
-				<ComprehensivePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
+				<ColligatePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
 					<this.BindedFormItem keyValue="warehouseId" />
 					<this.BindedFormItem keyValue="warehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
 						{pointerNode}
 					</this.BindedFormItem>
-				</ComprehensivePopover>
+				</ColligatePopover>
 			);
 
 			// ============================================================
 			this.ToWarehouseFormItem = ({ label = '收货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<ComprehensivePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
+				<ColligatePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
 					<this.BindedFormItem keyValue="toWarehouseId" />
 					<this.BindedFormItem keyValue="toWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
 						{pointerNode}
 					</this.BindedFormItem>
-				</ComprehensivePopover>
+				</ColligatePopover>
 			);
 
 			// ============================================================
 			this.FromWarehouseFormItem = ({ label = '供货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<ComprehensivePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
+				<ColligatePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
 					<this.BindedFormItem keyValue="fromWarehouseId" />
 					<this.BindedFormItem keyValue="fromWarehouseName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
 						{pointerNode}
 					</this.BindedFormItem>
-				</ComprehensivePopover>
+				</ColligatePopover>
 			);
 
 			// ============================================================
 			this.SupplierFormItem = ({ label = '供应商编号及名称', BottomNode = null, value }) => (
-				<ComprehensivePopover title="请选择供应商" selectedRowKeys={[value]} radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
+				<ColligatePopover title="请选择供应商" selectedRowKeys={[value]} radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
 					<this.BindedFormItem keyValue="supplierId" />
 					<this.BindedFormItem keyValue="supplierName" />
 					<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
 						{pointerNode}
 					</this.BindedFormItem>
-				</ComprehensivePopover>
+				</ColligatePopover>
 			);
 
 			this.BottomNode = ({ name }) => name ? <div className="mt5 ml10"><Badge status="processing" /><span style={{ marginRight: 15 }}>{name}</span></div> : null;

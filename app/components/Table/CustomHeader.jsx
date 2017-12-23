@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Tag, Popover, Tooltip, Button, Checkbox } from 'antd';
 import { observer, inject } from 'mobx-react';
 import popover from 'hoc/popover';
-import styles from './custom-header.scss';
+import styles from './CustomHeader.less';
 const CheckboxGroup = Checkbox.Group;
 
 

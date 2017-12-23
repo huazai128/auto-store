@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './style.scss';
+import styles from './style.less';
 import { Button, Modal } from 'antd';
 import { observer, inject } from 'mobx-react';
 

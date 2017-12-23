@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
 import { Input, Select } from 'antd';
-import { get, post, postByParam } from 'utils';
+import { get, post, postByParam } from 'utils/request';
 import { productStateFilters } from 'mapStore/filter';
 import axios from 'axios';
 import TagSelect from 'components/Select/tag-select';

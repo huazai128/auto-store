@@ -1,6 +1,6 @@
 import React from 'react';
 import { AutoComplete } from 'antd';
-import { get } from 'utils';
+import { get } from 'utils/request';
 import { observer } from 'mobx-react';
 
 @observer

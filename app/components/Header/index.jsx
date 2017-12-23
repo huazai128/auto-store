@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './style.scss';
+import styles from './style.less';
 import { Button, Input, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';

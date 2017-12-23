@@ -18,7 +18,7 @@ export default class extends Component {
 		const { HandleButton, DeleteButton } = this.store;
 		return (
 			<Container>
-				<Header store={this.store}>{this.props.name}</Header>
+				<Header btn={{ to: '/refunds/create', text: '退货单制单' }} store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">

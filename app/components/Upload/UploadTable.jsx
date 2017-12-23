@@ -3,7 +3,7 @@ import { Table, Tag, Tooltip, Icon } from 'antd';
 import { toJS } from 'mobx';
 import moment from 'moment';
 import { observer } from 'mobx-react';
-import { getXSrcoll, computeColumns } from './utils';
+import { getXSrcoll, computeColumns } from '../Table/utils';
 
 @observer
 export default class extends Component {
@@ -41,9 +41,7 @@ export default class extends Component {
 
 	render() {
 		const { dataSource, file } = this.props;
-
 		dataSource.forEach(i => i.key = i.id);
-
 		return (
 			<Table
 				size="small"

@@ -16,11 +16,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url });
 	}
 
-	@observable query = {
-		query: '',
-		end: undefined,
-		start: undefined,
-	};
+	@observable query = {};
 
 	@observable tableLoading = false
 	@observable selectedRows = []
