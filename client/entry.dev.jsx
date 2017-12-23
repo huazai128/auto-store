@@ -5,15 +5,12 @@ import { Provider } from 'mobx-react';
 
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-
 import Routes from 'app/routes';
-
 import stores from 'app/stores';
 
-import 'utils/index';
 import 'assets/styles/custom.less';
 import 'assets/styles/flex.less';
-// import 'assets/styles/layout.global.scss';
+import 'assets/styles/layout.less';
 import 'assets/styles/antd.less';
 
 const Wrap = withRouter(props => <Routes {...props} />);

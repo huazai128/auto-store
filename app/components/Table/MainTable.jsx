@@ -168,7 +168,7 @@ export default class extends Component {
 
 		const filterColumns = columns.map(item => {
 			item.title = item.title || item.mark;
-			if (item.created && item.created.edit) item.title = <div className="color-6">{item.title}</div>;
+			if (item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>;
 
 			// ============================================================
 			if (item.key == 'toWarehouseIds') {
@@ -199,7 +199,7 @@ export default class extends Component {
 					const { items, sequence, totalCostPrice, totalPrice } = record;
 
 					return (
-						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="color-6">{sequence}</strong></p>} content={<div style={{ width: 875, minHeight: 400 }}>
+						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="primary-6">{sequence}</strong></p>} content={<div style={{ width: 875, minHeight: 400 }}>
 							<BasicTable
 								dataSource={items}
 								columns={item.subColumns}
@@ -262,7 +262,7 @@ export default class extends Component {
 					scroll={{ x: getXSrcoll(filterColumns), y: tableInnerHeight }}
 					title={() => (
 						<div className="flex-vcenter jc-between">
-							<div><strong>{title}列表</strong>（共{count ? count : 0}个列表，已选<span className="color-6">{selectedRows.length}</span>个）</div>
+							<div><strong>{title}列表</strong>（共{count ? count : 0}个列表，已选<span className="primary-6">{selectedRows.length}</span>个）</div>
 							<CustomHeader store={this.props.store}>
 								<Button className="mr20" size="small" icon="table">自定义表头展示</Button>
 							</CustomHeader>

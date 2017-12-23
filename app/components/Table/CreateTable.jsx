@@ -41,8 +41,8 @@ export default class extends Component {
 		});
 
 		this.columns = props.columns.map(item => {
-			if (item.edit) item.title = <div className="color-6">{item.title}<Icon type="edit" /></div>;
-			if (item.type) item.render = (text) => <p className="color-6">{text}</p>;
+			if (item.edit) item.title = <div className="primary-6">{item.title}<Icon type="edit" /></div>;
+			if (item.type) item.render = (text) => <p className="primary-6">{text}</p>;
 			return {
 				...item,
 				dataIndex: item.key,

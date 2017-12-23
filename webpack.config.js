@@ -141,7 +141,7 @@ if (process.env.NODE_ENV !== 'production') {
 				{
 					loader: 'less-loader',
 					options: {
-						modifyVars,
+						// modifyVars,
 						paths: [
 							path.resolve(__dirname, 'node_modules'),
 							path.resolve(__dirname, 'assets'),
@@ -196,7 +196,7 @@ if (process.env.NODE_ENV !== 'production') {
 					loader: 'css-loader',
 					options: { minimize: true, }
 				},
-					'postcss-loader'
+				'postcss-loader'
 				]
 			})
 		},
@@ -217,11 +217,11 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
-					'postcss-loader',
+				'postcss-loader',
 				{
 					loader: 'less-loader',
 					options: {
-						modifyVars,
+						// modifyVars,
 						paths: [
 							path.resolve(__dirname, 'node_modules'),
 							path.resolve(__dirname, 'assets'),

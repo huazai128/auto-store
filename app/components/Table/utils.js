@@ -19,7 +19,7 @@ export function computeColumns(columns = []) {
 		}
 
 		if (item.type == 'info') {
-			item.render = (text) => <p className="color-6">{text}</p>;
+			item.render = (text) => <p className="primary-6">{text}</p>;
 		}
 
 

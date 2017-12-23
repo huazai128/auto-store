@@ -36,7 +36,7 @@ export default class extends Component {
 				<div className="flex jc-between">
 					<div>导入内容详情</div>
 					<Tooltip placement="bottomRight" title="本次导入仅供参考，一切以实物为准~">
-						<div className="color-6"><Icon type="question-circle-o" /><span className="fs12 ml5">关于导入</span></div>
+						<div className="primary-6"><Icon type="question-circle-o" /><span className="fs12 ml5">关于导入</span></div>
 					</Tooltip>
 				</div>
 			),

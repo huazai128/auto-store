@@ -36,7 +36,7 @@ class ReferModal extends Component {
 				width: 15, title: '', key: 'dilidili', render: (_, record) => {
 					const { orderAmountMap } = record;
 
-					return <Icon className={`${orderAmountMap.some(i => i.selected) ? 'color-6' : ''} fs16`} type="link" />;
+					return <Icon className={`${orderAmountMap.some(i => i.selected) ? 'primary-6' : ''} fs16`} type="link" />;
 				}
 			},
 			{ width: 100, title: '货品名', key: 'name', },
@@ -144,7 +144,7 @@ class ReferModal extends Component {
 				title={<div className="flex-vcenter jc-between">
 					<div>参照制单</div>
 					<div className="flex" style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
-						<div><Icon className="fs16 color-6 mr10" type="link" /><span className="fs12">货品<span className="color-6">已绑定</span>采购单</span></div>
+						<div><Icon className="fs16 primary-6 mr10" type="link" /><span className="fs12">货品<span className="primary-6">已绑定</span>采购单</span></div>
 						<div><Icon className="fs16 ml50 mr10" type="link" /><span className="fs12">货品未绑定采购单</span></div>
 					</div>
 				</div>}
@@ -188,7 +188,7 @@ class ReferModal extends Component {
 							scroll={{ y: 450 }}
 							rowSelection={rowSelection}
 							title={() => {
-								return <div>{record.name ? <div>商品<span className="color-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>;
+								return <div>{record.name ? <div>商品<span className="primary-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>;
 							}}
 							pagination={false} />
 					</Col>

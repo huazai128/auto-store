@@ -1,0 +1,124 @@
+@import "~antd/lib/style/themes/default.less";
+.primary-1 {
+  color: @primary-1
+}
+
+.primary-2 {
+  color: @primary-2
+}
+
+.primary-3 {
+  color: @primary-3
+}
+
+.primary-4 {
+  color: @primary-4
+}
+
+.primary-5 {
+  color: @primary-5
+}
+
+.primary-6 {
+  color: @primary-6
+}
+
+.primary-7 {
+  color: @primary-7
+}
+
+.primary-8 {
+  color: @primary-8
+}
+
+.primary-9 {
+  color: @primary-9
+}
+
+.primary-10 {
+  color: @primary-10
+}
+
+.success-color {
+  color: @success-color;
+}
+
+.info-color {
+  color: @info-color
+}
+
+.error-color {
+  color: @error-color;
+}
+
+.text-color-secondary {
+  color: @text-color-secondary
+}
+
+.layout(100);
+.font-size(50);
+.layout(@n, @i: 5) when (@i =< @n) {
+  .mt@{i} {
+    margin-top: (@i * 1px);
+  }
+  .ml@{i} {
+    margin-left: (@i * 1px);
+  }
+  .mb@{i} {
+    margin-bottom: (@i * 1px);
+  }
+  .mt@{i} {
+    margin-top: (@i * 1px);
+  }
+  .mr@{i} {
+    margin-right: (@i * 1px);
+  }
+  .pt@{i} {
+    padding-top: (@i * 1px);
+  }
+  .pr@{i} {
+    padding-right: (@i * 1px);
+  }
+  .pb@{i} {
+    padding-bottom: (@i * 1px);
+  }
+  .pl@{i} {
+    padding-left: (@i * 1px);
+  }
+  .layout(@n, (@i + 5));
+}
+
+.font-size(@n, @i: 12) when (@i =< @n) {
+  .fs@{i} {
+    font-size: (@i * 1px);
+  }
+  .font-size(@n, (@i + 2));
+}
+
+.borderBottom {
+  border-bottom: #dddddd solid 1px;
+}
+
+.borderLeft {
+  border-left: #dddddd solid 1px;
+}
+
+.borderRight {
+  border-right: #dddddd solid 1px;
+}
+
+.borderTop {
+  border-top: #dddddd solid 1px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-overflow {
+  /* 不换行, 省略号代替 */
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

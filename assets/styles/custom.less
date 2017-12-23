@@ -1,4 +1,3 @@
-@import 'entry';
 @import "~antd/lib/style/themes/default.less";
 
 body,html {
@@ -18,50 +17,6 @@ h1, h2, h3, h4, h5, p{
 table {
 	table-layout: fixed;
 }
-
-.main-table {
-	.ant-table-middle .ant-table-thead > tr > th {
-		padding: 7px 8px;
-		// border-bottom: 1px solid rgba(@primary-color, 0.5);
-		border-bottom: 1px solid @primary-3;
-	}
-
-	&.two-row .ant-table-middle .ant-table-tbody > tr > td {
-		padding: 2px 8px;
-	}
-
-	.ant-table-middle .ant-table-tbody > tr > td {
-		padding: 6px 8px;
-	}
-
-	.active td {
-		// background-color: rgba(@primary-color, 0.2) !important;
-		// border-bottom-color: rgba(@primary-color, 0.4);
-		background-color: @primary-color !important;
-		border-bottom-color: @primary-color;
-	}
-
-	&.edit {
-		.ant-table-middle .ant-table-tbody > tr > td {
-			// padding: 7px 8px;
-			>.td-edit {
-				cursor: pointer;
-				// padding: 8px 0px;
-				border-radius: 4px;
-				&:hover {
-					// background-color: rgba(@primary-color, 0.2);
-					background-color: @primary-2
-				}
-					/* 不换行, 省略号代替 */
-				word-break: keep-all;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
-	}
-}
-
 
 .create-handle-area {
 	h3 {

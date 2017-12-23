@@ -36,7 +36,7 @@ export default [
 	{ name: '退货单制单', url: '/refunds/create', Component: asyncComponent(() => import('view/Refunds/Create')), children: [], },
 	{ name: '退货单编辑', url: '/refunds/:id', Component: asyncComponent(() => import('view/Refunds/Create')), children: [], },
 
-	{ name: 'demo', icon: 'schedule', url: '/demo', Component: asyncComponent(() => import('view/User/Login')), children: [], },
+	// { name: 'demo', icon: 'schedule', url: '/demo', Component: asyncComponent(() => import('view/User/Login')), children: [], },
 
 	// { name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), children: [], },
 	// { name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), children: [], },
