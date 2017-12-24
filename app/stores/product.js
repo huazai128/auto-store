@@ -4,8 +4,8 @@ import { Input, Select } from 'antd';
 import { get, post, postByParam } from 'utils/request';
 import { productStateFilters } from 'mapStore/filter';
 import axios from 'axios';
-import TagSelect from 'components/Select/tag-select';
-import SupplierSelect from 'components/Select/supplier-select';
+import TagSelect from 'components/Select/TagSelect';
+import SupplierSelect from 'components/Select/SupplierSelect';
 import TablePrototype from './TablePrototype';
 
 const { TextArea } = Input;

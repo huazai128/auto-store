@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import popover from 'hoc/popover';
-import ModalAdd from './modal-add';
+import ModalAdd from './ModalAdd';
 import Upload from 'components/Upload';
 
 const ButtonGroup = Button.Group;
