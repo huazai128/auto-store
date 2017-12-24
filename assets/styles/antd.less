@@ -1,12 +1,11 @@
 @import "~antd/lib/style/themes/default.less";
-
 .view-container {
   height: calc(~"100% - 40px");
 }
 
 .main-table {
   .ant-table-middle .ant-table-thead>tr>th {
-    padding: 7px 8px; // border-bottom: 1px solid rgba(@primary-color, 0.5);
+    padding: 7px 8px;
     border-bottom: 1px solid @primary-3;
   }
   &.two-row .ant-table-middle .ant-table-tbody>tr>td {
@@ -16,20 +15,16 @@
     padding: 6px 8px;
   }
   .active td {
-    // background-color: rgba(@primary-color, 0.2) !important;
-    // border-bottom-color: rgba(@primary-color, 0.4);
     background-color: @primary-1 !important;
-    border-bottom-color: @primary-2;
+    border-bottom-color: @primary-3;
   }
   &.edit {
     .ant-table-middle .ant-table-tbody>tr>td {
-      // padding: 7px 8px;
       >.td-edit {
-        cursor: pointer; // padding: 8px 0px;
+        cursor: pointer;
         border-radius: 4px;
         &:hover {
-          // background-color: rgba(@primary-color, 0.2);
-          background-color: @primary-1
+          background-color: @primary-2
         }
         /* 不换行, 省略号代替 */
         word-break: keep-all;

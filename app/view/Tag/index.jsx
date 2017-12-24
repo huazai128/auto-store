@@ -59,7 +59,7 @@ export default class extends Component {
 							<a><Icon style={{ fontSize: 14, marginRight: 5 }} type="tag-o" />添加子属性</a>
 						</AddModal>
 						<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [id])}>
-							<span className="ml20 warn-color pointer">delete</span>
+							<span className="ml20 error-color pointer">delete</span>
 						</Popconfirm>
 					</div>
 				);
@@ -91,7 +91,7 @@ export default class extends Component {
 									renderItem={item => (
 										<List.Item actions={[
 											<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [item.id])}>
-												<span className="warn-color">delete</span>
+												<span className="error-color">delete</span>
 											</Popconfirm>
 										]} title={item.name}>
 											<List.Item.Meta title={item.name} />

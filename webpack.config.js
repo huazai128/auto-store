@@ -5,10 +5,11 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import pkg from './package.json';
+import colors from 'colors';
 
 
 const modifyVars = {
-	// '@primary-color': '#5cdbd3',
+	// '@primary-color': '#2f54eb',
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
@@ -17,9 +18,7 @@ const modifyVars = {
 	'@animation-duration-slow': '.2s'
 };
 
-console.info(`当前环境：${process.env.NODE_ENV}`);
-
-console.log(path.resolve(__dirname, 'node_modules'));
+console.info(`当前环境：${process.env.NODE_ENV}`.cyan);
 
 const webpackConfig = {
 	entry: {
@@ -141,7 +140,7 @@ if (process.env.NODE_ENV !== 'production') {
 				{
 					loader: 'less-loader',
 					options: {
-						// modifyVars,
+						modifyVars,
 						paths: [
 							path.resolve(__dirname, 'node_modules'),
 							path.resolve(__dirname, 'assets'),
@@ -221,7 +220,7 @@ if (process.env.NODE_ENV !== 'production') {
 				{
 					loader: 'less-loader',
 					options: {
-						// modifyVars,
+						modifyVars,
 						paths: [
 							path.resolve(__dirname, 'node_modules'),
 							path.resolve(__dirname, 'assets'),

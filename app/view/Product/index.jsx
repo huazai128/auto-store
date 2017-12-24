@@ -42,7 +42,7 @@ export default class extends Component {
 						</ButtonGroup>
 						<HandleButton
 							method="delete"
-							className="ml20"
+							style={{ marginLeft: 20 }}
 							type="danger"
 							state="created"
 							confirm={{ title: '确定要删除选中货品？' }}

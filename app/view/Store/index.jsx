@@ -68,7 +68,7 @@ export default class extends Component {
 							<HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
 						<HandleButton
-							className="ml20"
+							style={{ marginLeft: 20 }}
 							type="danger"
 							state="created_no"
 							method="delete"
