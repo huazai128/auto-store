@@ -44,6 +44,8 @@ class Store extends TablePrototype {
 		{ fix: true, width: 150, mark: '收货仓店编号及名称', key: 'toWarehouseIds', },
 		{ fix: true, width: 150, mark: '供货仓店编号及名称', key: 'fromWarehouseIds', },
 		{ width: 100, mark: '配货数量', key: 'amount', },
+		{ width: 100, mark: '采购价总额', key: 'totalCostPrice' },
+		{ width: 100, mark: '零售价总额', key: 'totalPrice' },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
 		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },

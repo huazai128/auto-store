@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import Header from 'components/Header';
 import { Container, Content, HandleArea } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
-import numeral from 'numeral';
 
 const ButtonGroup = Button.Group;
 
@@ -21,7 +20,6 @@ export default class extends Component {
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
-					<div>{numeral(231234.0445).format('0,0[.]00')}</div>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">
 							<HandleButton method="check" state="created">审核</HandleButton>
