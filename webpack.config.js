@@ -13,7 +13,7 @@ const modifyVars = {
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
-	'@form-item-margin-bottom': '22px',
+	'@form-item-margin-bottom': '18px',
 	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 	'@animation-duration-slow': '.2s'
 };
@@ -54,6 +54,7 @@ const webpackConfig = {
 			assets: path.resolve(__dirname, 'assets'),
 			images: path.resolve(__dirname, 'assets/images'),
 			utils: path.resolve(__dirname, 'app/utils'),
+			pro: path.resolve(__dirname, 'app/pro'),
 			mapStore: path.resolve(__dirname, 'app/mapStore'),
 
 		},

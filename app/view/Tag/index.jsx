@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, List, Icon, Popconfirm } from 'antd';
+import { Button, Modal, List, Icon, Popconfirm, Tag } from 'antd';
 import { observer, inject } from 'mobx-react';
 import { toJS } from 'mobx';
 import Header from 'components/Header';
@@ -8,6 +8,11 @@ import modal from 'hoc/modal';
 import CustomFrom from 'components/Form';
 import BasicTable from 'components/Table/Basic';
 import styles from './style.less';
+
+import NoticeIcon from 'pro/NoticeIcon';
+import moment from 'moment';
+import groupBy from 'lodash/groupBy';
+
 
 @modal
 @inject('tag')
@@ -75,7 +80,6 @@ export default class extends Component {
 							<Button type="primary" ghost>手动添加属性</Button>
 						</AddModal>
 					</HandleArea>
-
 					<BasicTable
 						dataSource={dataSource}
 						columns={columns}

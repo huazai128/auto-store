@@ -93,7 +93,7 @@ export default (options = {}) => WrappedComponent => {
 				</ColligatePopover>
 			);
 
-			this.BottomNode = ({ name }) => name ? <div className="mt5 ml10"><Badge status="processing" /><span style={{ marginRight: 15 }}>{name}</span></div> : null;
+			this.BottomNode = ({ name }) => name ? <div className="ml10"><Badge status="processing" /><span style={{ marginRight: 15 }}>{name}</span></div> : null;
 
 			this.BackCreateHearder = (props) => React.cloneElement(<CreateHearder>{this.props.name}</CreateHearder>, {
 				cb: this.cb,
