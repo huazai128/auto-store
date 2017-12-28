@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { numeralNumber } from 'utils';
-
+import moment from 'moment';
 
 export function getXSrcoll(columns = []) {
 	let x = 0;
@@ -18,11 +18,6 @@ export function computeColumns(columns = []) {
 			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
 		}
 
-		if (item.type == 'info') {
-			item.render = (text) => <p className="primary-6">{text}</p>;
-		}
-
-
 		return {
 			width: 100,
 			...item,
@@ -30,7 +25,12 @@ export function computeColumns(columns = []) {
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
 				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-				return numeralNumber(text, item.key);
+
+				text = numeralNumber(text, item.key);
+
+				if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
+				if (item.type == 'info') return <p className="primary-6">{text}</p>;
+				return text;
 			}
 		};
 	});

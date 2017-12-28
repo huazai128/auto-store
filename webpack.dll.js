@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const webpackConfig = {
 	entry: {
-		dyun: [
+		vendor: [
 			'react',
 			'react-dom',
 			'react-router-dom',
@@ -15,7 +15,7 @@ const webpackConfig = {
 		],
 	},
 	output: {
-		filename: '[name].dll.js',
+		filename: '[name].dev.js',
 		path: path.join(__dirname, 'dist'),
 		library: '[name]'
 	},

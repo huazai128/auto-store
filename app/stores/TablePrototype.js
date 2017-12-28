@@ -166,8 +166,9 @@ export default class {
 		</div>
 	)
 
-	HandleButton = ({ children, ...reset }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...reset });
-	DeleteButton = ({ children, ...reset }) => <this.HandleButton method="delete" state="created" style={{ marginLeft: 20 }} type="danger" confirm {...reset}>{children}</this.HandleButton>
+	HandleButton = ({ children, ...rest }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...rest });
+
+	DeleteButton = ({ children, ...rest }) => <this.HandleButton method="delete" state="created" style={{ marginLeft: 20 }} type="danger" confirm {...rest}>{children}</this.HandleButton>
 
 	RenderSupplierPopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
 		store: this,

@@ -3,7 +3,7 @@ import { Form } from 'antd';
 const FormItem = Form.Item;
 
 
-export default ({ getFieldDecorator, children, label, keyValue, rules, BottomNode = null, ...reset }) => {
+export default ({ getFieldDecorator, children, label, keyValue, rules, BottomNode = null, ...rest }) => {
 	const placeholder = `请输入${label}${rules ? '' : '（非必填）'}`;
 
 	// const itmeNode = React.cloneElement(children, { placeholder, });
@@ -14,7 +14,7 @@ export default ({ getFieldDecorator, children, label, keyValue, rules, BottomNod
 				keyValue,
 				{
 					rules: [],
-					...reset
+					...rest
 				}
 			)(<div />)}
 		</FormItem>
@@ -26,7 +26,7 @@ export default ({ getFieldDecorator, children, label, keyValue, rules, BottomNod
 						keyValue,
 						{
 							rules: rules ? [{ required: true, message: placeholder, ...rules }] : [],
-							...reset
+							...rest
 						}
 					)(React.cloneElement(children, { placeholder, }))}
 				</FormItem>

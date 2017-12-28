@@ -11,7 +11,7 @@ const ButtonGroup = Button.Group;
 
 @popover({
 	confirm: true
-})
+	})
 class ConfirmPopover extends Component {
 	render() {
 		return (
@@ -49,7 +49,7 @@ export default class extends Component {
 						>
 							删除
 						</HandleButton>
-						<ModalAdd>
+						<ModalAdd title="添加货品资料">
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
 						<Upload handleConfirm={() => { }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>

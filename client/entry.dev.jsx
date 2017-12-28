@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, withRouter } from 'react-router-dom';
+import { HashRouter as Router, withRouter, Route } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 
 import { LocaleProvider } from 'antd';

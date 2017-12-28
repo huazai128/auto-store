@@ -30,20 +30,16 @@ class AddStoreModal extends Component {
 
 	render() {
 		// for hoc modal
-		const { visible, confirmLoading, handleCancel } = this.props;
+		const { visible, confirmLoading, handleCancel, HocModal } = this.props;
 
 		return (
-			<Modal
-				key="Modal"
+			<HocModal
 				title="添加门店资料"
-				visible={visible}
 				onOk={this.handleSubmit}
 				afterClose={this.afterClose}
-				confirmLoading={confirmLoading}
-				onCancel={e => handleCancel()}
 			>
 				<DyunFrom ref="form" fields={[...this.props.store.fields]} />
-			</Modal>
+			</HocModal>
 		);
 	}
 }

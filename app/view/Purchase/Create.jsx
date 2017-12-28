@@ -10,7 +10,7 @@ import create from 'hoc/create-table';
 @inject(store => ({
 	body: store.body,
 	backStore: store.prurchase,
-}))
+	}))
 @create()
 export default class extends Component {
 	columns = [
@@ -41,7 +41,8 @@ export default class extends Component {
 			toWarehouseField,
 			fromWarehouseField,
 			warehouseField,
-			supplierField
+			supplierField,
+			sequenceField
 		} = this.props;
 
 		return (
@@ -51,9 +52,7 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								{this.props.params.id && <BindedFormItem label="采购单单号" keyValue="sequence">
-									<Input style={{ width: 200 }} disabled />
-								</BindedFormItem>}
+								{sequenceField}
 								{toWarehouseField}
 								{supplierField}
 								<BindedFormItem label="采购日期"

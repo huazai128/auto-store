@@ -11,8 +11,11 @@ import styles from './style.less';
 
 import NoticeIcon from 'pro/NoticeIcon';
 import moment from 'moment';
-import groupBy from 'lodash/groupBy';
+import _ from 'lodash';
 
+_.times(20, () => {
+	console.log(123123);
+});
 
 @modal
 @inject('tag')
@@ -34,13 +37,12 @@ class AddModal extends Component {
 		});
 	}
 
-	afterClose = () => this.refs.form.resetFields()
+	afterClose = () => this.refs.form.resetFields();
 
 	render() {
-		const { HocModal, name, title, fields } = this.props;
+		const { HocModal, fields } = this.props;
 		return (
 			<HocModal
-				title={title}
 				afterClose={this.afterClose}
 				onOk={this.handleSubmit}
 			>

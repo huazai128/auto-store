@@ -148,7 +148,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { title, className, push, ...reset } = this.props;
+		const { title, className, push, ...rest } = this.props;
 
 		const {
 			selectedRows = [],
@@ -278,7 +278,7 @@ export default class extends Component {
 					loading={tableLoading}
 					pagination={{ pageSize: 20, total: count }}
 					columns={filterColumns}
-					{...reset}
+					{...rest}
 				/>
 				{/* <div>这是一段文字</div> */}
 			</div>

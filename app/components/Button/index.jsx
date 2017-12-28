@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
 import { observer } from 'mobx-react';
 
-export default observer(({ children, method, state = '', store, confirm, ...reset }) => {
+export default observer(({ children, method, state = '', store, confirm, ...rest }) => {
 	const ids = store.selectedRows.map(i => i.id);
 
 	const checkout = (selectedRows, state) => {
@@ -43,7 +43,7 @@ export default observer(({ children, method, state = '', store, confirm, ...rese
 			onClick,
 			type: 'primary',
 			ghost: true,
-			...reset
+			...rest
 		}
 	);
 

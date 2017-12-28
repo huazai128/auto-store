@@ -40,7 +40,8 @@ export default class extends Component {
 			toWarehouseField,
 			fromWarehouseField,
 			warehouseField,
-			supplierField
+			supplierField,
+			sequenceField
 		} = this.props;
 
 
@@ -51,9 +52,7 @@ export default class extends Component {
 					<Form>
 						<HandleArea className="create-handle-area" style={{ margin: 0 }}>
 							<div className="flex-vcenter">
-								{this.props.params.id && <BindedFormItem label="单号" keyValue="sequence">
-									<Input style={{ width: 200 }} disabled />
-								</BindedFormItem>}
+								{sequenceField}
 								{toWarehouseField}
 								{fromWarehouseField}
 								<BindedFormItem label="发货日期"

@@ -6,6 +6,7 @@ import asyncComponent from 'app/hoc/asyncComponent';
 import { Aside } from 'components/Layout';
 import { observer, inject } from 'mobx-react';
 
+import Login from 'view/User/Login';
 const TabPane = Tabs.TabPane;
 
 @observer
@@ -45,17 +46,30 @@ export default class extends Component {
 	componentDidMount() {
 		const { pathname } = this.props.location;
 		if (pathname === '/') this.props.history.push(viewMap[0].url);
+		// this.props.history.push('/login');
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { pathname } = nextProps.location;
+		if (pathname === '/') this.props.history.push(viewMap[0].url);
 	}
 
 	render() {
+		const { pathname } = this.props.location;
+
+		// console.log(pathname);
+
 		return (
-			<div style={{ height: '100%', }} className="flex">
-				<Aside {...this.props} />
-				<div style={{ overflow: 'auto' }} className="flex-g-1 flex-col">
-					<TabPanes store={this.props.body} {...this.props} />
-				</div>
+			<div style={{ height: '100%', }}>
+				{pathname !== '/login' && <div style={{ height: '100%', }} className="flex">
+					<Aside {...this.props} />
+					<div style={{ overflow: 'auto' }} className="flex-g-1 flex-col">
+						<TabPanes store={this.props.body} {...this.props} />
+					</div>
+				</div>}
 				{/* router ==> body{tags: []} */}
 				<Switch key="Switch">
+					<Route exact path="/login" component={Login} />
 					{viewMap.map(item => (
 						<Route exact key={item.url} path={item.url} render={props => {
 							const { pathname } = props.location;

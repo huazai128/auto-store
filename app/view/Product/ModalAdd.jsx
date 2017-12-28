@@ -7,7 +7,7 @@ import CustomFrom from 'components/Form';
 
 @inject(stores => ({
 	product: stores.product,
-}))
+	}))
 @modal
 @observer
 export default class extends Component {
@@ -32,21 +32,18 @@ export default class extends Component {
 
 	render() {
 		const { fields } = this.props.product;
+		const { HocModal } = this.props;
 
 		return (
-			<Modal
-				title="添加货品资料"
-				visible={this.props.visible}
+			<HocModal
 				afterClose={this.afterClose}
 				onOk={this.handleSubmit}
-				confirmLoading={this.props.confirmLoading}
-				onCancel={() => this.props.handleCancel()}
 			>
 				<CustomFrom ref="form" fields={[
 					...fields
 				]}
 				/>
-			</Modal>
+			</HocModal>
 		);
 	}
 }

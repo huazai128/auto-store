@@ -16,7 +16,7 @@ export default class extends React.Component {
 		const { fields = [] } = this.props;
 
 		const fieldNode = fields.map(item => {
-			const { label, rules, key, type, getWrap, ...reset, } = item;
+			const { label, rules, key, type, getWrap, ...rest, } = item;
 
 			const getPopupContainer = getWrap ? {
 				getPopupContainer: () => this.refs.wrap
@@ -31,7 +31,7 @@ export default class extends React.Component {
 				<FormItem key={key} label={label} {...formItemLayout}>
 					{getFieldDecorator(key, {
 						rules: rules ? [{ message: `请输入${label}!`, ...rules }] : [],
-						...reset
+						...rest
 					})(node)}
 				</FormItem>
 			);

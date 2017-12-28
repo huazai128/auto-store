@@ -6,12 +6,16 @@ export default WrappedComponent => {
 		constructor(props) {
 			super(props);
 
-			/* onCancel, confirmLoading, visible */
-			this.HocModal = ({ children, ...reset }) => React.cloneElement(<Modal>{children}</Modal>, {
+			const { title } = props;
+
+			/* onCancel, confirmLoading, visible, title */
+
+			this.HocModal = ({ children, ...rest }) => React.cloneElement(<Modal>{children}</Modal>, {
 				onCancel: () => this.handleCancel(),
 				confirmLoading: this.state.confirmLoading,
 				visible: this.state.visible,
-				...reset
+				title,
+				...rest
 			});
 
 		}

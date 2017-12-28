@@ -25,11 +25,11 @@ export default (options = {}) => WrappedComponent => {
 			this.id = this.props.params.id;
 
 			const { getFieldDecorator } = props.form;
-			this.BindedFormItem = ({ children, ...reset }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...reset });
-			this.RenderUpload = ({ children, ...reset }) => React.cloneElement(<Upload>{children}</Upload>, {
+			this.BindedFormItem = ({ children, ...rest }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...rest });
+			this.RenderUpload = ({ children, ...rest }) => React.cloneElement(<Upload>{children}</Upload>, {
 				handleConfirm: this.addItems,
 				url:this.props.backStore.url,
-				...reset
+				...rest
 			});
 
 			this.RenderCreateTable = (props) => React.cloneElement(<Table />, {
