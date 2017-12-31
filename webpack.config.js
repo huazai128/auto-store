@@ -30,7 +30,8 @@ const webpackConfig = {
 		],
 		fongwell: [
 			// 'babel-polyfill',
-			path.join(__dirname, 'client/entry.dev.jsx')
+			// path.join(__dirname, 'client/entry.dev.jsx')
+			path.join(__dirname, 'client/entry.tes.jsx')
 		]
 	},
 	output: {

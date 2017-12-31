@@ -1,11 +1,11 @@
 import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
-import historyApiFallback from 'connect-history-api-fallback';
+// import historyApiFallback from 'connect-history-api-fallback';
 
 const app = express();
 
-app.use(historyApiFallback());
+// app.use(historyApiFallback());
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../dist')));
 
