@@ -13,16 +13,17 @@ const Col = ({ children, ...rest }) => {
 	);
 };
 
+
 export default class extends Component {
 	render() {
 		return (
 			<div style={{ margin: 20 }}>
 				<h2>layout-demo</h2>
-				<Row type="flex" justify="space-between" className={styles.row}>
-					<Col span={1}>1</Col>
-					<Col span={1}>
-						<Button>dfsdf</Button>
-					</Col>
+				<Row gutter={8} className={styles.row}>
+					<Col push={1} span={6}>1</Col>
+					<Col span={6}>1</Col>
+					<Col span={6}>1</Col>
+					<Col span={6}>1</Col>
 				</Row>
 			</div>
 		);
