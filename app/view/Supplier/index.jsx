@@ -51,11 +51,9 @@ class AddStoreModal extends Component {
 @observer
 export default class extends Component {
 	store = this.props.supplier
-
 	componentDidMount() {
 		this.store.init();
 	}
-
 	render() {
 		const { HandleButton } = this.store;
 		return (

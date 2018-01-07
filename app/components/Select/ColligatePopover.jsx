@@ -37,6 +37,7 @@ export default class extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { selectedRowKeys = [] } = nextProps;
+
 		this.setState({
 			selectedRowKeys
 		});
@@ -59,9 +60,16 @@ export default class extends Component {
 		this.query = value;
 	}
 
+	onRowDoubleClick = (record) => {
+		const { key } = record;
+		if (!this.props.radio || key == this.props.disabledId) return;
+		this.onConfirm();
+	}
+
 	onRowClick = (record) => {
 		const { key } = record;
 		const { selectedRowKeys } = this.state;
+
 
 		if (this.props.radio) {
 			if (key == this.props.disabledId) return;
@@ -108,7 +116,8 @@ export default class extends Component {
 						<BasicTable
 							columns={this.columns}
 							onRow={(record) => ({
-								onClick: this.onRowClick.bind(this, record)
+								onClick: this.onRowClick.bind(this, record),
+								onDoubleClick: this.onRowDoubleClick.bind(this, record)
 							})}
 							rowSelection={rowSelection}
 							scroll={{ y: 400 }}

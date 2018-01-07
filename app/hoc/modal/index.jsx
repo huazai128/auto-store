@@ -42,7 +42,6 @@ export default WrappedComponent => {
 		}
 
 		render() {
-
 			return (
 				[
 					React.cloneElement(this.props.children, { onClick: this.showModal, key: 'outer' }),

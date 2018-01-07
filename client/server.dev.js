@@ -3,6 +3,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from '../webpack.config.js';
 import { devServer } from '../package.json';
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
+import user from '../server/user';
 
 const compiler = webpack(webpackConfig);
 
@@ -24,16 +25,16 @@ const server = new WebpackDevServer(compiler, {
 	historyApiFallback: true, //不跳转
 	// Set this as true if you want to access dev server from arbitrary url.
 
-	// setup: app => {
-	// 	// Here you can access the Express app object and add your own custom middleware to it.
-	// 	// For example, to define custom handlers for some paths:
-	// 	// app.get('/some/path', function (req, res) {
-	// 	// 	res.send({
-	// 	// 		custom: 'response'
-	// 	// 	});
-	// 	// });
-	// 	// user(app);
-	// },
+	setup: app => {
+		// Here you can access the Express app object and add your own custom middleware to it.
+		// For example, to define custom handlers for some paths:
+		// app.get('/some/path', function (req, res) {
+		// 	res.send({
+		// 		custom: 'response'
+		// 	});
+		// });
+		// user(app);
+	},
 });
 
 

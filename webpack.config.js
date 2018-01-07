@@ -8,6 +8,8 @@ import pkg from './package.json';
 import colors from 'colors';
 
 
+const isDevTest = process.argv.includes('test');
+
 const modifyVars = {
 	// '@primary-color': '#2f54eb',
 	'@font-size-base': '12px',
@@ -31,7 +33,7 @@ const webpackConfig = {
 		fongwell: [
 			// 'babel-polyfill',
 			// path.join(__dirname, 'client/entry.dev.jsx')
-			path.join(__dirname, 'client/entry.tes.jsx')
+			path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`)
 		]
 	},
 	output: {

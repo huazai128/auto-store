@@ -13,10 +13,6 @@ import NoticeIcon from 'pro/NoticeIcon';
 import moment from 'moment';
 import _ from 'lodash';
 
-_.times(20, () => {
-	console.log(123123);
-});
-
 @modal
 @inject('tag')
 @observer

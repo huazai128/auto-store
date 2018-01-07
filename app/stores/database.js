@@ -17,7 +17,7 @@ class Store {
 		runInAction(() => this[type] = data);
 	}
 
-	// 退厂类型 returnTypes: { label, value}
+	// 退厂类型 returnTypes: reactNode
 	@computed get returnTypesOption() {
 		return this.returnTypesSource.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>);
 	}

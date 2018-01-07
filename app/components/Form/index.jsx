@@ -3,7 +3,6 @@ import { Form, Input, InputNumber } from 'antd';
 const FormItem = Form.Item;
 
 
-
 @Form.create()
 export default class extends React.Component {
 	render() {
