@@ -2,7 +2,6 @@ import React from 'react';
 import { Form } from 'antd';
 const FormItem = Form.Item;
 
-
 export default ({ getFieldDecorator, children, label, keyValue, rules, BottomNode = null, ...rest }) => {
 	const placeholder = `请输入${label}${rules ? '' : '（非必填）'}`;
 

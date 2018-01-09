@@ -6,14 +6,6 @@ import TablePrototype from './TablePrototype';
 
 useStrict(true);
 
-const text = <span>Title</span>;
-const content = (
-	<div>
-		<p>Content</p>
-		<p>Content</p>
-	</div>
-);
-
 class Store extends TablePrototype {
 	constructor() {
 		super();

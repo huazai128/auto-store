@@ -21,6 +21,7 @@ const modifyVars = {
 };
 
 console.info(`当前环境：${process.env.NODE_ENV}`.cyan);
+console.log(isDevTest);
 
 const webpackConfig = {
 	entry: {
@@ -28,11 +29,9 @@ const webpackConfig = {
 			'babel-polyfill',
 			'react',
 			'react-dom',
-			'moment',
+			// 'moment',
 		],
 		fongwell: [
-			// 'babel-polyfill',
-			// path.join(__dirname, 'client/entry.dev.jsx')
 			path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`)
 		]
 	},
@@ -83,6 +82,7 @@ const webpackConfig = {
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
+			// filename: process.env.NODE_ENV !== 'production' ? '[name].min.js' : '[name].[hash:5].min.js',
 			filename: '[name].min.js',
 			minChunks: Infinity,
 		}),

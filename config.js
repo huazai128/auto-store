@@ -1,7 +1,7 @@
 const config = {
 	development: {
-		port: 7805,
-		apiBase: 'http://192.168.0.222:5555',
+		port: 8000,
+		apiBase: 'http://192.168.0.209:3721',
 		oauth: {
 			serverClientId: 'pc',
 			serverClientSecret: 'pc',
@@ -9,8 +9,8 @@ const config = {
 		},
 	},
 	production: {
-		port: 7805,
-		apiBase: 'http://sanhui.api.fongwell.com',
+		port: 8000,
+		apiBase: 'http://192.168.0.209:3721',
 		oauth: {
 			serverClientId: 'YnjssiuWaofJYzLk',
 			serverClientSecret: '7tdZfDcUelnqsJR4DRf1KibD2wCNg4znH7rVBNsbd8xBcGQRCygoW7Ht3PqAg9Rd',
@@ -18,6 +18,8 @@ const config = {
 		},
 	},
 };
+
+
 var envbuild = 'development';
 if (process.env.config_env) {
 	envbuild = process.env.config_env;
