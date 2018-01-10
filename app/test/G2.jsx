@@ -4,84 +4,87 @@ import DataSet, { DataView } from '@antv/data-set';
 
 import _ from 'lodash';
 
-const data = [
-	{ month: 'Jan' },
-	{ month: 'Feb' },
-	{ month: 'Mar' },
-	{ month: 'Apr' },
-	{ month: 'May' },
-	{ month: 'Jun' },
-	{ month: 'Jul' },
-	{ month: 'Aug' },
-	{ month: 'Sep' },
-	{ month: 'Oct' },
-	{ month: 'Nov' },
-	{ month: 'Dec' }
-];
+import dataSource from './data.json';
 
-data.forEach(item => {
-	item.beijing = _.random(-10, 10);
-	item.London = _.random(-10, 38);
-	item.Tokyo = _.random(-10, 38);
-});
-
-const ds = new DataSet();
-const dv = ds.createView().source(data);
-dv.transform({
-	type: 'fold',
-	fields: ['beijing', 'Tokyo', 'London'], // 展开字段集
-	key: 'city', // key字段
-	value: 'temperature', // value字段
-});
+const { Global } = G2;
+const colorMap = {
+	'Asia': Global.colors[0],
+	'Americas': Global.colors[1],
+	'Europe': Global.colors[2],
+	'Oceania': Global.colors[3]
+};
 
 export default class extends Component {
 	componentDidMount() {
 		const chart = new G2.Chart({
 			container: this.refs.container,
 			forceFit: true,
-			height: 600
+			height: 400
 		});
-
-		this.chart = chart;
-
-		chart.source(dv, {
-			month: {
-				range: [0, 1]
+		chart.source(dataSource, {
+			'LifeExpectancy': {
+				alias: '人均寿命（年）'
+			},
+			'Population': {
+				type: 'pow',
+				alias: '人口总数'
+			},
+			'GDP': {
+				alias: '人均国内生产总值($)',
+				tickCount: 10
+			},
+			'Country': {
+				alias: '国家/地区'
 			}
 		});
-		chart.tooltip({
-			crosshairs: {
-				type: 'line'
-			}
-		});
-		chart.axis('temperature', {
+		chart.axis('GDP', {
 			label: {
-				formatter: val => {
-					return val + '°C';
+				// 格式化坐标轴的显示
+				formatter: value => {
+					return (value / 1000).toFixed(0) + 'k';
 				}
 			}
 		});
-		chart.line().position('month*temperature').color('city').shape('smooth');
-		chart.point().position('month*temperature').color('city').size(4).shape('circle').style({
-			stroke: '#fff',
-			lineWidth: 1
+		chart.tooltip({
+			showTitle: false // 不显示默认标题
 		});
+
+		// chart.legend('Population', false);
+		// chart.legend('Country', false);
+		// chart.point().position('GDP*LifeExpectancy')
+		// 	.size('Population', [4, 65])
+		// 	.color('continent')
+		// 	.opacity(0.65)
+		// 	.shape('circle')
+		// 	.tooltip('Country*Population*GDP*LifeExpectancy');
+		// chart.render();
+
+
+		chart.legend('Population', false); // 该图表默认会生成多个图例，设置不展示 Population 和 Country 两个维度的图例
+		chart.point().position('GDP*LifeExpectancy')
+			.size('Population', [4, 65])
+			.color('continent', val => {
+				return colorMap[val];
+			})
+			.shape('circle')
+			.tooltip('Country*Population*GDP*LifeExpectancy')
+			.style('continent', {
+				lineWidth: 1,
+				strokeOpacity: 1,
+				fillOpacity: 0.3,
+				opacity: 0.65,
+				stroke: val => {
+					return colorMap[val];
+				}
+			});
 		chart.render();
 	}
 
-	onClick = () => {
-		console.log(this.chart);
-		this.chart.render();
-	}
 
 	render() {
-		console.log(123);
 
 		return (
-			<div>
-				<div ref="container"></div>
-				<button onClick={this.onClick}>按钮</button>
-			</div>
+			<div ref="container"></div>
 		);
 	}
 }

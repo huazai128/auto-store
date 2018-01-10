@@ -32,7 +32,8 @@ const webpackConfig = {
 			// 'moment',
 		],
 		fongwell: [
-			path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`)
+			path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`),
+			// path.join(__dirname, 'client/entry.tes.jsx')
 		]
 	},
 	output: {
