@@ -14,7 +14,7 @@ export default class Complete extends React.Component {
 	}
 
 	getData = async (query = '') => {
-		const { data } = await get('/api/skus', { query });
+		const { data } = await get('/api/skus/search', { query });
 		this.setState({
 			dataSource: data.map(item => ({ value: item.id, text: item.name, ...item }))
 		});
@@ -24,10 +24,10 @@ export default class Complete extends React.Component {
 		this.getData(value);
 	}
 
-	onSelect = (value) => {
-		const target = this.state.dataSource.find(item => item.value == value);
-
-		this.props.onChange(target);
+	onSelect = async (value) => {
+		const { id } = this.state.dataSource.find(item => item.value == value);
+		const { data } = await get('/api/skus/detail', { id });
+		this.props.onChange(data);
 	}
 
 	render() {

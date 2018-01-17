@@ -33,14 +33,19 @@ const showError = (error) => {
 	});
 };
 
-axios.defaults.baseURL = 'http://192.168.0.209:3721';
+// axios.defaults.baseURL = 'http://192.168.0.209:3721';
+axios.defaults.baseURL = process.env._API_BASE_;
+
+console.log(process.env._API_BASE_);
+
 axios.defaults.timeout = 5000;
-axios.defaults.params = {
-	access_token: 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTU2MDc4MDcsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTl9VU0VSIl0sImp0aSI6IjIwNzE5Zjg2LTdmMGItNGU2Ni1iMjhmLWMxYmZlOWI4ODJmYyIsImNsaWVudF9pZCI6IlR4eEdqWVpDQVViUWd4aXBLeldadGp2WXVnR0dvUWRWSVlTVVN2QWhxS1dQbFdOeXFkWlNPT0lNVmNVSlFMRnciLCJzY29wZSI6WyJmd2FwaV9iYXNlIl19.Mg6omZ9DtAX_J3QfA9HVIAWJs46O0_vNaI7IyuarhqI'
-};
 
 axios.interceptors.response.use(
-	response => {
+	(response = {}) => {
+		// ============================================================
+		const { code = 0, data } = response.data;
+		if (code !== 0) return showError(response.data);
+		// ============================================================
 		return response;
 	},
 	error => {
@@ -63,20 +68,18 @@ export const get = (url, params = {}) => {
 			params,
 		}).then(res => {
 			const { data } = res;
-			// if (data.code !== 0) {
-			// 	reject(showError(data));
-			// }
 			resolve(data);
 		}).catch(error => reject(error));
 	});
 };
 
-export const post = (url, params) => {
+export const post = (url, params, urlData = {}) => {
 	return new Promise((resolve, reject) => {
 		axios({
 			method: 'post',
 			url,
 			data: params,
+			params: urlData
 		}).then(res => {
 			const { data } = res;
 			resolve(data);
@@ -92,9 +95,6 @@ export const postByParam = (url, params = {}) => {
 			params,
 		}).then(res => {
 			const { data } = res;
-			if (data.code !== 0) {
-				reject(showError(data));
-			}
 			resolve(data);
 		}).catch(error => reject(error));
 	});

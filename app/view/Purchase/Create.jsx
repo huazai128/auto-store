@@ -10,8 +10,10 @@ import create from 'hoc/create-table';
 @inject(store => ({
 	body: store.body,
 	backStore: store.prurchase,
-	}))
-@create()
+}))
+@create({
+	setFields: ['supplier', 'toWarehouse', 'purchaseDate'],
+})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
@@ -24,7 +26,7 @@ export default class extends Component {
 
 	computedQuery = (value) => {
 		value.items.forEach(item => {
-			item.skuId = item.id;
+			item.skuId = item.skuId || item.id;
 			delete item.id;
 		});
 	}
@@ -75,8 +77,10 @@ export default class extends Component {
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<SearchPro onChange={item => addItems([item])} />
-								<Button type="primary" ghost className="ml20">选择添加商品</Button>
+								<SearchPro onChange={item => {
+									addItems([item]);
+								}} />
+								{/* <Button type="primary" ghost className="ml20">选择添加商品</Button> */}
 								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
 							</div>)}
 					/>

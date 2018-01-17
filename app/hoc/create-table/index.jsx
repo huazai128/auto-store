@@ -15,7 +15,7 @@ import styles from './style.less';
 
 @Form.create()
 export default (options = {}) => WrappedComponent => {
-	const { url } = options;
+	const { url, setFields = [] } = options;
 
 	return class extends React.Component {
 
@@ -28,7 +28,7 @@ export default (options = {}) => WrappedComponent => {
 			this.BindedFormItem = ({ children, ...rest }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...rest });
 			this.RenderUpload = ({ children, ...rest }) => React.cloneElement(<Upload>{children}</Upload>, {
 				handleConfirm: this.addItems,
-				url:this.props.backStore.url,
+				url: this.props.backStore.url,
 				...rest
 			});
 
@@ -107,13 +107,55 @@ export default (options = {}) => WrappedComponent => {
 				this.setState({ ready: false, });
 				const { data } = await get(`${this.props.backStore.url}/detail`, { id: this.id });
 
+				if (Array.isArray(data.items)) {
+					data.items.forEach(item => {
+						item.name = item.name || item.skuName;
+						item.number = item.number || item.skuNumber;
+						item.skuId = item.skuId || item.id;
+					});
+				}
+
 				this.setState({
 					ready: true,
 					items: data.items
 				}, () => {
-					this.props.form.setFieldsValue({
-						sequence: data.sequence
+					if (!Array.isArray(setFields)) return;
+					const otherValues = {};
+
+					Object.keys(data).forEach((item) => {
+						if (typeof data[item] == 'number' && String(data[item]).length == 13) data[item] = moment(data[item]);
 					});
+
+					setFields.forEach(field => {
+						if (field == 'supplier') {
+							otherValues.supplierId = data.supplierId;
+							otherValues.supplierName = data.supplierName;
+							otherValues.supplierNumber = data.supplierNumber;
+						}
+						else if (field == 'toWarehouse') {
+							otherValues.toWarehouseId = data.toWarehouseId;
+							otherValues.toWarehouseName = data.toWarehouseName;
+							otherValues.toWarehouseNumber = data.toWarehouseNumber;
+						}
+						else if (field == 'fromWarehouse') {
+							otherValues.fromWarehouseId = data.fromWarehouseId;
+							otherValues.fromWarehouseName = data.fromWarehouseName;
+							otherValues.fromWarehouseNumber = data.fromWarehouseNumber;
+						}
+						else if (field == 'warehouse') {
+							otherValues.warehouseId = data.warehouseId;
+							otherValues.warehouseName = data.warehouseName;
+							otherValues.warehouseNumber = data.warehouseNumber;
+						}
+						else otherValues[field] = data[field];
+					});
+
+					this.props.form.setFieldsValue({
+						sequence: data.sequence,
+						note: data.note,
+						...otherValues
+					});
+
 				});
 			}
 		}
@@ -176,9 +218,10 @@ export default (options = {}) => WrappedComponent => {
 			return await new Promise((reslove, reject) => {
 				this.props.form.validateFields(async (err, values) => {
 					if (!err) {
-						for (const key in values) {
-							if (values[key] && values[key].constructor.name == 'Moment') values[key] = moment(values[key]).valueOf();
-						}
+
+						Object.keys(values).forEach(key => {
+							if (moment.isMoment(values[key])) values[key] = moment(values[key]).valueOf();
+						});
 
 						if (this.state.items.length == 0) return reject(Modal.error({
 							title: '货品数据不能为空!'
@@ -188,8 +231,10 @@ export default (options = {}) => WrappedComponent => {
 							title: '货品数量填写有误!'
 						}));
 
+
 						const result = {
 							...values,
+							id: this.id,
 							items: this.state.items,
 						};
 
@@ -206,7 +251,7 @@ export default (options = {}) => WrappedComponent => {
 		}
 
 		getData = async (id) => await get(`${this.props.backStore.url}/detail`, { id });
-		create = async (query) => await post(`${this.props.backStore.url}/create`, query);
+		create = async (query) => await post(`${this.props.backStore.url}/${!this.id ? 'create' : 'update'}`, query, {id: this.id});
 
 		handleIpuntChange = (field, record, e) => {
 			const { items } = this.state;
@@ -253,12 +298,12 @@ export default (options = {}) => WrappedComponent => {
 					warehouseField={warehouseField}
 					supplierField={supplierField}
 				/> : (
-					<div className="flex-center" style={{height: '100%'}}>
-						<div style={{marginBottom: 200}}>
-							<div><Spin tip="单据加载中..." indicator={<Icon type="loading" style={{ fontSize: 30 }} spin />} /></div>
+						<div className="flex-center" style={{ height: '100%' }}>
+							<div style={{ marginBottom: 200 }}>
+								<div><Spin tip="单据加载中..." indicator={<Icon type="loading" style={{ fontSize: 30 }} spin />} /></div>
+							</div>
 						</div>
-					</div>
-				)
+					)
 			);
 		}
 	};

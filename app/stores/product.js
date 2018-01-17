@@ -49,17 +49,27 @@ class Store extends TablePrototype {
 			...productStateFilters
 		},
 		{ fix: true, width: 100, mark: '商品编号', key: 'number', created: { edit: false, rules: { required: true, }, }, },
-		{ fix: true, width: 150, mark: '商品名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
-		{ width: 100, mark: '品牌', key: 'brand', created: { edit: true, rules: { required: true, }, }, },
+		{ fix: true, width: 150, mark: '商品名称', key: 'name', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, }, },
+		{ width: 100, mark: '品牌', key: 'brand', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, }, },
 		{
 			width: 100,
 			mark: '品类',
 			key: 'bigStyle',
+			label: '大/小品类',
 			created: {
 				key: 'styles',
-				// edit: true,
+				edit: true,
 				rules: { required: true, },
 				getWrap: true,
+				limit: (record) => record.state === 'invoked',
+				initValue: (record) => ([Number(record.bigStyleId), Number(record.smallStyleId)]),
+				confirmAfter: (values) => {
+					if (Array.isArray(values.styles)) return {
+						...values,
+						bigStyleId: values.styles[0],
+						smallStyleId: values.styles[1],
+					};
+				},
 				node: <TagSelect />
 			},
 		},
@@ -67,10 +77,27 @@ class Store extends TablePrototype {
 			width: 100,
 			mark: '小品类',
 			key: 'smallStyle',
+			created: {
+				noCreated: true,
+				key: 'styles',
+				edit: true,
+				rules: { required: true, },
+				getWrap: true,
+				limit: (record) => record.state === 'invoked',
+				initValue: (record) => ([Number(record.bigStyleId), Number(record.smallStyleId)]),
+				confirmAfter: (values) => {
+					if (Array.isArray(values.styles)) return {
+						...values,
+						bigStyleId: values.styles[0],
+						smallStyleId: values.styles[1],
+					};
+				},
+				node: <TagSelect />
+			},
 		},
-		{ width: 100, mark: '规格', key: 'specification', created: { edit: true, rules: { required: true, }, }, },
-		{ width: 80, mark: '采购价', key: 'costPrice', created: { edit: true, rules: { required: true, }, type: 'number' }, },
-		{ width: 80, mark: '结算价', key: 'price', created: { edit: true, rules: { required: true, }, type: 'number' }, },
+		{ width: 100, mark: '规格', key: 'specification', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, }, },
+		{ width: 80, mark: '采购价', key: 'costPrice', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, type: 'number' }, },
+		{ width: 80, mark: '结算价', key: 'price', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, type: 'number' }, },
 		{
 			width: 100,
 			mark: '供应商编号',
@@ -78,7 +105,7 @@ class Store extends TablePrototype {
 			created: {
 				key: 'supplierId',
 				rules: { required: true, },
-				// edit: true,
+				edit: true,
 				getWrap: true,
 				node: <SupplierSelect />
 			}

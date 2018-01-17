@@ -1,13 +1,18 @@
 @import "antd/lib/style/themes/default.less";
+
 .wrap {
-  height: 100%;
-	background: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: url('assets/images/bg.png');
 }
 
 .main {
   width: 368px;
-	margin: 0 auto;
-	padding-top: 200px;
+	// margin: 0 auto;
+	margin-left: 860px;
+	padding-top: 380px;
   .tabs {
     padding: 0 2px;
     margin: 0 -2px;
@@ -32,7 +37,8 @@
     }
   }
   .prefixIcon {
-    font-size: @font-size-base;
+		// font-size: @font-size-base;
+		font-size: 14px;
     color: @disabled-color;
   }
   .getCaptcha {
@@ -54,41 +60,10 @@
       }
     }
   }
-  .iconAlipay,
-  .iconTaobao,
-  .iconWeibo {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url('https://gw.alipayobjects.com/zos/rmsportal/itDzjUnkelhQNsycranf.svg'); // background: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg')
-    margin-left: 16px;
-    vertical-align: middle;
-    cursor: pointer;
-  }
-  .iconAlipay {
-    background-position: -24px 0;
-    &:hover {
-      background-position: 0 0;
-    }
-  }
-  .iconTaobao {
-    background-position: -24px -24px;
-    &:hover {
-      background-position: 0 -24px;
-    }
-  }
-  .iconWeibo {
-    background-position: -24px -48px;
-    &:hover {
-      background-position: 0 -48px;
-    }
-  }
-  .other {
-    text-align: left;
-    margin-top: 24px;
-    line-height: 22px;
-    .register {
-      float: right;
-    }
-  }
+}
+
+.container {
+	width: 1421px;
+	height: 840px;
+	background: url('assets/images/bg-container.png');
 }

@@ -14,13 +14,22 @@ class TabPanes extends Component {
 	render() {
 		const { history, location, store } = this.props;
 		return (
-			<Tabs style={{ height: '100%' }} key="tags" className="main-tags" onEdit={key => store.remove(key, history.push)} activeKey={location.pathname} onChange={key => history.push(key)} type="card">
+			<Tabs
+				type="editable-card"
+				hideAdd
+				style={{ height: '100%' }}
+				key="tags"
+				className="main-tags"
+				onEdit={key => store.remove(key, history.push)}
+				activeKey={location.pathname}
+				onChange={key => history.push(key)}
+			>
 				{store.activeTag.map(tag => {
 					const { Component } = tag;
 
 					// tag.close = store.remove.bind(this, tag.pathname, history.push);
 					return (
-						<TabPane tab={<div onDoubleClick={() => store.remove(tag.pathname, history.push)}>{tag.name}</div>} key={tag.pathname}>
+						<TabPane tab={<span onDoubleClick={() => store.remove(tag.pathname, history.push)}>{tag.name}</span>} key={tag.pathname}>
 							{/* {Component ? <Component activeKey={location.pathname} push={history.push} {...tag} /> : <div>content...</div>} */}
 							{Component ? <Component push={history.push} {...tag} /> : <div>content...</div>}
 						</TabPane>
@@ -40,24 +49,27 @@ class GetTag extends Component {
 	}
 }
 
-@inject('body')
+@inject(stores => ({
+	body: stores.body,
+	user: stores.user
+	}))
 @observer
 export default class extends Component {
 	componentDidMount() {
 		const { pathname } = this.props.location;
-		if (pathname === '/') this.props.history.push(viewMap[0].url);
-		// this.props.history.push('/login');
+		this.check(pathname);
 	}
-
 	componentWillReceiveProps(nextProps) {
 		const { pathname } = nextProps.location;
+		this.check(pathname);
+	}
+	check = (pathname) => {
 		if (pathname === '/') this.props.history.push(viewMap[0].url);
+		if (!this.props.user.init() && pathname !== '/login') this.props.history.push('/login');
 	}
 
 	render() {
 		const { pathname } = this.props.location;
-
-		// console.log(pathname);
 
 		return (
 			<div style={{ height: '100%', }}>

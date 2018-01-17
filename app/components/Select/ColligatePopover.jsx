@@ -19,7 +19,7 @@ export default class extends Component {
 		super(props);
 
 		this.columns = [
-			{ width: 300, title: '姓名', key: 'name', },
+			{ width: 300, title: '名称', key: 'name', },
 			{ width: 300, title: '编号', key: 'number', },
 		];
 
@@ -58,6 +58,8 @@ export default class extends Component {
 	onChange = (e) => {
 		const { value } = e.target;
 		this.query = value;
+
+		this.getData();
 	}
 
 	onRowDoubleClick = (record) => {
@@ -111,7 +113,7 @@ export default class extends Component {
 		return (
 			<div>
 				<div className="pl15">
-					<Search onSearch={() => this.getData()} onChange={this.onChange} style={{ width: 200 }} placeholder="搜索关键字..." />
+					<Search onSearch={() => {/* this.getData() */ }} onChange={this.onChange} style={{ width: 200 }} placeholder="搜索关键字..." />
 					<div style={{ minHeight: 400, margin: '20px 0' }}>
 						<BasicTable
 							columns={this.columns}

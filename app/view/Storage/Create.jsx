@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm } from 'antd';
+import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm, InputNumber } from 'antd';
 import { observer, inject } from 'mobx-react';
 import moment from 'moment';
 import { Container, Content, HandleArea } from 'components/Layout';
@@ -12,17 +12,6 @@ import modal from 'hoc/modal';
 
 import styles from './style.less';
 
-
-const columns2 = [
-	{ width: 150, title: '采购单号', key: 'sequence', },
-	{ width: 180, title: '收货仓店编号及名称', key: 'warehouse', },
-	{ width: 180, title: '供应商编号及名称', key: 'supplier', },
-	{ width: 80, title: '采购数量', key: 'amount', },
-	{ width: 80, title: '已入库数', key: 'stockInAmount', },
-	{ width: 80, title: '未入库数', key: 'unbound', },
-	{ width: 80, title: '入库数量', key: 'bindedAmount', type: 'info' },
-	{ width: 80, title: '可绑定入库数', key: 'bound', },
-];
 
 
 @modal
@@ -57,12 +46,46 @@ class ReferModal extends Component {
 				}
 			}
 		];
+
+		this.columns2 = [
+			{ width: 150, title: '采购单号', key: 'sequence', },
+			{ width: 180, title: '收货仓店编号及名称', key: 'warehouse', },
+			{ width: 180, title: '供应商编号及名称', key: 'supplier', },
+			{ width: 80, title: '采购数量', key: 'amount', },
+			{ width: 80, title: '已入库数', key: 'stockInAmount', },
+			{ width: 80, title: '未入库数', key: 'unbound', },
+			// { width: 80, title: '入库数量', key: 'bindedAmount', type: 'info' },
+			{
+				width: 80, title: <div className="primary-6">入库数量</div>, key: '_bindedAmount', render: (_, record) => {
+					// return record.bindedAmount;
+					return <InputNumber max={record.bound} min={0} value={record.bindedAmount} onChange={value => this.handleInput(value, record)} />;
+				}
+			},
+			{ width: 80, title: '可绑定入库数', key: 'bound', },
+		];
+	}
+
+	handleInput = (value, record) => {
+		value = value || 0;
+		record.bindedAmount = value;
+		// ============================================================
+		this.props.data.forEach(item => {
+			let amount = 0;
+			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
+			item.amount = amount;
+		});
+
+		// ============================================================
+
+
+		this.props.update();
 	}
 
 	handleSubmit = () => {
 		const { data } = this.props;
 
 		let result = true;
+
 		data.forEach(item => {
 			if (!item.orderAmountMap.some(i => i.selected)) result = false;
 			let amount = 0;
@@ -101,6 +124,7 @@ class ReferModal extends Component {
 			item.unbound = item.amount - item.stockInAmount;
 			item.bound = item.amount - item.boundStockInAmount;
 			item.bindedAmount = item.bound;
+
 		});
 
 		item.orderAmountMap = data;
@@ -182,7 +206,7 @@ class ReferModal extends Component {
 					</Col>
 					<Col className={styles.right} span={19}>
 						<BasicTable
-							columns={columns2}
+							columns={this.columns2}
 							min
 							dataSource={orderAmountMap}
 							scroll={{ y: 450 }}

@@ -9,6 +9,8 @@ class Store extends TablePrototype {
 	constructor() {
 		super();
 		this.url = 'api/stockIns';
+		this.detailPathname = '/storage';
+
 
 		this.getData = this.getData.bind(this, { url: this.url });
 		this.handle = this.handle.bind(this, { url: this.url });

@@ -40,6 +40,9 @@ class EditPopover extends Component {
 		e.preventDefault();
 		this.refs.form.validateFields(async (err, values) => {
 
+			// 特殊处理values
+			values = this.props.item.created.confirmAfter ? this.props.item.created.confirmAfter(values) : values;
+
 			if (!err) {
 				const query = {
 					...this.props.record,
@@ -57,7 +60,9 @@ class EditPopover extends Component {
 	}
 
 	render() {
-		const { item } = this.props;
+		const { item, record } = this.props;
+		const initialValue = item.created.initValue ? item.created.initValue(record) : this.props.record[item.created.key || item.key];
+
 		return (
 			<div style={{ width: 300 }}>
 				{this.props.visible ?
@@ -69,7 +74,7 @@ class EditPopover extends Component {
 						}}
 						ref="form"
 						fields={[
-							{ label: item.mark, key: item.key, ...item.created, initialValue: this.props.record[item.created.key || item.key] },
+							{ label: item.mark, key: item.key, ...item.created, initialValue },
 						]} /> : <div style={{ height: 50 }}></div>}
 				<div className="flex jc-end pr20">
 					<Button onClick={this.props.hide}>取消</Button>
@@ -203,10 +208,9 @@ export default class extends Component {
 							<BasicTable
 								dataSource={items}
 								columns={item.subColumns}
-								hasIndex
 								size="small"
 								pagination={false}
-								scroll={{ y: 400 }}
+								scrollY={400}
 								title={() => (
 									<div className="flex jc-between pr50">
 										单据明细
@@ -234,7 +238,7 @@ export default class extends Component {
 					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
 					if (item.type == 'state') return this.renderState(text, item.stateInfo);
 
-					if (item.created && item.created.edit) {
+					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
 								<div className="td-edit">{numeralNumber(text, item.key) || <br />}</div>
@@ -276,7 +280,7 @@ export default class extends Component {
 					onChange={onChangeTable}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					loading={tableLoading}
-					pagination={{ pageSize: 20, total: count }}
+					pagination={{ pageSize: 20, total: count, current: (this.props.store.query.from / 20) + 1 }}
 					columns={filterColumns}
 					{...rest}
 				/>

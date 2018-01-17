@@ -3,7 +3,6 @@ import G2 from '@antv/g2';
 import DataSet, { DataView } from '@antv/data-set';
 
 import _ from 'lodash';
-
 import dataSource from './data.json';
 
 const { Global } = G2;

@@ -24,13 +24,12 @@ export function computeColumns(columns = []) {
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				// return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>;
-
 				text = numeralNumber(text, item.key);
 
 				if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
-				if (item.type == 'info') return <p className="primary-6">{text}</p>;
-				return text;
+				if (item.type == 'info') return <p className="info-color">{text}</p>;
+				// return text;
+				return <Tooltip placement="top" title={text}>{text}</Tooltip>;
 			}
 		};
 	});

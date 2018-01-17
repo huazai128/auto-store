@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "create by fongwell",
   "main": "index.js",
-  "devServer": {
-    "port": 8000,
-    "host": "0.0.0.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist/*",
@@ -18,10 +14,11 @@
     "dll": "npm run clean && node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.dll.js",
     "start": "cross-env NODE_ENV=development node -r babel-register client/server.dev.js  --progress --colors --profile",
     "dll-start": "npm run dll && npm start",
-    "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.config.js",
+		"build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.config.js",
+		"watch": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --watch --progress --profile --colors --config webpack.config.js",
     "build": "npm run clean && npm run build-main && npm run server",
     "server": "nodemon server/index.js",
-    "server-api": "npm run nodemon server/api.js"
+    "server-api": "npm run nodemon server/api.js -- production"
   },
   "author": "xiedengyun",
   "license": "ISC",

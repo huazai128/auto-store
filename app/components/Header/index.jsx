@@ -36,7 +36,7 @@ export default class Header extends Component {
 						onChange={e => this.props.store.handleSearchChange(e.target.value)}
 						placeholder="输入关键字搜索..."
 					/>}
-					<NoticeIcon />
+					{/* <NoticeIcon /> */}
 				</div>
 			</header>
 		);

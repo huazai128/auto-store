@@ -1,28 +1,28 @@
 const config = {
 	development: {
 		port: 8000,
-		apiBase: 'http://192.168.0.209:3721',
+		apiBase: 'http://192.168.0.133:3721',
 		oauth: {
-			serverClientId: 'pc',
-			serverClientSecret: 'pc',
-			serverAccessTokenUrl: 'http://192.168.0.222:5555/oauth/token',
+			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
+			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
+			serverAccessTokenUrl: 'http://192.168.0.133:3721/oauth/token',
 		},
 	},
 	production: {
-		port: 8000,
-		apiBase: 'http://192.168.0.209:3721',
+		port: 3000,
+		apiBase: 'https://sscsapi.fongwell.com',
 		oauth: {
-			serverClientId: 'YnjssiuWaofJYzLk',
-			serverClientSecret: '7tdZfDcUelnqsJR4DRf1KibD2wCNg4znH7rVBNsbd8xBcGQRCygoW7Ht3PqAg9Rd',
-			serverAccessTokenUrl: 'http://sanhui.api.fongwell.com/oauth/token',
+			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
+			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
+			serverAccessTokenUrl: 'https://sscsapi.fongwell.com/oauth/token',
 		},
 	},
 };
 
 
 var envbuild = 'development';
-if (process.env.config_env) {
-	envbuild = process.env.config_env;
+if (process.env.NODE_ENV) {
+	envbuild = process.env.NODE_ENV;
 } else {
 	if (process.argv.length > 2) {
 		for (var i in config) {

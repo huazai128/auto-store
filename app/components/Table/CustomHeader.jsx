@@ -45,6 +45,16 @@ export default class CustomHeader extends Component {
 		});
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const checkedList = nextProps.store.columns.filter(i => i.checked).map(i => i.mark);
+
+		this.setState({
+			checkedList,
+			indeterminate: !!checkedList.length && (checkedList.length < this.list.length),
+			checkAll: checkedList.length === this.list.length,
+		});
+	}
+
 	render() {
 
 		return (

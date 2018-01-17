@@ -31,7 +31,7 @@ export default class extends Component {
 
 		return (
 			<Table
-				scroll={{ x: getXSrcoll(this.columns), ...this.props.scroll }}
+				scroll={{ x: getXSrcoll(this.columns), y: this.props.scrollY }}
 				className={`${min ? 'two-row' : ''} main-table`}
 				size="middle"
 				columns={this.columns}

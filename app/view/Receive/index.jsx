@@ -27,10 +27,10 @@ export default class extends Component {
 						</ButtonGroup>
 						<ButtonGroup>
 							<HandleButton method="uncheck" state="checked">反审</HandleButton>
-							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
+							<HandleButton className="mr20" method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
-						<DeleteButton>删除</DeleteButton>
-						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
+						{/* <DeleteButton>删除</DeleteButton> */}
+						<Button type="primary" ghost>Excel导出资料</Button>
 						<this.store.RenderRangePicker />
 					</HandleArea>
 					<this.store.RenderMainTable className="two-row" title={this.props.name} />

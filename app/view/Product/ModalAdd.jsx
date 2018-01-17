@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { observer, inject } from 'mobx-react';
 import modal from 'hoc/modal';
 import CustomFrom from 'components/Form';
@@ -21,8 +21,11 @@ export default class extends Component {
 				try {
 					await this.props.product.create(values);
 					this.props.handleCancel();
+					message.success('操作成功');
+
 				} catch (error) {
-					this.props.handleCancel();
+					this.props.onConfirmLoading(false);
+					// this.props.handleCancel();
 				}
 			}
 		});

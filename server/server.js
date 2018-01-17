@@ -2,15 +2,22 @@ import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
 import config from '../config';
-
+import oauthRoute from './oauthRoute';
+import bodyParser from 'body-parser';
 // import historyApiFallback from 'connect-history-api-fallback';
+// app.use(historyApiFallback());
 
 const app = express();
 
-// app.use(historyApiFallback());
 app.use(morgan('dev'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, '../dist')));
 
+
+oauthRoute(app);
 
 app.get('/config', (req, res) => {
 	res.send({
@@ -19,7 +26,9 @@ app.get('/config', (req, res) => {
 	});
 });
 
-const server = app.listen(3000, () => {
+
+
+const server = app.listen(config.port, () => {
 	const host = server.address().address;
 	const port = server.address().port;
 

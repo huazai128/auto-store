@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, List, Icon, Popconfirm, Tag } from 'antd';
+import { Button, Modal, List, Icon, Popconfirm, Tag, message } from 'antd';
 import { observer, inject } from 'mobx-react';
 import { toJS } from 'mobx';
 import Header from 'components/Header';
@@ -25,9 +25,11 @@ class AddModal extends Component {
 				this.props.onConfirmLoading(true);
 				try {
 					await this.props.tag.create(values);
+					message.success('操作成功');
 					this.props.handleCancel();
 				} catch (error) {
 					this.props.handleCancel();
+					message.warning('操作失败~!');
 				}
 			}
 		});
@@ -62,7 +64,7 @@ export default class extends Component {
 							<a><Icon style={{ fontSize: 14, marginRight: 5 }} type="tag-o" />添加子属性</a>
 						</AddModal>
 						<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [id])}>
-							<span className="ml20 error-color pointer">delete</span>
+							<span className="ml20 error-color pointer">删除</span>
 						</Popconfirm>
 					</div>
 				);
@@ -93,7 +95,7 @@ export default class extends Component {
 									renderItem={item => (
 										<List.Item actions={[
 											<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [item.id])}>
-												<span className="error-color">delete</span>
+												<span className="error-color">删除</span>
 											</Popconfirm>
 										]} title={item.name}>
 											<List.Item.Meta title={item.name} />

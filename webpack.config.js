@@ -4,14 +4,14 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import pkg from './package.json';
+import config from './config.js';
 import colors from 'colors';
 
 
 const isDevTest = process.argv.includes('test');
 
 const modifyVars = {
-	// '@primary-color': '#2f54eb',
+	'@primary-color': '#33B4DE',
 	'@font-size-base': '12px',
 	'@table-header-bg': '#f5f9fd',
 	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
@@ -21,7 +21,6 @@ const modifyVars = {
 };
 
 console.info(`当前环境：${process.env.NODE_ENV}`.cyan);
-console.log(isDevTest);
 
 const webpackConfig = {
 	entry: {
@@ -55,7 +54,6 @@ const webpackConfig = {
 			view: path.resolve(__dirname, 'app/view'),
 			components: path.resolve(__dirname, 'app/components'),
 			assets: path.resolve(__dirname, 'assets'),
-			images: path.resolve(__dirname, 'assets/images'),
 			utils: path.resolve(__dirname, 'app/utils'),
 			pro: path.resolve(__dirname, 'app/pro'),
 			mapStore: path.resolve(__dirname, 'app/mapStore'),
@@ -89,7 +87,8 @@ const webpackConfig = {
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+				_API_BASE_: JSON.stringify(config.apiBase)
 			}
 		}),
 		new CopyWebpackPlugin([{
@@ -104,10 +103,10 @@ const webpackConfig = {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-	// webpackConfig.devtool = 'cheap-module-eval-source-map';
+	webpackConfig.devtool = 'cheap-module-eval-source-map';
 	webpackConfig.entry.fongwell = [
 		'webpack/hot/dev-server',
-		`webpack-dev-server/client?http://${pkg.devServer.host}:${pkg.devServer.port}`,
+		`webpack-dev-server/client?http://0.0.0.0:${config.port}`,
 		// 'webpack/hot/only-dev-server',
 		...webpackConfig.entry.fongwell
 	];

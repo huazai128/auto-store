@@ -12,7 +12,7 @@ import { getXSrcoll } from './utils';
 |--------------------------------------------------
 */
 
-@observer
+// @observer
 export default class extends Component {
 	static defaultProps = {
 		columns: [],
@@ -42,7 +42,7 @@ export default class extends Component {
 
 		this.columns = props.columns.map(item => {
 			if (item.edit) item.title = <div className="primary-6">{item.title}<Icon type="edit" /></div>;
-			if (item.type) item.render = (text) => <p className="primary-6">{text}</p>;
+			if (item.type == 'info') item.render = (text) => <p className="info-color">{text}</p>;
 			return {
 				...item,
 				dataIndex: item.key,
@@ -85,7 +85,6 @@ export default class extends Component {
 	}
 	render() {
 		this.props.items.forEach((i, index) => i.key = index);
-
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table

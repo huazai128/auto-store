@@ -5,21 +5,13 @@ import { get } from 'utils/request';
 
 const Option = Select.Option;
 
+@inject('database')
 @observer
 export default class extends Component {
-	state = {
-		data: [],
-	}
-
-	async componentDidMount() {
-		const { data } = await get('api/suppliers/search', { size: 9999 });
-		this.setState({ data });
-	}
-
 	render() {
 		return (
 			<Select {...this.props} >
-				{this.state.data.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+				{this.props.database.supplierOption}
 			</Select>
 		);
 	}

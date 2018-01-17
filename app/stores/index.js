@@ -1,5 +1,6 @@
 import tag from './tag.js';
 import body from './body.js';
+import user from './user';
 import send from './send';
 import store from './store';
 import sales from './sales';
@@ -18,6 +19,7 @@ const stores = {
 	tag,
 	body,
 	send,
+	user,
 	store,
 	sales,
 	return_,

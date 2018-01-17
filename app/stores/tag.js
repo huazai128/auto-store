@@ -12,8 +12,6 @@ class Store extends TablePrototype {
 		this.getData = this.getData.bind(this, { url: this.url });
 		this.create = this.create.bind(this, { url: this.url });
 		this.handle = this.handle.bind(this, { url: this.url });
-
-		this.getData();
 	}
 
 	@observable query = {

@@ -5,6 +5,7 @@ import TablePrototype from './TablePrototype';
 import { get, post } from 'utils/request';
 import { dataStateFilters } from 'mapStore/filter';
 import axios from 'axios';
+import moment from 'moment';
 const { TextArea } = Input;
 
 useStrict(true);
@@ -44,10 +45,27 @@ class Store extends TablePrototype {
 			},
 			...dataStateFilters
 		},
-		{ fix: true, width: 100, mark: '门店名称', key: 'name', created: { rules: { required: true, }, }, },
 		{ fix: true, width: 150, mark: '门店编号', key: 'number', created: { rules: { required: true, }, }, },
-		{ width: 100, mark: '门店面积', key: 'area', created: { edit: true, }, },
-		{ width: 100, mark: '开业时间', key: 'openDate', type: 'date', created: { node: <DatePicker /> }, },
+		{ fix: true, width: 100, mark: '门店名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
+		{
+			width: 100,
+			mark: '门店面积',
+			key: 'area',
+			created: {
+				edit: true,
+			},
+		},
+		{
+			width: 100,
+			mark: '开业时间',
+			key: 'openDate',
+			created: {
+				edit: true,
+				initValue: (record) => record.openDate ? moment(record.openDate) : null,
+				getCalendarContainer: true,
+				node: <DatePicker />
+			},
+		},
 		{ width: 100, mark: '门店地址', key: 'address', created: { edit: true, }, },
 		{ width: 100, mark: '联系人', key: 'contact', created: { edit: true, }, },
 		{ width: 80, mark: '联系方式', key: 'contactWay', created: { edit: true, }, },
@@ -61,7 +79,7 @@ class Store extends TablePrototype {
 			key: 'note',
 			created: { edit: true, node: <TextArea rows={4} /> },
 		},
-	];
+	]
 
 	@computed get dataSource() { return toJS(this.data); }
 	@computed get fields() { return this.getFields(this.columns); }

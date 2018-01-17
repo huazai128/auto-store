@@ -7,7 +7,10 @@ import { observer, inject } from 'mobx-react';
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
 
-@inject('body')
+@inject(stores => ({
+	body: stores.body,
+	user: stores.user,
+}))
 @observer
 export default class extends React.Component {
 	store = this.props.body
@@ -18,9 +21,14 @@ export default class extends React.Component {
 
 	onCollapse = (collapsed) => { this.setState({ collapsed }); }
 
+	quit = () => {
+		this.props.user.quit(() => {
+			this.props.history.push('/login');
+		});
+	}
+
 	render() {
 		const { pathname } = this.props.location;
-
 		return (
 			<Sider
 				width={180}
@@ -43,6 +51,10 @@ export default class extends React.Component {
 							</Menu.Item>
 						);
 					})}
+
+					<Menu.Item key="login">
+						<div onClick={this.quit}>退出</div>
+					</Menu.Item>
 					{/* <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
 						<Menu.Item key="5">Option 5</Menu.Item>
 						<Menu.Item key="6">Option 6</Menu.Item>

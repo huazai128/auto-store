@@ -86,6 +86,9 @@ export default class {
 	// 搜索关键字
 	@action handleSearchChange = (value) => {
 		this.query.query = value;
+
+		this.query.from = 0;
+
 		this.getData();
 	}
 
@@ -149,8 +152,8 @@ export default class {
 	}
 
 	getFields = (columns = []) => {
-		return columns.filter(i => i.created).map(item => ({
-			label: item.mark,
+		return columns.filter(i => i.created && !i.created.noCreated).map(item => ({
+			label: item.label || item.mark,
 			key: item.key,
 			...item.created
 		}));

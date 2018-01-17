@@ -3,7 +3,12 @@ import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from '../webpack.config.js';
 import { devServer } from '../package.json';
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
-import user from '../server/user';
+import oauthRoute from '../server/oauthRoute';
+import bodyParser from 'body-parser';
+
+import config from '../config';
+
+
 
 const compiler = webpack(webpackConfig);
 
@@ -33,11 +38,15 @@ const server = new WebpackDevServer(compiler, {
 		// 		custom: 'response'
 		// 	});
 		// });
+
+		app.use(bodyParser.json());
+		app.use(bodyParser.urlencoded({ extended: false }));
+		oauthRoute(app);
 		// user(app);
 	},
 });
 
 
-server.listen(devServer.port, () => {
-	console.log(`监听端口 ===>${devServer.host}: ${devServer.port}`);
+server.listen(config.port, () => {
+	console.log(`监听端口 ===>${config.port}`);
 });
