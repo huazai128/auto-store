@@ -11,7 +11,6 @@ import styles from './style.less';
 
 import NoticeIcon from 'pro/NoticeIcon';
 import moment from 'moment';
-import _ from 'lodash';
 
 @modal
 @inject('tag')

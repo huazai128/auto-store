@@ -33,10 +33,8 @@ class Store extends TablePrototype {
 			subColumns: [
 				{ title: '货品编号', key: 'skuNumber' },
 				{ title: '货品名称', key: 'skuName' },
-				{ title: '采购价', key: 'costPrice' },
 				{ title: '零售价', key: 'price' },
 				{ title: '收货数量', key: 'amount' },
-				{ title: '采购价总额', key: 'totalCostPrice' },
 				{ title: '零售价总额', key: 'totalPrice' },
 			]
 		},

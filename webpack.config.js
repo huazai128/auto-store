@@ -20,7 +20,7 @@ const modifyVars = {
 	'@animation-duration-slow': '.2s'
 };
 
-console.info(`当前环境：${process.env.NODE_ENV}`.cyan);
+console.info(`webpack环境：${process.env.NODE_ENV}`.cyan);
 
 const webpackConfig = {
 	entry: {
@@ -28,7 +28,7 @@ const webpackConfig = {
 			'babel-polyfill',
 			'react',
 			'react-dom',
-			// 'moment',
+			'moment',
 		],
 		fongwell: [
 			path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`),

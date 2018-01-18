@@ -33,7 +33,7 @@ export default class extends Component {
 						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
 						<this.store.RenderRangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable title={this.props.name} />
+					<this.store.RenderMainTable className="two-row" push={this.props.push} title={this.props.name} />
 				</Content>
 			</Container>
 		);

@@ -1,3 +1,4 @@
+
 const config = {
 	development: {
 		port: 8000,
@@ -5,7 +6,7 @@ const config = {
 		oauth: {
 			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
 			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
-			serverAccessTokenUrl: 'http://192.168.0.133:3721/oauth/token',
+			serverAccessTokenUrl: 'http://192.168.0.209:3721/oauth/token',
 		},
 	},
 	production: {
@@ -35,5 +36,5 @@ if (process.env.NODE_ENV) {
 }
 
 var toUse = config[envbuild];
-console.log('配置环境:' + envbuild);
+console.log('node环境:' + envbuild);
 module.exports = toUse;

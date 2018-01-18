@@ -10,7 +10,9 @@ import create from 'hoc/create-table';
 	body: stores.body,
 	backStore: stores.distributions,
 }))
-@create()
+@create({
+	setFields: ['fromWarehouse', 'toWarehouse', 'shipDate'],
+})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
@@ -23,7 +25,7 @@ export default class extends Component {
 
 	computedQuery = (value) => {
 		value.items.forEach(item => {
-			item.skuId = item.id;
+			item.skuId = item.skuId || item.id;
 			delete item.id;
 		});
 	}

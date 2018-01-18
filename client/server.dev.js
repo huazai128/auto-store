@@ -1,7 +1,6 @@
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from '../webpack.config.js';
-import { devServer } from '../package.json';
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
 import oauthRoute from '../server/oauthRoute';
 import bodyParser from 'body-parser';

@@ -7,7 +7,7 @@ useStrict(true);
 class Store extends TablePrototype {
 	constructor() {
 		super();
-		this.url = 'api/sales';
+		this.url = 'api/order';
 
 		this.getData = this.getData.bind(this, { url: this.url });
 	}
@@ -15,15 +15,29 @@ class Store extends TablePrototype {
 	@observable query = {};
 
 	@observable tableLoading = false
+	// @observable selectedRows = []
 	@observable data = []
 	@observable count = 0
 
 	@observable columns = [
 		{ fix: true, width: 150, mark: '单号', key: 'sequence', },
-		{ fix: true, width: 150, mark: '发货仓库编号及名称', key: 'fromWarehouseIds', },
-		{ width: 150, mark: '购买商品数量', key: 'amount', },
-		{ width: 100, mark: '实收金额', key: 'price', },
-		{ width: 80, mark: '销售日期', key: 'confirmedDate', type: 'date' },
+		{
+			width: 50,
+			mark: '明细',
+			key: 'view',
+			hideCollect: true,
+			subColumns: [
+				{ title: '货品编号', key: 'number' },
+				{ title: '货品名称', key: 'name' },
+				{ title: '零售价', key: 'price' },
+				{ title: '销售数量', key: 'amount' },
+				{ title: '零售价总额', key: 'totalPrice' },
+			]
+		},
+		{ width: 150, mark: '店铺编号及名称', key: 'store', },
+		{ width: 150, mark: '销售总数量', key: 'amount', },
+		{ width: 100, mark: '实收总金额', key: 'totalPrice', },
+		{ width: 400, mark: '销售日期', key: 'createdDate', type: 'date' },
 	];
 
 	@computed get dataSource() { return toJS(this.data); }

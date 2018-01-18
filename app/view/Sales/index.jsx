@@ -19,7 +19,7 @@ export default class extends Component {
 	render() {
 		return (
 			<Container>
-				<Header store={this.store} noSearch>{this.props.name}</Header>
+				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
 						<div className="flex-vcenter ml10">
@@ -27,7 +27,7 @@ export default class extends Component {
 							<RangePicker onChange={this.store.handleRangePicker} />
 						</div>
 					</HandleArea>
-					<this.store.RenderMainTable className="two-row" title={this.props.name} />
+					<this.store.RenderMainTable noRowSelection className="two-row" title={this.props.name} />
 				</Content>
 			</Container>
 		);

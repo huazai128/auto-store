@@ -12,7 +12,9 @@ import create from 'hoc/create-table';
 	backStore: stores.refunds,
 	returnTypesOption: stores.database.returnTypesOption,
 }))
-@create()
+@create({
+	setFields: ['fromWarehouse', 'toWarehouse', 'typeId'],
+})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },

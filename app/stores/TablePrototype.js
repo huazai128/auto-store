@@ -33,7 +33,9 @@ export default class {
 		this.getData();
 	}
 
-	@action handleSelection = (selectedRows) => this.selectedRows = selectedRows;
+	@action handleSelection = (selectedRows) => {
+		this.selectedRows = selectedRows;
+	}
 
 	// @action onRowClick = (record) => {
 	// 	const { key } = record;

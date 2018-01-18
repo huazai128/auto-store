@@ -36,8 +36,6 @@ const showError = (error) => {
 // axios.defaults.baseURL = 'http://192.168.0.209:3721';
 axios.defaults.baseURL = process.env._API_BASE_;
 
-console.log(process.env._API_BASE_);
-
 axios.defaults.timeout = 5000;
 
 axios.interceptors.response.use(

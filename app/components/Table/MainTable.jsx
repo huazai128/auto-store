@@ -9,7 +9,7 @@ import popover from 'hoc/popover';
 import CustomHeader from './CustomHeader';
 import { getXSrcoll } from './utils';
 import { numeralNumber } from 'utils';
-
+import numeral from 'numeral';
 
 import BasicTable from './Basic';
 
@@ -196,6 +196,11 @@ export default class extends Component {
 				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
 			}
 
+			if (item.key == 'store') {
+				// item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
+				item.render = (_, record) => <div><p>{record.storeNumber}</p><p style={{ opacity: 0.67 }}>{record.storeName}</p></div>;
+			}
+
 			// ============================================================
 			/* 单据明细 */
 			if (item.key === 'view') {
@@ -204,7 +209,7 @@ export default class extends Component {
 					const { items, sequence, totalCostPrice, totalPrice } = record;
 
 					return (
-						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="primary-6">{sequence}</strong></p>} content={<div style={{ width: 875, minHeight: 400 }}>
+						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="info-color">{sequence}</strong></p>} content={<div onDoubleClick={e => e.stopPropagation()} onClick={e => e.stopPropagation()} style={{ width: 875, minHeight: 400 }}>
 							<BasicTable
 								dataSource={items}
 								columns={item.subColumns}
@@ -213,11 +218,11 @@ export default class extends Component {
 								scrollY={400}
 								title={() => (
 									<div className="flex jc-between pr50">
-										单据明细
-										<p>
-											<strong style={{ margin: '0 20px' }}>单据总采购价金额：{totalCostPrice || 0}</strong>
-											<strong>单据总零售价金额：{totalPrice || 0}</strong>
-										</p>
+										<strong>单据明细</strong>
+										{!('hideCollect' in item) && <p>
+											<strong style={{ margin: '0 20px' }}>单据总采购价金额：{numeral(totalCostPrice).format('0,0[.]00') || 0}</strong>
+											<strong>单据总零售价金额：{numeral(totalPrice).format('0,0[.]00') || 0}</strong>
+										</p>}
 									</div>
 								)}
 							/>

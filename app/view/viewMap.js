@@ -22,7 +22,7 @@ export default [
 	{ name: '配货单编辑', url: '/distributions/:id', Component: asyncComponent(() => import('view/Distributions/Create')), children: [], },
 
 	{ name: '发货管理', icon: 'logout', url: '/send', Component: asyncComponent(() => import('view/Send')), children: [], },
-	{ name: '发货制单', url: '/send/create', Component: asyncComponent(() => import('view/Send/Create')), children: [], },
+	// { name: '发货制单', url: '/send/create', Component: asyncComponent(() => import('view/Send/Create')), children: [], },
 
 	{ name: '门店收货管理', icon: 'schedule', url: '/receive', Component: asyncComponent(() => import('view/Receive')), children: [], },
 
