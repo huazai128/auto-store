@@ -6,10 +6,7 @@ import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import config from './config.js';
 import colors from 'colors';
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-
-
 
 const isDevTest = process.argv.includes('test');
 
@@ -177,6 +174,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 	];
 } else {
+	// optimize-css-assets-webpack-plugin与ModuleConcatenationPlugin
+	// 进一步减小css和js打包后文件的体积  local: reduce ~ 30kb ~ 50kb
+	// 																	prod: reduce ~ 10kb
+	// ============================================================
 	webpackConfig.plugins.push(new OptimizeCssAssetsPlugin({
 		cssProcessorOptions: {
 			discardComments: {
@@ -185,8 +186,9 @@ if (process.env.NODE_ENV !== 'production') {
 		},
 		canPrint: true
 	}));
-	webpackConfig.plugins.push(new ExtractTextPlugin('styles.css'));
 	webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+	// ============================================================
+	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'));
 	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
 		output: {
 			comments: false,
@@ -196,7 +198,7 @@ if (process.env.NODE_ENV !== 'production') {
 		}
 	}));
 	// webpackConfig.output.publicPath='/assets/';
-	webpackConfig.output.filename = '[name].[hash:5].js';
+	webpackConfig.output.filename = '[name].[hash:5].min.js';
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js';
 
 	webpackConfig.module.rules = [

@@ -5,6 +5,8 @@ import DataSet, { DataView } from '@antv/data-set';
 import _ from 'lodash';
 import dataSource from './data.json';
 
+import { Divider } from 'antd';
+
 const { Global } = G2;
 const colorMap = {
 	'Asia': Global.colors[0],
@@ -83,7 +85,11 @@ export default class extends Component {
 	render() {
 
 		return (
-			<div ref="container"></div>
+			<div>
+				<div ref="container"></div>
+				<Divider>这是一段分割线</Divider>
+				这是一段分割线
+			</div>
 		);
 	}
 }
