@@ -6,6 +6,9 @@ import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import config from './config.js';
 import colors from 'colors';
+// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+
 
 
 const isDevTest = process.argv.includes('test');
@@ -174,7 +177,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 	];
 } else {
+	webpackConfig.plugins.push(new OptimizeCssAssetsPlugin({
+		cssProcessorOptions: {
+			discardComments: {
+				removeAll: true
+			}
+		},
+		canPrint: true
+	}));
 	webpackConfig.plugins.push(new ExtractTextPlugin('styles.css'));
+	webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
 		output: {
 			comments: false,
@@ -199,7 +211,7 @@ if (process.env.NODE_ENV !== 'production') {
 					loader: 'css-loader',
 					options: { minimize: true, }
 				},
-				'postcss-loader'
+					'postcss-loader'
 				]
 			})
 		},
@@ -220,7 +232,7 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
-				'postcss-loader',
+					'postcss-loader',
 				{
 					loader: 'less-loader',
 					options: {

@@ -14,8 +14,8 @@
     "dll": "npm run clean && node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.dll.js",
     "start": "cross-env NODE_ENV=development node -r babel-register client/server.dev.js  --progress --colors --profile",
     "dll-start": "npm run dll && npm start",
-		"build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.config.js",
-		"watch": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --watch --progress --profile --colors --config webpack.config.js",
+    "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --watch --progress --profile --colors --config webpack.config.js",
     "build": "npm run clean && npm run build-main",
     "server": "nodemon server/index.js",
     "server-api": "npm run nodemon server/api.js -- production"
@@ -53,6 +53,7 @@
     "mime": "^1.4.0",
     "morgan": "^1.8.2",
     "node-sass": "^4.5.3",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
     "postcss-loader": "^2.0.6",
     "postcss-pxtorem": "^4.0.1",
     "resolve-url-loader": "^2.2.0",
@@ -82,6 +83,8 @@
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-infinite-scroller": "^1.1.3",
+    "react-router-dom": "^4.2.2",
+    "reqwest": "^2.0.5"
   }
 }
