@@ -26,10 +26,10 @@ export default class extends Component {
 	]
 
 	computedQuery = (value) => {
-		value.items = value.items.map(item => ({
-			skuId: item.id,
-			amount: item.amount,
-		}));
+		value.items.forEach(item => {
+			item.skuId = item.skuId || item.id;
+			delete item.id;
+		});
 	}
 
 	render() {
