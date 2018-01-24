@@ -115,7 +115,7 @@ class ReferModal extends Component {
 		if (this.props.data.map(i => i.key).includes(item.key)) return;
 		const { id: skuId } = item;
 		const { supplierId, warehouseId } = this.props;
-		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId, warehouseId });
+		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId, warehouseId, showInvalid: false });
 
 		if (data.length == 0) return;
 
@@ -226,7 +226,9 @@ class ReferModal extends Component {
 	body: store.body,
 	backStore: store.storage,
 }))
-@create()
+@create({
+	setFields: ['supplier', 'warehouse'],
+})
 @observer
 export default class extends Component {
 	columns = [

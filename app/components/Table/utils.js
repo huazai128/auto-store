@@ -4,9 +4,7 @@ import { numeralNumber } from 'utils';
 import moment from 'moment';
 
 export function getXSrcoll(columns = []) {
-	let x = 0;
-	columns.forEach(item => x += item.width);
-	return x;
+	return columns.map(item => item.width).reduce((a, b) => a + b, 0);
 }
 
 export function computeColumns(columns = []) {

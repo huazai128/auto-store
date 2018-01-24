@@ -6,7 +6,7 @@ const config = {
 		oauth: {
 			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
 			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
-			serverAccessTokenUrl: 'http://192.168.0.209:3721/oauth/token',
+			serverAccessTokenUrl: 'http://192.168.0.133:3721/oauth/token',
 		},
 	},
 	production: {

@@ -34,7 +34,12 @@ export default [
 
 	{ name: '退货管理', icon: 'car', url: '/refunds', Component: asyncComponent(() => import('view/Refunds')), children: [], },
 	{ name: '退货单制单', url: '/refunds/create', Component: asyncComponent(() => import('view/Refunds/Create')), children: [], },
-	{ name: '退货单编辑', url: '/refunds/:id', Component: asyncComponent(() => import('view/Refunds/Create')), children: [], },
+	{
+		name: '退货单编辑',
+		url: '/refunds/:id',
+		Component: asyncComponent(() => import('view/Refunds/Create')),
+		children: [],
+	},
 
 	// { name: 'demo', icon: 'schedule', url: '/demo', Component: asyncComponent(() => import('app/test/G2')), children: [], },
 

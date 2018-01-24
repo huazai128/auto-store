@@ -3,8 +3,6 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { stateFilters } from 'mapStore/filter';
 import axios from 'axios';
 import database from './database';
-import { Redirect } from 'react-router-dom';
-
 
 useStrict(true);
 
@@ -18,7 +16,6 @@ class Store {
 	@observable userData = null
 
 	@action setUserData = (userData) => {
-
 		this.IS_LOAD = false;
 		// 计算token到期时间
 		// userData.expireTime = new Date().valueOf() + userData.expires_in * 1000;

@@ -251,7 +251,8 @@ export default class extends Component {
 						);
 					}
 					// return text;
-					return <Tooltip placement="topLeft" title={text}>{numeralNumber(text, item.key)}</Tooltip>;
+
+					return <Tooltip placement="topLeft" title={numeralNumber(text, item.key)}>{numeralNumber(text, item.key)}</Tooltip>;
 				}
 			};
 		}).filter(i => i.checked || i.fix);

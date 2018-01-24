@@ -29,7 +29,7 @@ const server = new WebpackDevServer(compiler, {
 	historyApiFallback: true, //不跳转
 	// Set this as true if you want to access dev server from arbitrary url.
 
-	setup: app => {
+	before: app => {
 		// Here you can access the Express app object and add your own custom middleware to it.
 		// For example, to define custom handlers for some paths:
 		// app.get('/some/path', function (req, res) {
