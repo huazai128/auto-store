@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Button, Icon } from 'antd';
-import { observer, inject } from 'mobx-react';
-import Header from 'components/Header';
-import { Container, Content, HandleArea } from 'components/Layout';
-import popover from 'hoc/popover';
-import ModalAdd from './ModalAdd';
-import Upload from 'components/Upload';
+import React, { Component } from 'react'
+import { Button, Icon } from 'antd'
+import { observer, inject } from 'mobx-react'
+import Header from 'components/Header'
+import { Container, Content, HandleArea } from 'components/Layout'
+import popover from 'hoc/popover'
+import ModalAdd from './ModalAdd'
+import Upload from 'components/Upload'
 
-const ButtonGroup = Button.Group;
+const ButtonGroup = Button.Group
 
 @popover({
 	confirm: true
@@ -16,7 +16,7 @@ class ConfirmPopover extends Component {
 	render() {
 		return (
 			<div>content</div>
-		);
+		)
 	}
 }
 
@@ -25,11 +25,11 @@ class ConfirmPopover extends Component {
 export default class extends Component {
 	store = this.props.product
 	componentDidMount() {
-		this.store.init();
+		this.store.init()
 	}
 
 	render() {
-		const { HandleButton, RenderWarehousePopover } = this.store;
+		const { HandleButton, RenderWarehousePopover } = this.store
 
 		return (
 			<Container>
@@ -61,6 +61,6 @@ export default class extends Component {
 					<this.store.RenderMainTable edit title={this.props.name} />
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

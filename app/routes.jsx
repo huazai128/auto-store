@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { Tabs } from 'antd';
-import viewMap from 'view/viewMap';
-import asyncComponent from 'app/hoc/asyncComponent';
-import { Aside } from 'components/Layout';
-import { observer, inject } from 'mobx-react';
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { Tabs } from 'antd'
+import viewMap from 'view/viewMap'
+import asyncComponent from 'app/hoc/asyncComponent'
+import { Aside } from 'components/Layout'
+import { observer, inject } from 'mobx-react'
 
-import Login from 'view/User/Login';
-const TabPane = Tabs.TabPane;
+import Login from 'view/User/Login'
+const TabPane = Tabs.TabPane
 
 @observer
 class TabPanes extends Component {
 	render() {
-		const { history, location, store } = this.props;
+		const { history, location, store } = this.props
 		return (
 			<Tabs
 				type="editable-card"
@@ -25,7 +25,7 @@ class TabPanes extends Component {
 				onChange={key => history.push(key)}
 			>
 				{store.activeTag.map(tag => {
-					const { Component } = tag;
+					const { Component } = tag
 
 					// tag.close = store.remove.bind(this, tag.pathname, history.push);
 					return (
@@ -33,19 +33,19 @@ class TabPanes extends Component {
 							{/* {Component ? <Component activeKey={location.pathname} push={history.push} {...tag} /> : <div>content...</div>} */}
 							{Component ? <Component push={history.push} {...tag} /> : <div>content...</div>}
 						</TabPane>
-					);
+					)
 				})}
 			</Tabs>
-		);
+		)
 	}
 }
 
 class GetTag extends Component {
 	componentDidMount() {
-		this.props.store.add(this.props.tag);
+		this.props.store.add(this.props.tag)
 	}
 	render() {
-		return null;
+		return null
 	}
 }
 
@@ -56,20 +56,20 @@ class GetTag extends Component {
 @observer
 export default class extends Component {
 	componentDidMount() {
-		const { pathname } = this.props.location;
-		this.check(pathname);
+		const { pathname } = this.props.location
+		this.check(pathname)
 	}
 	componentWillReceiveProps(nextProps) {
-		const { pathname } = nextProps.location;
-		this.check(pathname);
+		const { pathname } = nextProps.location
+		this.check(pathname)
 	}
 	check = (pathname) => {
-		if (pathname === '/') this.props.history.push(viewMap[0].url);
-		if (!this.props.user.init() && pathname !== '/login') this.props.history.push('/login');
+		if (pathname === '/') this.props.history.push(viewMap[0].url)
+		if (!this.props.user.validate() && pathname !== '/login') this.props.history.push('/login')
 	}
 
 	render() {
-		const { pathname } = this.props.location;
+		const { pathname } = this.props.location
 
 		return (
 			<div style={{ height: '100%', }}>
@@ -84,15 +84,15 @@ export default class extends Component {
 					<Route exact path="/login" component={Login} />
 					{viewMap.map(item => (
 						<Route exact key={item.url} path={item.url} render={props => {
-							const { pathname } = props.location;
-							const { params } = props.match;
+							const { pathname } = props.location
+							const { params } = props.match
 							return (
 								<GetTag store={this.props.body} tag={{ ...item, pathname, params }} {...props} />
-							);
+							)
 						}} />
 					))}
 				</Switch>
 			</div>
-		);
+		)
 	}
 }

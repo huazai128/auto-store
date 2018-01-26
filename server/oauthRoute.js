@@ -1,18 +1,18 @@
-import config, { oauth as configOauth } from '../config';
-import request from 'request';
+import config, { oauth as configOauth } from '../config'
+import request from 'request'
 
 var appendExpireTime = function (token) {
-	var expires = token.expires_in;
-	token.expireTime = new Date().getTime() + expires * 1000 * 0.9;
-};
+	var expires = token.expires_in
+	token.expireTime = new Date().getTime() + expires * 1000 * 0.9
+}
 
 var router = function (app) {
 	app.get('/config', (req, res) => {
 		res.send({
 			code: 0,
 			data: config
-		});
-	});
+		})
+	})
 
 	app.post('/oauth', function (req, res, next) {
 		request.post({
@@ -29,29 +29,29 @@ var router = function (app) {
 				password: req.body.password,
 			}
 		}, function (err, response, body) {
-			let data;
+			let data
 			try {
-				data = JSON.parse(body);
+				data = JSON.parse(body)
 
 			} catch (e) {
 				res.json({
 					err: err,
 					body: body
-				});
-				return;
+				})
+				return
 			}
 			if (data.access_token) {
-				appendExpireTime(data);
-				res.json(data);
+				appendExpireTime(data)
+				res.json(data)
 			} else {
 				res.json({
 					err: err,
 					body: body
-				});
-				return;
+				})
+				return
 			}
-		});
-	});
-};
+		})
+	})
+}
 
-export default router;
+export default router

@@ -12,7 +12,7 @@
     "babel-node": "./node_modules/.bin/babel-node",
     "es-checker": "./node_modules/.bin/es-checker",
     "dll": "npm run clean && node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.dll.js",
-    "start": "cross-env NODE_ENV=development node -r babel-register client/server.dev.js  --progress --colors --profile",
+		"start": "cross-env NODE_ENV=development node -r babel-register client/server.dev.js",
     "dll-start": "npm run dll && npm start",
     "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors --config webpack.config.js",
     "watch": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --watch --progress --profile --colors --config webpack.config.js",

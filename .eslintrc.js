@@ -32,18 +32,17 @@ module.exports = {
 		],
 		"semi": [
 			"error",
-			"always"
+			"never"
 		],
-		// "no-extra-semi" : 2,
 		//控制台警告
 		"no-console": [
 			"warn"
 		],
 		//关闭声明的变量未使用，与React组件冲突；
 		"no-unused-vars": [
-		    "off"
+			"off"
 		],
 		//构造函数首字母大写
-		"new-cap": "error"
+		"new-cap": "error",
 	}
 };

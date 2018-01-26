@@ -1,14 +1,14 @@
-import path from 'path';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import config from './config.js';
-import colors from 'colors';
-import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import path from 'path'
+import webpack from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import autoprefixer from 'autoprefixer'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import config from './config.js'
+import colors from 'colors'
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
-const isDevTest = process.argv.includes('test');
+const isDevTest = process.argv.includes('test')
 
 const modifyVars = {
 	'@primary-color': '#33B4DE',
@@ -18,9 +18,9 @@ const modifyVars = {
 	'@form-item-margin-bottom': '18px',
 	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
 	'@animation-duration-slow': '.2s'
-};
+}
 
-console.info(`webpack环境：${process.env.NODE_ENV}`.cyan);
+console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
 
 const webpackConfig = {
 	entry: {
@@ -100,21 +100,21 @@ const webpackConfig = {
 			inject: true,
 		}),
 	],
-};
+}
 
 if (process.env.NODE_ENV !== 'production') {
-	webpackConfig.devtool = 'cheap-module-eval-source-map';
+	webpackConfig.devtool = 'cheap-module-eval-source-map'
 	webpackConfig.entry.fongwell = [
 		'webpack/hot/dev-server',
 		`webpack-dev-server/client?http://0.0.0.0:${config.port}`,
 		// 'webpack/hot/only-dev-server',
 		...webpackConfig.entry.fongwell
-	];
-	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+	]
+	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
 	webpackConfig.plugins.push(new webpack.DllReferencePlugin({
 		context: __dirname,
 		manifest: path.join(__dirname, 'dist/manifest.json'),
-	}));
+	}))
 	webpackConfig.module.rules = [
 
 		...webpackConfig.module.rules,
@@ -172,7 +172,7 @@ if (process.env.NODE_ENV !== 'production') {
 			]
 		},
 
-	];
+	]
 } else {
 	// optimize-css-assets-webpack-plugin与ModuleConcatenationPlugin
 	// 进一步减小css和js打包后文件的体积  local: reduce ~ 30kb ~ 50kb
@@ -185,10 +185,10 @@ if (process.env.NODE_ENV !== 'production') {
 			}
 		},
 		canPrint: true
-	}));
-	webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+	}))
+	webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 	// ============================================================
-	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'));
+	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'))
 	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
 		output: {
 			comments: false,
@@ -196,10 +196,10 @@ if (process.env.NODE_ENV !== 'production') {
 		compress: {
 			warnings: false
 		}
-	}));
+	}))
 	// webpackConfig.output.publicPath='/assets/';
-	webpackConfig.output.filename = '[name].[hash:5].min.js';
-	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js';
+	webpackConfig.output.filename = '[name].[hash:5].min.js'
+	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js'
 
 	webpackConfig.module.rules = [
 
@@ -213,7 +213,7 @@ if (process.env.NODE_ENV !== 'production') {
 					loader: 'css-loader',
 					options: { minimize: true, }
 				},
-					'postcss-loader'
+				'postcss-loader'
 				]
 			})
 		},
@@ -234,7 +234,7 @@ if (process.env.NODE_ENV !== 'production') {
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
 				},
-					'postcss-loader',
+				'postcss-loader',
 				{
 					loader: 'less-loader',
 					options: {
@@ -270,7 +270,7 @@ if (process.env.NODE_ENV !== 'production') {
 					}],
 			}),
 		}
-	];
+	]
 }
 
-export default webpackConfig;
+export default webpackConfig

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Form, Input, Tabs, Button, Icon, Checkbox, Row, Col, Alert } from 'antd';
-import styles from './Login.less';
-import axios from 'axios';
-import { observer, inject } from 'mobx-react';
-import viewMap from 'view/viewMap';
-import { get, post, postByParam } from 'utils/request';
-const FormItem = Form.Item;
-const { TabPane } = Tabs;
-import Qs from 'qs';
+import React, { Component } from 'react'
+import { Form, Input, Tabs, Button, Icon, Checkbox, Row, Col, Alert } from 'antd'
+import styles from './Login.less'
+import axios from 'axios'
+import { observer, inject } from 'mobx-react'
+import viewMap from 'view/viewMap'
+import { get, post, postByParam } from 'utils/request'
+const FormItem = Form.Item
+const { TabPane } = Tabs
+import Qs from 'qs'
 
 
 @inject('user')
@@ -19,33 +19,22 @@ export default class Login extends Component {
 		submitting: false,
 	}
 
-	componentWillUnmount() {
-		clearInterval(this.interval);
-	}
+	async componentDidMount() {
+		const data = await axios({
+			baseURL: 'http://192.168.0.150:9000',
+			url: '/api/data',
+		})
 
-	onSwitch = (type) => {
-		this.setState({ type });
-	}
-
-	onGetCaptcha = () => {
-		let count = 59;
-		this.setState({ count });
-		this.interval = setInterval(() => {
-			count -= 1;
-			this.setState({ count });
-			if (count === 0) {
-				clearInterval(this.interval);
-			}
-		}, 1000);
+		console.log(12323)
 	}
 
 	handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.props.form.validateFields({ force: true },
 			async (err, values) => {
 				if (!err) {
-					const { username, password } = values;
-					this.setState({ submitting: true, err: false });
+					const { username, password } = values
+					this.setState({ submitting: true, err: false })
 					try {
 						const { data } = await axios({
 							method: 'post',
@@ -53,19 +42,19 @@ export default class Login extends Component {
 							url: '/oauth',
 							data: values,
 							transformRequest: [function (data) {
-								data = Qs.stringify(data);
-								return data;
+								data = Qs.stringify(data)
+								return data
 							}],
-						});
-						if (!data.access_token) throw new Error('error');
-						this.props.user.setUserData(data);
-						this.props.history.push(viewMap[0].url);
+						})
+						if (!data.access_token) throw new Error('error')
+						this.props.user.setUserData(data)
+						this.props.history.push(viewMap[0].url)
 					} catch (error) {
-						this.setState({ submitting: false, err: true });
+						this.setState({ submitting: false, err: true })
 					}
 				}
 			}
-		);
+		)
 	}
 
 	renderMessage = (message) => {
@@ -77,13 +66,13 @@ export default class Login extends Component {
 				showIcon
 				closable
 			/>
-		);
+		)
 	}
 
 	render() {
-		const { form, login = {} } = this.props;
-		const { getFieldDecorator } = form;
-		const { count, type } = this.state;
+		const { form, login = {} } = this.props
+		const { getFieldDecorator } = form
+		const { count, type } = this.state
 		return (
 			<div className={styles.wrap}>
 				<div className={styles.container}>
@@ -101,7 +90,7 @@ export default class Login extends Component {
 										prefix={<Icon type="user" className={styles.prefixIcon} />}
 										placeholder="请输入账号"
 									/>
-								)}
+									)}
 							</FormItem>
 							<FormItem>
 								{getFieldDecorator('password', {
@@ -115,7 +104,7 @@ export default class Login extends Component {
 										type="password"
 										placeholder="请输入密码"
 									/>
-								)}
+									)}
 							</FormItem>
 							<FormItem className={styles.additional}>
 								{getFieldDecorator('remember', {
@@ -123,7 +112,7 @@ export default class Login extends Component {
 									initialValue: true,
 								})(
 									<Checkbox className={styles.autoLogin}>记住密码</Checkbox>
-								)}
+									)}
 								<a className={styles.forgot}>忘记密码？</a>
 								<Button size="large" loading={this.state.submitting} className={styles.submit} type="primary" htmlType="submit">
 									登录
@@ -133,7 +122,6 @@ export default class Login extends Component {
 					</div>
 				</div>
 			</div>
-
-		);
+		)
 	}
 }

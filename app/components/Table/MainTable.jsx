@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Table, Tag, Popover, Tooltip, Button, Icon } from 'antd';
-import { toJS } from 'mobx';
-import moment from 'moment';
-import { observer, inject } from 'mobx-react';
-import CreateTable from './CreateTable';
-import DyunFrom from 'components/Form';
-import popover from 'hoc/popover';
-import CustomHeader from './CustomHeader';
-import { getXSrcoll } from './utils';
-import { numeralNumber } from 'utils';
-import numeral from 'numeral';
+import React, { Component } from 'react'
+import { Table, Tag, Popover, Tooltip, Button, Icon } from 'antd'
+import { toJS } from 'mobx'
+import moment from 'moment'
+import { observer, inject } from 'mobx-react'
+import CreateTable from './CreateTable'
+import DyunFrom from 'components/Form'
+import popover from 'hoc/popover'
+import CustomHeader from './CustomHeader'
+import { getXSrcoll } from './utils'
+import { numeralNumber } from 'utils'
+import numeral from 'numeral'
 
-import BasicTable from './Basic';
+import BasicTable from './Basic'
 
 /* 状态说明 */
 const StatePopover = ({ content = '', children }) => (
@@ -27,7 +27,7 @@ const StatePopover = ({ content = '', children }) => (
 		</Popover>
 		:
 		<div>{children}</div>
-);
+)
 
 
 /* 编辑popover */
@@ -37,31 +37,31 @@ class EditPopover extends Component {
 	state = { confirmLoading: false, }
 
 	handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.refs.form.validateFields(async (err, values) => {
 
 			// 特殊处理values
-			values = this.props.item.created.confirmAfter ? this.props.item.created.confirmAfter(values) : values;
+			values = this.props.item.created.confirmAfter ? this.props.item.created.confirmAfter(values) : values
 
 			if (!err) {
 				const query = {
 					...this.props.record,
 					...values,
-				};
-				this.setState({ confirmLoading: true, });
+				}
+				this.setState({ confirmLoading: true, })
 				try {
-					await this.props.store.update(query);
-					this.setState({ confirmLoading: false, }, this.props.hide);
+					await this.props.store.update(query)
+					this.setState({ confirmLoading: false, }, this.props.hide)
 				} catch (error) {
-					this.setState({ confirmLoading: false, });
+					this.setState({ confirmLoading: false, })
 				}
 			}
-		});
+		})
 	}
 
 	render() {
-		const { item, record } = this.props;
-		const initialValue = item.created.initValue ? item.created.initValue(record) : this.props.record[item.created.key || item.key];
+		const { item, record } = this.props
+		const initialValue = item.created.initValue ? item.created.initValue(record) : this.props.record[item.created.key || item.key]
 
 		return (
 			<div style={{ width: 300 }}>
@@ -81,7 +81,7 @@ class EditPopover extends Component {
 					<Button loading={this.state.confirmLoading} onClick={this.handleSubmit} className="ml20" type="primary">确定</Button>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
@@ -104,56 +104,56 @@ export default class extends Component {
 	// }
 
 	renderProductState(text, info = {}) {
-		let tagNode = null;
-		if (text == 'created') tagNode = <Tag color="#e2574c">未应用</Tag>;
-		if (text == 'invoked') tagNode = <Tag color="#999">已应用</Tag>;
-		if (text == 'invoked_no') tagNode = <Tag color="#3a99d9">已应用</Tag>;
+		let tagNode = null
+		if (text == 'created') tagNode = <Tag color="#e2574c">未应用</Tag>
+		if (text == 'invoked') tagNode = <Tag color="#999">已应用</Tag>
+		if (text == 'invoked_no') tagNode = <Tag color="#3a99d9">已应用</Tag>
 		return (
 			<StatePopover content={info[text]}>
 				{tagNode}
 			</StatePopover>
-		);
+		)
 	}
 
 	renderStoreState(text, info = {}) {
-		let tagNode = null;
-		if (text == 'created_no') tagNode = <Tag color="#cfc044">合作中</Tag>;
-		if (text == 'created') tagNode = <Tag color="#52c88f">合作中</Tag>;
-		if (text == 'freeze') tagNode = <Tag color="#999">已冻结</Tag>;
+		let tagNode = null
+		if (text == 'created_no') tagNode = <Tag color="#cfc044">合作中</Tag>
+		if (text == 'created') tagNode = <Tag color="#52c88f">合作中</Tag>
+		if (text == 'freeze') tagNode = <Tag color="#999">已冻结</Tag>
 		return (
 			<StatePopover content={info[text]}>
 				{tagNode}
 			</StatePopover>
-		);
+		)
 	}
 
 	renderState(text, info = {}) {
-		if (info.type === 'product') return this.renderProductState(text, info);
-		if (info.type === 'store') return this.renderStoreState(text, info);
+		if (info.type === 'product') return this.renderProductState(text, info)
+		if (info.type === 'store') return this.renderStoreState(text, info)
 
 		if (text == 'confirmed') return (
 			<StatePopover content={info[text] || '已登账的单据，只可进行反登操作!'}>
 				<Tag color="#999">已登账</Tag>
 			</StatePopover>
-		);
+		)
 
 		if (text == 'checked') return (
 			<StatePopover content={info[text] || '已审核过的单据，可直接登账操作，也可进行反审核操作!'}>
 				<Tag color="#3a99d9">已审核</Tag>
 			</StatePopover>
-		);
+		)
 
 		if (text == 'created') return (
 			<StatePopover content={info[text] || '新建或未审核的单据，可进行审核操作，也可删除改单据!'}>
 				<Tag color="#e2574c">待审核</Tag>
 			</StatePopover>
-		);
+		)
 
-		return text;
+		return text
 	}
 
 	render() {
-		const { title, className, push, ...rest } = this.props;
+		const { title, className, push, ...rest } = this.props
 
 		const {
 			selectedRows = [],
@@ -166,47 +166,47 @@ export default class extends Component {
 			RenderWarehousePopover,
 			RenderToWarehousePopover,
 			RenderFromWarehousePopover
-		} = this.props.store;
+		} = this.props.store
 
-		const otherH = 18 + 26 + 34 + 56;
-		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5;
+		const otherH = 18 + 26 + 34 + 56
+		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5
 
 		const filterColumns = columns.map(item => {
-			item.title = item.title || item.mark;
-			if (item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>;
+			item.title = item.title || item.mark
+			if (item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>
 
 			// ============================================================
 			if (item.key == 'toWarehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderToWarehousePopover /></div>;
-				item.render = (_, record) => <div><p>{record.toWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.toWarehouseName}</p></div>;
+				item.title = <div className="flex-vcenter">{item.mark}<RenderToWarehousePopover /></div>
+				item.render = (_, record) => <div><p>{record.toWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.toWarehouseName}</p></div>
 			}
 
 			if (item.key == 'warehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderWarehousePopover /></div>;
-				item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>;
+				item.title = <div className="flex-vcenter">{item.mark}<RenderWarehousePopover /></div>
+				item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>
 			}
 
 			if (item.key == 'fromWarehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderFromWarehousePopover /></div>;
-				item.render = (_, record) => <div><p>{record.fromWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.fromWarehouseName}</p></div>;
+				item.title = <div className="flex-vcenter">{item.mark}<RenderFromWarehousePopover /></div>
+				item.render = (_, record) => <div><p>{record.fromWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.fromWarehouseName}</p></div>
 			}
 
 			if (item.key == 'supplierIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
-				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
+				item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>
+				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>
 			}
 
 			if (item.key == 'store') {
 				// item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
-				item.render = (_, record) => <div><p>{record.storeNumber}</p><p style={{ opacity: 0.67 }}>{record.storeName}</p></div>;
+				item.render = (_, record) => <div><p>{record.storeNumber}</p><p style={{ opacity: 0.67 }}>{record.storeName}</p></div>
 			}
 
 			// ============================================================
 			/* 单据明细 */
 			if (item.key === 'view') {
 				item.render = (_, record) => {
-					if (!Array.isArray(record.items)) return;
-					const { items, sequence, totalCostPrice, totalPrice } = record;
+					if (!Array.isArray(record.items)) return
+					const { items, sequence, totalCostPrice, totalPrice } = record
 
 					return (
 						<Popover trigger="click" placement="rightTop" title={<p style={{ margin: '5px 0' }}>单号：<strong className="info-color">{sequence}</strong></p>} content={<div onDoubleClick={e => e.stopPropagation()} onClick={e => e.stopPropagation()} style={{ width: 875, minHeight: 400 }}>
@@ -229,8 +229,8 @@ export default class extends Component {
 						</div>}>
 							<Button size="small"><Icon className="fs16" type="copy" /></Button>
 						</Popover>
-					);
-				};
+					)
+				}
 			}
 			// ============================================================
 
@@ -240,29 +240,29 @@ export default class extends Component {
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
 
-					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
-					if (item.type == 'state') return this.renderState(text, item.stateInfo);
+					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD')
+					if (item.type == 'state') return this.renderState(text, item.stateInfo)
 
 					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
 								<div className="td-edit">{numeralNumber(text, item.key) || <br />}</div>
 							</EditPopover>
-						);
+						)
 					}
 					// return text;
 
-					return <Tooltip placement="topLeft" title={numeralNumber(text, item.key)}>{numeralNumber(text, item.key)}</Tooltip>;
+					return <Tooltip placement="topLeft" title={numeralNumber(text, item.key)}>{numeralNumber(text, item.key)}</Tooltip>
 				}
-			};
-		}).filter(i => i.checked || i.fix);
+			}
+		}).filter(i => i.checked || i.fix)
 
 		const rowSelection = {
 			onChange: (_, selectedRows) => {
-				this.props.store.handleSelection(selectedRows);
+				this.props.store.handleSelection(selectedRows)
 			},
 			selectedRowKeys: selectedRows.map(i => i.key)
-		};
+		}
 
 		return (
 			<div className="flex-g-1" ref="wrap">
@@ -292,6 +292,6 @@ export default class extends Component {
 				/>
 				{/* <div>这是一段文字</div> */}
 			</div>
-		);
+		)
 	}
 }

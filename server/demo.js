@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'path'
 
 const config = {
 	server: {
@@ -9,6 +9,6 @@ const config = {
 	client: path.resolve(__dirname, '../src'),
 	assets: path.resolve(__dirname, '../src/assets'),
 	dist: path.resolve(__dirname, '../dist'),
-};
+}
 
-export default config;
+export default config
