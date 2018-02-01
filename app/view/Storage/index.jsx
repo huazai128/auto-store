@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Button } from 'antd';
-import Header from 'components/Header';
-import { Container, Content, HandleArea } from 'components/Layout';
-import { observer, inject } from 'mobx-react';
-const ButtonGroup = Button.Group;
+import React, { Component } from 'react'
+import { Button } from 'antd'
+import Header from 'components/Header'
+import { Container, Content, HandleArea } from 'components/Layout'
+import { observer, inject } from 'mobx-react'
+const ButtonGroup = Button.Group
 
 @inject('storage')
 @observer
 export default class extends Component {
 	store = this.props.storage
 	componentDidMount() {
-		this.store.init();
+		this.store.init()
 	}
 
 	render() {
-		const { HandleButton, DeleteButton } = this.store;
+		const { HandleButton, DeleteButton } = this.store
 
 		return (
 			<Container>
@@ -30,12 +30,12 @@ export default class extends Component {
 							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
 						<DeleteButton>删除</DeleteButton>
-						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
+						<this.store.ExportGroup withDetail />
 						<this.store.RenderRangePicker />
 					</HandleArea>
 					<this.store.RenderMainTable className="two-row" push={this.props.push} title={this.props.name} />
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Button, Tag, Modal, DatePicker } from 'antd';
-import Header from 'components/Header';
-import { Container, Content, HandleArea } from 'components/Layout';
-import { observer, inject } from 'mobx-react';
+import React, { Component } from 'react'
+import { Button, Tag, Modal, DatePicker } from 'antd'
+import Header from 'components/Header'
+import { Container, Content, HandleArea } from 'components/Layout'
+import { observer, inject } from 'mobx-react'
 
-import DyunFrom from 'components/Form';
-import modal from 'hoc/modal';
+import DyunFrom from 'components/Form'
+import modal from 'hoc/modal'
 
-const ButtonGroup = Button.Group;
+const ButtonGroup = Button.Group
 
 
 @inject('warehouse')
@@ -15,24 +15,24 @@ const ButtonGroup = Button.Group;
 @observer
 class AddStoreModal extends Component {
 	handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.refs.form.validateFields((err, values) => {
 			if (!err) {
 				// console.log('Received values of form: ', values);
-				this.props.onConfirmLoading(true);
+				this.props.onConfirmLoading(true)
 
 				setTimeout(() => {
-					this.props.handleCancel();
-				}, 2000);
+					this.props.handleCancel()
+				}, 2000)
 			}
-		});
+		})
 	}
 
 	afterClose = () => this.refs.form.resetFields()
 
 	render() {
 		// for hoc modal
-		const { visible, confirmLoading, handleCancel } = this.props;
+		const { visible, confirmLoading, handleCancel } = this.props
 
 		return (
 			<Modal
@@ -48,7 +48,7 @@ class AddStoreModal extends Component {
 					...this.props.warehouse.fields
 				]} />
 			</Modal>
-		);
+		)
 	}
 }
 
@@ -58,7 +58,7 @@ export default class extends Component {
 	store = this.props.warehouse
 
 	componentDidMount() {
-		this.store.getData();
+		this.store.getData()
 	}
 	render() {
 		return (
@@ -84,6 +84,6 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

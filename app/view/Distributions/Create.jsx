@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal, Select } from 'antd';
-import { observer, inject } from 'mobx-react';
-import moment from 'moment';
-import { Container, Content, HandleArea } from 'components/Layout';
-import SearchPro from 'components/SearchPro';
-import create from 'hoc/create-table';
+import React, { Component } from 'react'
+import { Button, Input, Form, DatePicker, Icon, Modal, Select } from 'antd'
+import { observer, inject } from 'mobx-react'
+import moment from 'moment'
+import { Container, Content, HandleArea } from 'components/Layout'
+import SearchPro from 'components/SearchPro'
+import create from 'hoc/create-table'
 
 @inject(stores => ({
 	body: stores.body,
 	backStore: stores.distributions,
-}))
+	}))
 @create({
 	setFields: ['fromWarehouse', 'toWarehouse', 'shipDate'],
-})
+	})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
@@ -25,9 +25,9 @@ export default class extends Component {
 
 	computedQuery = (value) => {
 		value.items.forEach(item => {
-			item.skuId = item.skuId || item.id;
-			delete item.id;
-		});
+			item.skuId = item.skuId || item.id
+			delete item.id
+		})
 	}
 
 	render() {
@@ -44,7 +44,7 @@ export default class extends Component {
 			warehouseField,
 			supplierField,
 			sequenceField
-		} = this.props;
+		} = this.props
 
 
 		return (
@@ -84,6 +84,6 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

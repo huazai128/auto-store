@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, Icon, Modal, DatePicker, Radio } from 'antd';
-import { observer, inject } from 'mobx-react';
-import Header from 'components/Header';
-import CreateTable from 'components/CreateTable';
-import { Container, Content, HandleArea } from 'components/Layout';
-import CreateFormItem from 'components/Form/CreateFormItem';
-import SearchPro from 'components/SearchPro';
-import modal from 'hoc/modal';
-import moment from 'moment';
+import React, { Component } from 'react'
+import { Button, Input, Form, Icon, Modal, DatePicker, Radio } from 'antd'
+import { observer, inject } from 'mobx-react'
+import Header from 'components/Header'
+import CreateTable from 'components/CreateTable'
+import { Container, Content, HandleArea } from 'components/Layout'
+import CreateFormItem from 'components/Form/CreateFormItem'
+import SearchPro from 'components/SearchPro'
+import modal from 'hoc/modal'
+import moment from 'moment'
 
-const RadioGroup = Radio.Group;
+const RadioGroup = Radio.Group
 
 @inject('Create') @Form.create() @observer
 export default class extends Component {
@@ -19,17 +19,16 @@ export default class extends Component {
 		return await new Promise((resolve, reject) => {
 			this.props.form.validateFields(async (err, values) => {
 				if (!err) {
-					console.log(values);
 					setTimeout(() => {
-						resolve(values);
-					}, 2000);
-				} else reject('');
-			});
-		});
+						resolve(values)
+					}, 2000)
+				} else reject('')
+			})
+		})
 	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form;
+		const { getFieldDecorator } = this.props.form
 		return (
 			<Container>
 				<Header asyncBack={{ asyncAction: this.handleSubmit }} type="create">{this.props.name}</Header>
@@ -84,6 +83,6 @@ export default class extends Component {
 					)} />
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

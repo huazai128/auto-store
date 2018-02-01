@@ -27,6 +27,11 @@ app.get('/config', (req, res) => {
 })
 
 
+app.get('/**', function (req, res) {
+	// res.header('Cache-Control', 'no-cache')
+	res.sendfile(`${path.join(__dirname, '../dist')}/index.html`)
+})
+
 
 const server = app.listen(config.port, () => {
 	const host = server.address().address

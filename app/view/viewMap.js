@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import asyncComponent from 'app/hoc/asyncComponent';
+import React, { Component } from 'react'
+import asyncComponent from 'app/hoc/asyncComponent'
 
 export default [
 	{ name: '品类管理', icon: 'tags-o	', url: '/tag', Component: asyncComponent(() => import('view/Tag')), children: [] },
@@ -46,4 +46,4 @@ export default [
 	// { name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), children: [], },
 	// { name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), children: [], },
 	// { name: '盘点单编辑', url: '/stocktakings/:id', Component: asyncComponent(() => import('view/Stocktakings/Create')), children: [], },
-];
+]

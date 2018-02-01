@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm, InputNumber } from 'antd';
-import { observer, inject } from 'mobx-react';
-import moment from 'moment';
-import { Container, Content, HandleArea } from 'components/Layout';
-import SearchPro from 'components/SearchPro';
-import Upload from 'components/Upload';
-import BasicTable from 'components/Table/Basic';
-import { get } from 'utils/request';
-import create from 'hoc/create-table';
-import modal from 'hoc/modal';
+import React, { Component } from 'react'
+import { Button, Input, Form, DatePicker, Icon, Modal, Row, Col, Popconfirm, InputNumber } from 'antd'
+import { observer, inject } from 'mobx-react'
+import moment from 'moment'
+import { Container, Content, HandleArea } from 'components/Layout'
+import SearchPro from 'components/SearchPro'
+import Upload from 'components/Upload'
+import BasicTable from 'components/Table/Basic'
+import { get } from 'utils/request'
+import create from 'hoc/create-table'
+import modal from 'hoc/modal'
 
-import styles from './style.less';
+import styles from './style.less'
 
 
 
@@ -18,14 +18,14 @@ import styles from './style.less';
 @observer
 class ReferModal extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.columns = [
 			{
 				width: 15, title: '', key: 'dilidili', render: (_, record) => {
-					const { orderAmountMap } = record;
+					const { orderAmountMap } = record
 
-					return <Icon className={`${orderAmountMap.some(i => i.selected) ? 'primary-6' : ''} fs16`} type="link" />;
+					return <Icon className={`${orderAmountMap.some(i => i.selected) ? 'primary-6' : ''} fs16`} type="link" />
 				}
 			},
 			{ width: 100, title: '货品名', key: 'name', },
@@ -34,18 +34,18 @@ class ReferModal extends Component {
 					const style = {
 						cursor: 'pointer',
 						padding: 10,
-					};
+					}
 
 					return (
 						<Popconfirm title='确定删除?' onConfirm={() => {
-							this.props.deleteItem(record);
+							this.props.deleteItem(record)
 						}}>
 							<span style={style}><Icon type="delete" /></span>
 						</Popconfirm>
-					);
+					)
 				}
 			}
-		];
+		]
 
 		this.columns2 = [
 			{ width: 150, title: '采购单号', key: 'sequence', },
@@ -58,110 +58,110 @@ class ReferModal extends Component {
 			{
 				width: 80, title: <div className="primary-6">入库数量</div>, key: '_bindedAmount', render: (_, record) => {
 					// return record.bindedAmount;
-					return <InputNumber max={record.bound} min={0} value={record.bindedAmount} onChange={value => this.handleInput(value, record)} />;
+					return <InputNumber max={record.bound} min={0} value={record.bindedAmount} onChange={value => this.handleInput(value, record)} />
 				}
 			},
 			{ width: 80, title: '可绑定入库数', key: 'bound', },
-		];
+		]
 	}
 
 	handleInput = (value, record) => {
-		value = value || 0;
-		record.bindedAmount = value;
+		value = value || 0
+		record.bindedAmount = value
 		// ============================================================
 		this.props.data.forEach(item => {
-			let amount = 0;
-			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
-			item.amount = amount;
-		});
+			let amount = 0
+			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount)
+			item.amount = amount
+		})
 
 		// ============================================================
 
 
-		this.props.update();
+		this.props.update()
 	}
 
 	handleSubmit = () => {
-		const { data } = this.props;
+		const { data } = this.props
 
-		let result = true;
+		let result = true
 
 		data.forEach(item => {
-			if (!item.orderAmountMap.some(i => i.selected)) result = false;
-			let amount = 0;
-			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
-			item.amount = amount;
-		});
+			if (!item.orderAmountMap.some(i => i.selected)) result = false
+			let amount = 0
+			item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount)
+			item.amount = amount
+		})
 
 		if (!result) return Modal.error({
 			title: '存在入库货品未绑定采购单！',
 			content: '无法完成参照制单...'
-		});
+		})
 
-		this.props.handleCancel();
+		this.props.handleCancel()
 	}
 
 	onRowClick = (record) => {
 		this.props.data.forEach(item => {
-			if (item === record) item.highlight = true;
-			else item.highlight = false;
-		});
-		this.props.update();
+			if (item === record) item.highlight = true
+			else item.highlight = false
+		})
+		this.props.update()
 	}
 
 
 	addPro = async (item) => {
-		delete item.note;
-		if (this.props.data.map(i => i.key).includes(item.key)) return;
-		const { id: skuId } = item;
-		const { supplierId, warehouseId } = this.props;
-		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId, warehouseId, showInvalid: false });
+		delete item.note
+		if (this.props.data.map(i => i.key).includes(item.key)) return
+		const { id: skuId } = item
+		const { supplierId, warehouseId } = this.props
+		const { data } = await get('/api/purchaseOrders/forStockIn', { skuId, supplierId, warehouseId, showInvalid: false })
 
-		if (data.length == 0) return;
+		if (data.length == 0) return
 
 		data.forEach(item => {
-			item.key = item.id;
-			item.unbound = item.amount - item.stockInAmount;
-			item.bound = item.amount - item.boundStockInAmount;
-			item.bindedAmount = item.bound;
+			item.key = item.id
+			item.unbound = item.amount - item.stockInAmount
+			item.bound = item.amount - item.boundStockInAmount
+			item.bindedAmount = item.bound
 
-		});
+		})
 
-		item.orderAmountMap = data;
+		item.orderAmountMap = data
 
-		this.props.addItems([item]);
+		this.props.addItems([item])
 	}
 
 
 	render() {
-		const { HocModal, supplierId, data } = this.props;
+		const { HocModal, supplierId, data } = this.props
 
-		let record = {};
+		let record = {}
 
 		data.forEach(item => {
-			if (item.highlight) record = item;
-		});
+			if (item.highlight) record = item
+		})
 
-		const { orderAmountMap = [] } = record;
+		const { orderAmountMap = [] } = record
 
-		const selectedRowKeys = orderAmountMap.filter(i => i.selected).map(i => i.key);
+		const selectedRowKeys = orderAmountMap.filter(i => i.selected).map(i => i.key)
 
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
 				orderAmountMap.forEach(i => {
-					if (selectedRowKeys.includes(i.key)) i.selected = true;
-					else i.selected = false;
-				});
+					if (selectedRowKeys.includes(i.key)) i.selected = true
+					else i.selected = false
+				})
 
 				this.props.data.forEach(item => {
-					let amount = 0;
-					item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount);
-					item.amount = amount;
-				});
-				this.props.update(this.props.data);
+					let amount = 0
+					item.orderAmountMap.filter(i => i.selected).forEach(i => amount += i.bindedAmount)
+					item.amount = amount
+				})
+				this.props.update(this.props.data)
 			},
 			selectedRowKeys,
-		};
+		}
 
 		return (
 			<HocModal
@@ -194,7 +194,7 @@ class ReferModal extends Component {
 								scroll={{ y: 360 }}
 								dataSource={data}
 								rowClassName={(r) => {
-									return r === record ? 'active' : '';
+									return r === record ? 'active' : ''
 								}}
 								columns={this.columns}
 								pagination={false} />
@@ -212,23 +212,23 @@ class ReferModal extends Component {
 							scroll={{ y: 450 }}
 							rowSelection={rowSelection}
 							title={() => {
-								return <div>{record.name ? <div>商品<span className="primary-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>;
+								return <div>{record.name ? <div>商品<span className="primary-6">{record.name}</span>对应可参照采购单</div> : <strong>请在左侧添加参照商品</strong>}</div>
 							}}
 							pagination={false} />
 					</Col>
 				</Row>
 			</HocModal>
-		);
+		)
 	}
 }
 
 @inject(store => ({
 	body: store.body,
 	backStore: store.storage,
-}))
+	}))
 @create({
 	setFields: ['supplier', 'warehouse'],
-})
+	})
 @observer
 export default class extends Component {
 	columns = [
@@ -250,7 +250,7 @@ export default class extends Component {
 				orderId: i.id,
 				amount: i.bindedAmount,
 			}))
-		}));
+		}))
 	}
 
 	render() {
@@ -266,9 +266,9 @@ export default class extends Component {
 			fromWarehouseField,
 			warehouseField,
 			supplierField
-		} = this.props;
+		} = this.props
 
-		const { supplierId, warehouseId, toWarehouseId, fromWarehouseId } = this.props.form.getFieldsValue();
+		const { supplierId, warehouseId, toWarehouseId, fromWarehouseId } = this.props.form.getFieldsValue()
 
 		return (
 			<Container>
@@ -317,6 +317,6 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

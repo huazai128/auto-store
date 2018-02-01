@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
-import { observer, inject } from 'mobx-react';
-import moment from 'moment';
-import { Container, Content, HandleArea } from 'components/Layout';
-import SearchPro from 'components/SearchPro';
-import create from 'hoc/create-table';
+import React, { Component } from 'react'
+import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd'
+import { observer, inject } from 'mobx-react'
+import moment from 'moment'
+import { Container, Content, HandleArea } from 'components/Layout'
+import SearchPro from 'components/SearchPro'
+import create from 'hoc/create-table'
 
 
 @inject(store => ({
 	body: store.body,
 	backStore: store.send,
-}))
+	}))
 @create()
 export default class extends Component {
 	columns = [
@@ -24,9 +24,9 @@ export default class extends Component {
 
 	computedQuery = (value) => {
 		value.items.forEach(item => {
-			item.skuId = item.skuId || item.id;
-			delete item.id;
-		});
+			item.skuId = item.skuId || item.id
+			delete item.id
+		})
 	}
 
 	render() {
@@ -43,7 +43,7 @@ export default class extends Component {
 			warehouseField,
 			supplierField,
 			sequenceField
-		} = this.props;
+		} = this.props
 
 		return (
 			<Container>
@@ -75,6 +75,6 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

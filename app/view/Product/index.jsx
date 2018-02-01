@@ -7,6 +7,7 @@ import popover from 'hoc/popover'
 import ModalAdd from './ModalAdd'
 import Upload from 'components/Upload'
 
+
 const ButtonGroup = Button.Group
 
 @popover({
@@ -29,7 +30,7 @@ export default class extends Component {
 	}
 
 	render() {
-		const { HandleButton, RenderWarehousePopover } = this.store
+		const { HandleButton, RenderWarehousePopover, ExportGroup } = this.store
 
 		return (
 			<Container>
@@ -53,7 +54,7 @@ export default class extends Component {
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
 						<Upload handleConfirm={() => { }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
-						<Button className="ml20" type="primary" ghost>Excel导出资料</Button>
+						<ExportGroup />
 						<ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover>

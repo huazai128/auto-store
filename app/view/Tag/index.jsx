@@ -1,43 +1,43 @@
-import React, { Component } from 'react';
-import { Button, Modal, List, Icon, Popconfirm, Tag, message } from 'antd';
-import { observer, inject } from 'mobx-react';
-import { toJS } from 'mobx';
-import Header from 'components/Header';
-import { Container, Content, HandleArea } from 'components/Layout';
-import modal from 'hoc/modal';
-import CustomFrom from 'components/Form';
-import BasicTable from 'components/Table/Basic';
-import styles from './style.less';
+import React, { Component } from 'react'
+import { Button, Modal, List, Icon, Popconfirm, Tag, message } from 'antd'
+import { observer, inject } from 'mobx-react'
+import { toJS } from 'mobx'
+import Header from 'components/Header'
+import { Container, Content, HandleArea } from 'components/Layout'
+import modal from 'hoc/modal'
+import CustomFrom from 'components/Form'
+import BasicTable from 'components/Table/Basic'
+import styles from './style.less'
 
-import NoticeIcon from 'pro/NoticeIcon';
-import moment from 'moment';
+import NoticeIcon from 'pro/NoticeIcon'
+import moment from 'moment'
 
 @modal
 @inject('tag')
 @observer
 class AddModal extends Component {
 	handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		this.refs.form.validateFields(async (err, values) => {
 			if (!err) {
-				if (this.props.id) values.parentId = this.props.id;
-				this.props.onConfirmLoading(true);
+				if (this.props.id) values.parentId = this.props.id
+				this.props.onConfirmLoading(true)
 				try {
-					await this.props.tag.create(values);
-					message.success('操作成功');
-					this.props.handleCancel();
+					await this.props.tag.create(values)
+					message.success('操作成功')
+					this.props.handleCancel()
 				} catch (error) {
-					this.props.handleCancel();
-					message.warning('操作失败~!');
+					this.props.handleCancel()
+					message.warning('操作失败~!')
 				}
 			}
-		});
+		})
 	}
 
 	afterClose = () => this.refs.form.resetFields();
 
 	render() {
-		const { HocModal, fields } = this.props;
+		const { HocModal, fields } = this.props
 		return (
 			<HocModal
 				afterClose={this.afterClose}
@@ -45,7 +45,7 @@ class AddModal extends Component {
 			>
 				<CustomFrom ref="form" fields={fields} />
 			</HocModal>
-		);
+		)
 	}
 }
 
@@ -54,7 +54,7 @@ class AddModal extends Component {
 export default class extends Component {
 	store = this.props.tag
 	render() {
-		const { dataSource, columns } = this.store;
+		const { dataSource, columns } = this.store
 		columns.forEach(item => {
 			if (item.key == 'action') item.render = (_, { id, name }) => {
 				return (
@@ -66,9 +66,9 @@ export default class extends Component {
 							<span className="ml20 error-color pointer">删除</span>
 						</Popconfirm>
 					</div>
-				);
-			};
-		});
+				)
+			}
+		})
 
 		return (
 			<Container>
@@ -107,7 +107,7 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }
 

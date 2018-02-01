@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd';
-import { observer, inject } from 'mobx-react';
-import moment from 'moment';
-import { Container, Content, HandleArea } from 'components/Layout';
-import SearchPro from 'components/SearchPro';
-import create from 'hoc/create-table';
+import React, { Component } from 'react'
+import { Button, Input, Form, DatePicker, Icon, Modal } from 'antd'
+import { observer, inject } from 'mobx-react'
+import moment from 'moment'
+import { Container, Content, HandleArea } from 'components/Layout'
+import SearchPro from 'components/SearchPro'
+import create from 'hoc/create-table'
 
 
 @inject(store => ({
 	body: store.body,
 	backStore: store.prurchase,
-}))
+	}))
 @create({
 	setFields: ['supplier', 'toWarehouse', 'purchaseDate'],
-})
+	})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
@@ -26,9 +26,9 @@ export default class extends Component {
 
 	computedQuery = (value) => {
 		value.items.forEach(item => {
-			item.skuId = item.skuId || item.id;
-			delete item.id;
-		});
+			item.skuId = item.skuId || item.id
+			delete item.id
+		})
 	}
 
 	render() {
@@ -45,7 +45,7 @@ export default class extends Component {
 			warehouseField,
 			supplierField,
 			sequenceField
-		} = this.props;
+		} = this.props
 
 		return (
 			<Container>
@@ -78,7 +78,7 @@ export default class extends Component {
 							<div>
 								<strong>单据明细编辑</strong>
 								<SearchPro onChange={item => {
-									addItems([item]);
+									addItems([item])
 								}} />
 								{/* <Button type="primary" ghost className="ml20">选择添加商品</Button> */}
 								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
@@ -86,6 +86,6 @@ export default class extends Component {
 					/>
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

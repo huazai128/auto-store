@@ -1,6 +1,6 @@
-import React from 'react';
-import axios from 'axios';
-import { Modal } from 'antd';
+import React from 'react'
+import axios from 'axios'
+import { Modal } from 'antd'
 
 const codeMessage = {
 	// 200: '服务器成功返回请求的数据',
@@ -22,7 +22,7 @@ const codeMessage = {
 	503: '服务不可用，服务器暂时过载或维护',
 	504: '网关超时',
 	505: 'http版本不支持该请求'
-};
+}
 
 const showError = (error) => {
 	// return error;
@@ -30,32 +30,34 @@ const showError = (error) => {
 		title: '操作错误',
 		content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
 		// content: error
-	});
-};
+	})
+}
 
 // axios.defaults.baseURL = 'http://192.168.0.209:3721';
-axios.defaults.baseURL = process.env._API_BASE_;
+export const _API_BASE_ = process.env._API_BASE_
 
-axios.defaults.timeout = 5000;
+axios.defaults.baseURL = _API_BASE_
+
+axios.defaults.timeout = 5000
 
 axios.interceptors.response.use(
 	(response = {}) => {
 		// ============================================================
-		const { code = 0, data } = response.data;
-		if (code !== 0) return showError(response.data);
+		const { code = 0, data } = response.data
+		if (code !== 0) return showError(response.data)
 		// ============================================================
-		return response;
+		return response
 	},
 	error => {
 		if (error && error.response) {
-			error.message = codeMessage[error.response.status] || `连接错误${error.response.status}`;
+			error.message = codeMessage[error.response.status] || `连接错误${error.response.status}`
 		} else {
-			error.message = '连接到服务器失败';
+			error.message = '连接到服务器失败'
 		}
 		// showError(error.message);
-		return Promise.reject(error.message);
+		return Promise.reject(error.message)
 	}
-);
+)
 
 
 export const get = (url, params = {}) => {
@@ -65,11 +67,11 @@ export const get = (url, params = {}) => {
 			url,
 			params,
 		}).then(res => {
-			const { data } = res;
-			resolve(data);
-		}).catch(error => reject(error));
-	});
-};
+			const { data } = res
+			resolve(data)
+		}).catch(error => reject(error))
+	})
+}
 
 export const post = (url, params, urlData = {}) => {
 	return new Promise((resolve, reject) => {
@@ -79,11 +81,11 @@ export const post = (url, params, urlData = {}) => {
 			data: params,
 			params: urlData
 		}).then(res => {
-			const { data } = res;
-			resolve(data);
-		}).catch(error => reject(error));
-	});
-};
+			const { data } = res
+			resolve(data)
+		}).catch(error => reject(error))
+	})
+}
 
 export const postByParam = (url, params = {}) => {
 	return new Promise((resolve, reject) => {
@@ -92,8 +94,8 @@ export const postByParam = (url, params = {}) => {
 			url,
 			params,
 		}).then(res => {
-			const { data } = res;
-			resolve(data);
-		}).catch(error => reject(error));
-	});
-};
+			const { data } = res
+			resolve(data)
+		}).catch(error => reject(error))
+	})
+}

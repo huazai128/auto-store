@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import TablePrototype from './TablePrototype';
+import React, { Component } from 'react'
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
+import TablePrototype from './TablePrototype'
 
-useStrict(true);
+useStrict(true)
 
 class Store extends TablePrototype {
 	constructor() {
-		super();
-		this.url = 'api/order';
+		super()
+		this.url = 'api/order'
 
-		this.getData = this.getData.bind(this, { url: this.url });
+		this.getData = this.getData.bind(this, { url: this.url })
 	}
 
 	@observable query = {};
 
 	@observable tableLoading = false
-	// @observable selectedRows = []
+	@observable selectedRows = []
 	@observable data = []
 	@observable count = 0
 
@@ -40,9 +40,9 @@ class Store extends TablePrototype {
 		{ width: 400, mark: '销售日期', key: 'createdDate', type: 'date' },
 	];
 
-	@computed get dataSource() { return toJS(this.data); }
+	@computed get dataSource() { return toJS(this.data) }
 }
 
-const store = new Store();
+const store = new Store()
 
-export default store;
+export default store

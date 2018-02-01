@@ -1,5 +1,5 @@
-import RangePicker from './RangePicker';
+import RangePicker from './RangePicker'
 
 export {
 	RangePicker
-};
+}

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Button, Table, Tag } from 'antd';
-import Header from 'components/Header';
+import React, { Component } from 'react'
+import { Button, Table, Tag } from 'antd'
+import Header from 'components/Header'
 
-import { RangePicker } from 'components/DatePicker';
+import { RangePicker } from 'components/DatePicker'
 
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
-import { observer, inject } from 'mobx-react';
-const ButtonGroup = Button.Group;
+import { Container, Content, HandleArea, TableMain } from 'components/Layout'
+import { observer, inject } from 'mobx-react'
+const ButtonGroup = Button.Group
 
 @observer
 export default class extends Component {
@@ -24,11 +24,11 @@ export default class extends Component {
 			age: 42,
 			address: '西湖区湖底公园1号',
 			time: new Date().valueOf()
-		}];
+		}]
 
 		const columns = [
 			{ title: '姓名', dataIndex: 'name', key: 'name', render: () => <Tag>未应用</Tag> },
-			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }];
+			{ title: '时间', dataIndex: 'time', key: 'time', type: 'date' }]
 
 		return (
 			<Container>
@@ -55,6 +55,6 @@ export default class extends Component {
 						columns={columns} />
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

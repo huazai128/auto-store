@@ -19,15 +19,6 @@ export default class Login extends Component {
 		submitting: false,
 	}
 
-	async componentDidMount() {
-		const data = await axios({
-			baseURL: 'http://192.168.0.150:9000',
-			url: '/api/data',
-		})
-
-		console.log(12323)
-	}
-
 	handleSubmit = (e) => {
 		e.preventDefault()
 		this.props.form.validateFields({ force: true },

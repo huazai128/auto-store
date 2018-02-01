@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { Input, Select } from 'antd';
-import { get, post, postByParam } from 'utils/request';
-import { productStateFilters } from 'mapStore/filter';
-import axios from 'axios';
-import TagSelect from 'components/Select/TagSelect';
-import SupplierSelect from 'components/Select/SupplierSelect';
-import TablePrototype from './TablePrototype';
+import React, { Component } from 'react'
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
+import { Input, Select } from 'antd'
+import { get, post, postByParam } from 'utils/request'
+import { productStateFilters } from 'mapStore/filter'
+import axios from 'axios'
+import TagSelect from 'components/Select/TagSelect'
+import SupplierSelect from 'components/Select/SupplierSelect'
+import TablePrototype from './TablePrototype'
 
-const { TextArea } = Input;
-const Option = Select.Option;
+const { TextArea } = Input
+const Option = Select.Option
 
-useStrict(true);
+useStrict(true)
 
 class Store extends TablePrototype {
 	constructor() {
-		super();
-		this.url = 'api/skus';
+		super()
+		this.url = 'api/skus'
 
-		this.getData = this.getData.bind(this, { url: this.url });
-		this.handle = this.handle.bind(this, { url: this.url });
-		this.create = this.create.bind(this, { url: this.url });
-		this.update = this.update.bind(this, { url: this.url });
+		this.getData = this.getData.bind(this, { url: this.url })
+		this.handle = this.handle.bind(this, { url: this.url })
+		this.create = this.create.bind(this, { url: this.url })
+		this.update = this.update.bind(this, { url: this.url })
 	}
 
 	@observable query = {
@@ -68,7 +68,7 @@ class Store extends TablePrototype {
 						...values,
 						bigStyleId: values.styles[0],
 						smallStyleId: values.styles[1],
-					};
+					}
 				},
 				node: <TagSelect />
 			},
@@ -90,7 +90,7 @@ class Store extends TablePrototype {
 						...values,
 						bigStyleId: values.styles[0],
 						smallStyleId: values.styles[1],
-					};
+					}
 				},
 				node: <TagSelect />
 			},
@@ -125,11 +125,11 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '最后修改日期', key: 'modifiedDate', type: 'date' },
 	];
 
-	@computed get dataSource() { return toJS(this.data); }
-	@computed get fields() { return this.getFields(this.columns); }
+	@computed get dataSource() { return toJS(this.data) }
+	@computed get fields() { return this.getFields(this.columns) }
 
 }
 
-const store = new Store();
+const store = new Store()
 
-export default store;
+export default store

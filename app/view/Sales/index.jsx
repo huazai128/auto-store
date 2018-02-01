@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Button, Table, Tag } from 'antd';
-import Header from 'components/Header';
-import { RangePicker } from 'components/DatePicker';
-import { Container, Content, HandleArea, TableMain } from 'components/Layout';
-import { observer, inject } from 'mobx-react';
-const ButtonGroup = Button.Group;
+import React, { Component } from 'react'
+import { Button, Table, Tag } from 'antd'
+import Header from 'components/Header'
+import { RangePicker } from 'components/DatePicker'
+import { Container, Content, HandleArea, TableMain } from 'components/Layout'
+import { observer, inject } from 'mobx-react'
+const ButtonGroup = Button.Group
 
 
 @inject('sales')
@@ -13,7 +13,7 @@ export default class extends Component {
 	store = this.props.sales
 
 	componentDidMount() {
-		this.store.init();
+		this.store.init()
 	}
 
 	render() {
@@ -21,15 +21,13 @@ export default class extends Component {
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
-					<HandleArea>
-						<div className="flex-vcenter ml10">
-							查询日期：
-							<RangePicker onChange={this.store.handleRangePicker} />
-						</div>
+					<HandleArea className="flex">
+						<this.store.ExportGroup withDetail />
+						<this.store.RenderRangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable noRowSelection className="two-row" title={this.props.name} />
+					<this.store.RenderMainTable className="two-row" title={this.props.name} />
 				</Content>
 			</Container>
-		);
+		)
 	}
 }

@@ -53,6 +53,10 @@ class Store {
 		cb && cb()
 	}
 
+	@computed get access_token() {
+		return this.userData.access_token
+	}
+
 }
 
 const store = new Store()
