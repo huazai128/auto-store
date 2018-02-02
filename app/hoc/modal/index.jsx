@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Modal } from 'antd';
+import React, { Component } from 'react'
+import { Modal } from 'antd'
 
 export default WrappedComponent => {
 	return class extends React.Component {
 		constructor(props) {
-			super(props);
+			super(props)
 
-			const { title } = props;
+			const { title } = props
 
 			/* onCancel, confirmLoading, visible, title */
 
@@ -16,7 +16,7 @@ export default WrappedComponent => {
 				visible: this.state.visible,
 				title,
 				...rest
-			});
+			})
 
 		}
 
@@ -25,7 +25,7 @@ export default WrappedComponent => {
 			confirmLoading: false,
 		}
 
-		showModal = () => this.setState({ visible: true, });
+		showModal = () => this.setState({ visible: true, }, () => this.props.showbefore && this.props.showbefore());
 
 		// componentWillReceiveProps(nextProps) {
 		// 	const { visible } = nextProps;
@@ -38,7 +38,7 @@ export default WrappedComponent => {
 			this.setState({
 				visible: false,
 				confirmLoading: false,
-			}, cb);
+			}, cb)
 		}
 
 		render() {
@@ -54,7 +54,7 @@ export default WrappedComponent => {
 						{...this.props}
 					/>
 				]
-			);
+			)
 		}
-	};
-};
+	}
+}

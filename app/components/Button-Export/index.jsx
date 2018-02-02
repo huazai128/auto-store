@@ -52,7 +52,7 @@ export default class extends Component {
 			<a href={
 				type !== 'detail'
 					? `${_API_BASE_}${url}/export?${serializeParams({ access_token, ...data, ...exportOtherData })}`
-					: `${_API_BASE_}${url}/export/detail?${serializeParams({ access_token, ...data, ...exportDetailOtherData })}`
+					: `${_API_BASE_}${url}/exportItems?${serializeParams({ access_token, ...data, ...exportDetailOtherData })}`
 			}>
 				<Button
 					ghost

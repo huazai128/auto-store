@@ -7,7 +7,7 @@ useStrict(true)
 class Store extends TablePrototype {
 	constructor() {
 		super()
-		this.url = 'api/order'
+		this.url = '/api/order'
 
 		this.getData = this.getData.bind(this, { url: this.url })
 	}

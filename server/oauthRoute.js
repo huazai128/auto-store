@@ -1,5 +1,6 @@
 import config, { oauth as configOauth } from '../config'
 import request from 'request'
+import path from 'path'
 
 var appendExpireTime = function (token) {
 	var expires = token.expires_in
@@ -52,6 +53,12 @@ var router = function (app) {
 			}
 		})
 	})
+
+	// app.get('/**', function (req, res) {
+	// 	// res.header('Cache-Control', 'no-cache')
+	// 	res.sendfile(`${path.join(__dirname, '../dist')}/index.html`)
+	// })
+
 }
 
 export default router

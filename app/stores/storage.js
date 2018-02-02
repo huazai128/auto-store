@@ -8,7 +8,7 @@ useStrict(true)
 class Store extends TablePrototype {
 	constructor() {
 		super()
-		this.url = 'api/stockIns'
+		this.url = '/api/stockIns'
 		this.detailPathname = '/storage'
 
 		this.getData = this.getData.bind(this, { url: this.url })

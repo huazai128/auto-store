@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import TablePrototype from './TablePrototype';
+import React, { Component } from 'react'
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
+import TablePrototype from './TablePrototype'
 
-useStrict(true);
+useStrict(true)
 
 class Store extends TablePrototype {
 	constructor() {
-		super();
-		this.url = 'api/attrs';
+		super()
+		this.url = '/api/attrs'
 
-		this.getData = this.getData.bind(this, { url: this.url });
-		this.create = this.create.bind(this, { url: this.url });
-		this.handle = this.handle.bind(this, { url: this.url });
+		this.getData = this.getData.bind(this, { url: this.url })
+		this.create = this.create.bind(this, { url: this.url })
+		this.handle = this.handle.bind(this, { url: this.url })
 	}
 
 	@observable query = {
@@ -31,7 +31,7 @@ class Store extends TablePrototype {
 		{ width: 400, title: '操作', key: 'action', render: () => '操作' },
 	];
 
-	@computed get dataSource() { return toJS(this.data); }
+	@computed get dataSource() { return toJS(this.data) }
 	@computed get cascaderData() {
 		return this.data.map(item => ({
 			value: item.id,
@@ -40,10 +40,10 @@ class Store extends TablePrototype {
 				value: i.id,
 				label: i.name,
 			}))
-		}));
+		}))
 	}
 }
 
-const store = new Store();
+const store = new Store()
 
-export default store;
+export default store

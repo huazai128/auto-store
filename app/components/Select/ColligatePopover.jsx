@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Table, Button, Input } from 'antd';
-import { observer, inject } from 'mobx-react';
-import popover from 'hoc/popover';
-import { get } from 'utils/request';
+import React, { Component } from 'react'
+import { Table, Button, Input } from 'antd'
+import { observer, inject } from 'mobx-react'
+import popover from 'hoc/popover'
+import { get } from 'utils/request'
 
-import BasicTable from 'components/Table/Basic';
+import BasicTable from 'components/Table/Basic'
 
-const { Search } = Input;
+const { Search } = Input
 
 @popover()
 @observer
@@ -16,99 +16,99 @@ export default class extends Component {
 	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.columns = [
 			{ width: 300, title: '名称', key: 'name', },
 			{ width: 300, title: '编号', key: 'number', },
-		];
+		]
 
 		this.state = {
 			data: [],
 			loading: false,
 			selectedRowKeys: props.selectedRowKeys || [],
 			selectedRows: [],
-		};
+		}
 	}
 
 	componentDidMount() {
-		this.getData();
+		this.getData()
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { selectedRowKeys = [] } = nextProps;
+		const { selectedRowKeys = [] } = nextProps
 
 		this.setState({
 			selectedRowKeys
-		});
+		})
 	}
 
 	getData = async () => {
-		this.setState({ loading: true });
-		const { data } = await get(this.props.api, { query: this.query });
-		this.setState({ data, loading: false });
+		this.setState({ loading: true })
+		const { data } = await get(this.props.api, { query: this.query })
+		this.setState({ data, loading: false })
 	}
 
 	onConfirm = () => {
-		const { selectedRowKeys, selectedRows } = this.state;
-		this.props.onChange(selectedRowKeys, selectedRows);
-		this.props.hide();
+		const { selectedRowKeys, selectedRows } = this.state
+		this.props.onChange(selectedRowKeys, selectedRows)
+		this.props.hide()
 	}
 
 	onChange = (e) => {
-		const { value } = e.target;
-		this.query = value;
+		const { value } = e.target
+		this.query = value
 
-		this.getData();
+		this.getData()
 	}
 
 	onRowDoubleClick = (record) => {
-		const { key } = record;
-		if (!this.props.radio || key == this.props.disabledId) return;
-		this.onConfirm();
+		const { key } = record
+		if (!this.props.radio || key == this.props.disabledId) return
+		this.onConfirm()
 	}
 
 	onRowClick = (record) => {
-		const { key } = record;
-		const { selectedRowKeys } = this.state;
+		const { key } = record
+		const { selectedRowKeys } = this.state
 
 
 		if (this.props.radio) {
-			if (key == this.props.disabledId) return;
+			if (key == this.props.disabledId) return
 
 			this.setState({
 				selectedRowKeys: [key],
 				selectedRows: [record]
-			});
-			return;
+			})
+			return
 		}
 
 		if (selectedRowKeys.includes(key)) {
 			this.setState({
 				selectedRowKeys: selectedRowKeys.filter(item => item !== key)
-			});
+			})
 		} else {
 			this.setState({
 				selectedRowKeys: [...selectedRowKeys, key]
-			});
+			})
 		}
 	}
 
 	render() {
-		const { data, selectedRowKeys } = this.state;
+		const { data, selectedRowKeys } = this.state
 
 		const rowSelection = {
 			type: this.props.radio ? 'radio' : 'checkbox',
 			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({ selectedRowKeys, selectedRows });
+				this.setState({ selectedRowKeys, selectedRows })
 			},
 			selectedRowKeys,
 			getCheckboxProps: record => {
 				return ({
 					disabled: record.id === this.props.disabledId, // Column configuration not to be checked
-				});
+				})
 			}
-		};
+		}
 
 		return (
 			<div>
@@ -131,6 +131,6 @@ export default class extends Component {
 					<Button onClick={this.props.hide}>取消</Button>
 				</div>
 			</div >
-		);
+		)
 	}
 }

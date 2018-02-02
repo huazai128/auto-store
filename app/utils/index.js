@@ -29,3 +29,10 @@ export function serializeParams(params) {
 		return `${n[0]}=${n[1]}`
 	}).join('&')
 }
+
+
+export function monentToValue (values) {
+	Object.keys(values).forEach((key) => {
+		if (moment.isMoment(values[key])) values[key] = moment(values[key]).valueOf()
+	})
+}

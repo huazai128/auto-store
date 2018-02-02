@@ -8,6 +8,7 @@ import moment from 'moment'
 import axios from 'axios'
 import ColligatePopoverBinded from 'components/Select/ColligatePopoverBinded'
 import ButtonExport from 'components/Button-Export'
+import { monentToValue } from 'utils'
 
 
 useStrict(true)
@@ -99,8 +100,9 @@ export default class {
 
 		const query = toJS(this.query)
 
+		monentToValue(query)
+
 		for (const key in query) {
-			if (moment.isMoment(query[key])) query[key] = moment(query[key]).valueOf()
 			if (Array.isArray(query[key]) && query[key].length == 0) {
 				delete query[key]
 			} else if (Array.isArray(query[key])) query[key] = query[key].toString()

@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { Input, Select, DatePicker } from 'antd';
-import TablePrototype from './TablePrototype';
-import { get, post } from 'utils/request';
-import { dataStateFilters } from 'mapStore/filter';
-import axios from 'axios';
-import moment from 'moment';
-const { TextArea } = Input;
+import React, { Component } from 'react'
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
+import { Input, Select, DatePicker } from 'antd'
+import TablePrototype from './TablePrototype'
+import { get, post } from 'utils/request'
+import { dataStateFilters } from 'mapStore/filter'
+import axios from 'axios'
+import moment from 'moment'
+const { TextArea } = Input
 
-useStrict(true);
+useStrict(true)
 class Store extends TablePrototype {
 	constructor() {
-		super();
-		this.url = 'api/stores';
+		super()
+		this.url = '/api/stores'
 
-		this.getData = this.getData.bind(this, { url: this.url });
-		this.handle = this.handle.bind(this, { url: this.url });
-		this.create = this.create.bind(this, { url: this.url });
-		this.update = this.update.bind(this, { url: this.url });
+		this.getData = this.getData.bind(this, { url: this.url })
+		this.handle = this.handle.bind(this, { url: this.url })
+		this.create = this.create.bind(this, { url: this.url })
+		this.update = this.update.bind(this, { url: this.url })
 	}
 
 	@observable query = {
@@ -83,10 +83,10 @@ class Store extends TablePrototype {
 		},
 	]
 
-	@computed get dataSource() { return toJS(this.data); }
-	@computed get fields() { return this.getFields(this.columns); }
+	@computed get dataSource() { return toJS(this.data) }
+	@computed get fields() { return this.getFields(this.columns) }
 }
 
-const store = new Store();
+const store = new Store()
 
-export default store;
+export default store

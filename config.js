@@ -2,7 +2,7 @@
 const config = {
 	development: {
 		port: 8000,
-		apiBase: 'http://192.168.0.209:3721/',
+		apiBase: 'http://192.168.0.209:3721',
 		oauth: {
 			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
 			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',

@@ -9,7 +9,7 @@ import create from 'hoc/create-table'
 
 @inject(store => ({
 	body: store.body,
-	backStore: store.prurchase,
+	backStore: store.purchase,
 	}))
 @create({
 	setFields: ['supplier', 'toWarehouse', 'purchaseDate'],

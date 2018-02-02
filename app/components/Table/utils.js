@@ -1,19 +1,19 @@
-import React from 'react';
-import { Tooltip } from 'antd';
-import { numeralNumber } from 'utils';
-import moment from 'moment';
+import React from 'react'
+import { Tooltip } from 'antd'
+import { numeralNumber } from 'utils'
+import moment from 'moment'
 
 export function getXSrcoll(columns = []) {
-	return columns.map(item => item.width).reduce((a, b) => a + b, 0);
+	return columns.map(item => item.width).reduce((a, b) => a + b, 0)
 }
 
 export function computeColumns(columns = []) {
 	return columns.map(item => {
 		if (item.key == 'warehouse') {
-			item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>;
+			item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>
 		}
 		if (item.key == 'supplier') {
-			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>;
+			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>
 		}
 
 		return {
@@ -22,13 +22,13 @@ export function computeColumns(columns = []) {
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				text = numeralNumber(text, item.key);
+				text = numeralNumber(text, item.key)
 
-				if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD');
-				if (item.type == 'info') return <p className="info-color">{text}</p>;
+				if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD')
+				if (item.type == 'info') return <p className="info-color">{text}</p>
 				// return text;
-				return <Tooltip placement="top" title={text}>{text}</Tooltip>;
+				return <Tooltip placement="top" title={text}>{text}</Tooltip>
 			}
-		};
-	});
+		}
+	})
 }

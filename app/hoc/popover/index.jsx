@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Popover, Button } from 'antd';
+import React, { Component } from 'react'
+import { Popover, Button } from 'antd'
 
 export default (option = {}) => WrappedComponent => {
 	return class extends React.Component {
@@ -10,17 +10,15 @@ export default (option = {}) => WrappedComponent => {
 		hide = () => {
 			this.setState({
 				visible: false,
-			});
+			})
 		}
 
 		handleVisibleChange = (visible) => {
-			this.setState({ visible });
+			this.setState({ visible })
 		}
 
 		render() {
-			const { title } = this.props;
-
-
+			const { title } = this.props
 
 			return (
 				<Popover
@@ -33,7 +31,7 @@ export default (option = {}) => WrappedComponent => {
 				>
 					{this.props.children}
 				</Popover>
-			);
+			)
 		}
-	};
-};
+	}
+}

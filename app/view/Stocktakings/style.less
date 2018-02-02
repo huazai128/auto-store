@@ -1,0 +1,9 @@
+@import "antd/lib/style/themes/default.less";
+.diff {
+   :global {
+    .ant-table-middle .ant-table-thead>tr>th {
+			background: fade(@error-color, 20%);
+			border-bottom: 1px solid fade(@error-color, 40%);
+    }
+  }
+}

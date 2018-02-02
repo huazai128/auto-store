@@ -17,8 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '../dist')))
 
 
-oauthRoute(app)
-
 app.get('/config', (req, res) => {
 	res.send({
 		code: 0,
@@ -26,12 +24,12 @@ app.get('/config', (req, res) => {
 	})
 })
 
+oauthRoute(app)
 
 app.get('/**', function (req, res) {
 	// res.header('Cache-Control', 'no-cache')
 	res.sendfile(`${path.join(__dirname, '../dist')}/index.html`)
 })
-
 
 const server = app.listen(config.port, () => {
 	const host = server.address().address

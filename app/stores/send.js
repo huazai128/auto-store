@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx';
-import { stateFilters } from 'mapStore/filter';
-import TablePrototype from './TablePrototype';
+import React, { Component } from 'react'
+import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
+import { stateFilters } from 'mapStore/filter'
+import TablePrototype from './TablePrototype'
 
-useStrict(true);
+useStrict(true)
 
 class Store extends TablePrototype {
 	constructor() {
-		super();
-		this.url = 'api/shipments';
+		super()
+		this.url = '/api/shipments'
 
-		this.getData = this.getData.bind(this, { url: this.url });
-		this.handle = this.handle.bind(this, { url: this.url });
-		this.create = this.create.bind(this, { url: this.url });
-		this.update = this.update.bind(this, { url: this.url });
+		this.getData = this.getData.bind(this, { url: this.url })
+		this.handle = this.handle.bind(this, { url: this.url })
+		this.create = this.create.bind(this, { url: this.url })
+		this.update = this.update.bind(this, { url: this.url })
 	}
 
 	@observable query = {}
@@ -54,9 +54,9 @@ class Store extends TablePrototype {
 		{ width: 80, mark: '登账日期', key: 'confirmedDate', type: 'date' },
 	];
 
-	@computed get dataSource() { return toJS(this.data); }
+	@computed get dataSource() { return toJS(this.data) }
 }
 
-const store = new Store();
+const store = new Store()
 
-export default store;
+export default store

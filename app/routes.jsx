@@ -52,7 +52,7 @@ class GetTag extends Component {
 @inject(stores => ({
 	body: stores.body,
 	user: stores.user
-	}))
+}))
 @observer
 export default class extends Component {
 	componentDidMount() {
@@ -68,8 +68,20 @@ export default class extends Component {
 		if (!this.props.user.validate() && pathname !== '/login') this.props.history.push('/login')
 	}
 
+	getSubMenu(viewMap) {
+		const result = []
+
+		viewMap.filter(i => i.subMenu).forEach(item => {
+			item.subMenu.forEach(i => result.push(i))
+		})
+
+		return result
+	}
+
 	render() {
 		const { pathname } = this.props.location
+
+		const subMenu = this.getSubMenu(viewMap)
 
 		return (
 			<div style={{ height: '100%', }}>
@@ -82,7 +94,7 @@ export default class extends Component {
 				{/* router ==> body{tags: []} */}
 				<Switch key="Switch">
 					<Route exact path="/login" component={Login} />
-					{viewMap.map(item => (
+					{[...viewMap, ...subMenu].filter(i => i.url).map(item => (
 						<Route exact key={item.url} path={item.url} render={props => {
 							const { pathname } = props.location
 							const { params } = props.match
@@ -91,6 +103,7 @@ export default class extends Component {
 							)
 						}} />
 					))}
+
 				</Switch>
 			</div>
 		)

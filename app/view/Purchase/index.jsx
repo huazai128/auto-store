@@ -6,10 +6,10 @@ import { observer, inject } from 'mobx-react'
 
 const ButtonGroup = Button.Group
 
-@inject('prurchase')
+@inject('purchase')
 @observer
 export default class extends Component {
-	store = this.props.prurchase
+	store = this.props.purchase
 	componentDidMount() {
 		this.store.init()
 	}
@@ -31,7 +31,7 @@ export default class extends Component {
 							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
 						<DeleteButton>删除</DeleteButton>
-						<this.store.ExportGroup />
+						<this.store.ExportGroup withDetail />
 						<this.store.RenderRangePicker />
 					</HandleArea>
 					<this.store.RenderMainTable className="two-row" push={this.props.push} title={this.props.name} />
