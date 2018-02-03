@@ -6,9 +6,9 @@ import asyncComponent from 'app/hoc/asyncComponent'
 import { Aside } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
 
-// import Login from 'view/User/Login'
+import Login from 'view/User/Login'
 
-const Login = asyncComponent(() => import('view/User/Login'))
+// const Login = asyncComponent(() => import('view/User/Login'))
 
 const TabPane = Tabs.TabPane
 
