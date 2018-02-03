@@ -41,18 +41,18 @@ export default [
 	},
 
 
-	{ name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
-	{ name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
-	// { name: '盘点单编辑', url: '/stocktakings/:id', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
+	// { name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
+	// { name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
+	// // { name: '盘点单编辑', url: '/stocktakings/:id', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
 
-	{
-		name: '账号管理',
-		icon: 'setting',
-		subMenu: [
-			{ name: '工作组配置', url: '/work', Component: asyncComponent(() => import('view/setting/work')), },
-			{ name: '账号配置', url: '/zhanghao', Component: asyncComponent(() => import('view/setting/account')), }
-		]
-	},
+	// {
+	// 	name: '账号管理',
+	// 	icon: 'setting',
+	// 	subMenu: [
+	// 		{ name: '工作组配置', url: '/work', Component: asyncComponent(() => import('view/setting/work')), },
+	// 		{ name: '账号配置', url: '/zhanghao', Component: asyncComponent(() => import('view/setting/account')), }
+	// 	]
+	// },
 
 
 	// { name: 'demo', icon: 'schedule', url: '/demo', Component: asyncComponent(() => import('app/test/G2')),  , },

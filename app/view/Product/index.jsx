@@ -6,31 +6,33 @@ import { Container, Content, HandleArea } from 'components/Layout'
 import popover from 'hoc/popover'
 import ModalAdd from './ModalAdd'
 import Upload from 'components/Upload'
+import bill from 'hoc/bill'
 
 
 const ButtonGroup = Button.Group
 
-@popover({
-	confirm: true
-	})
-class ConfirmPopover extends Component {
-	render() {
-		return (
-			<div>content</div>
-		)
-	}
-}
+// @popover({
+// 	confirm: true
+// })
+// class ConfirmPopover extends Component {
+// 	render() {
+// 		return (
+// 			<div>content</div>
+// 		)
+// 	}
+// }
 
-@inject('product')
+@inject(stores => ({ store: stores.product }))
+@bill
 @observer
 export default class extends Component {
-	store = this.props.product
+	store = this.props.store
 	componentDidMount() {
 		this.store.init()
 	}
 
 	render() {
-		const { HandleButton, RenderWarehousePopover, ExportGroup } = this.store
+		const { DeleteButton, HandleButton, ExportGroup, MainTable } = this.props.part
 
 		return (
 			<Container>
@@ -41,25 +43,17 @@ export default class extends Component {
 							<HandleButton method="invoke" state="created" icon="check-circle-o">应用</HandleButton>
 							<HandleButton method="uninvoke" state="invoked_no" icon="close-circle-o">反应用</HandleButton>
 						</ButtonGroup>
-						<HandleButton
-							method="delete"
-							style={{ marginLeft: 20 }}
-							type="danger"
-							state="created"
-							confirm={{ title: '确定要删除选中货品？' }}
-						>
-							删除
-						</HandleButton>
+						<DeleteButton confirm={{ title: '确定要删除选中货品？' }}>删除</DeleteButton>
 						<ModalAdd title="添加货品资料">
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
 						<Upload handleConfirm={() => { }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
 						<ExportGroup />
-						<ConfirmPopover title="综合筛选">
+						{/* <ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
-						</ConfirmPopover>
+						</ConfirmPopover> */}
 					</HandleArea>
-					<this.store.RenderMainTable edit title={this.props.name} />
+					<MainTable edit title={this.props.name} />
 				</Content>
 			</Container>
 		)

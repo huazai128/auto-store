@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
-import { Input, Select, DatePicker } from 'antd'
+import { Input, DatePicker } from 'antd'
 import TablePrototype from './TablePrototype'
 import { get, post } from 'utils/request'
 import { dataStateFilters } from 'mapStore/filter'

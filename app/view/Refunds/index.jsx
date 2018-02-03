@@ -3,19 +3,21 @@ import { Button } from 'antd'
 import Header from 'components/Header'
 import { Container, Content, HandleArea } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
+import bill from 'hoc/bill'
 
 const ButtonGroup = Button.Group
 
-@inject('refunds')
+@inject(stores => ({ store: stores.refunds }))
+@bill
 @observer
 export default class extends Component {
-	store = this.props.refunds
+	store = this.props.store
 	componentDidMount() {
 		this.store.init()
 	}
 
 	render() {
-		const { HandleButton, DeleteButton } = this.store
+		const { HandleButton, ExportGroup, RangePicker, MainTable, DeleteButton } = this.props.part
 		return (
 			<Container>
 				<Header btn={{ to: '/refunds/create', text: '退货单制单' }} store={this.store}>{this.props.name}</Header>
@@ -30,10 +32,10 @@ export default class extends Component {
 							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
 						</ButtonGroup>
 						<DeleteButton>删除</DeleteButton>
-						<this.store.ExportGroup withDetail />
-						<this.store.RenderRangePicker />
+						<ExportGroup withDetail />
+						<RangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable className="two-row" push={this.props.push} title={this.props.name} />
+					<MainTable className="two-row" push={this.props.push} title={this.props.name} />
 				</Content>
 			</Container>
 		)

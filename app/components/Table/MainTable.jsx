@@ -10,6 +10,7 @@ import CustomHeader from './CustomHeader'
 import { getXSrcoll } from './utils'
 import { numeralNumber } from 'utils'
 import numeral from 'numeral'
+import ColligatePopoverBinded from 'components/Select/ColligatePopoverBinded'
 
 import BasicTable from './Basic'
 
@@ -152,6 +153,30 @@ export default class extends Component {
 		return text
 	}
 
+	RenderSupplierPopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
+		store: this.props.store,
+		type: 'supplier',
+		...props
+	});
+
+	RenderWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
+		store: this.props.store,
+		type: 'warehouse',
+		...props
+	});
+
+	RenderToWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
+		store: this.props.store,
+		type: 'toWarehouse',
+		...props
+	});
+
+	RenderFromWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
+		store: this.props.store,
+		type: 'fromWarehouse',
+		...props
+	});
+
 	render() {
 		const { title, className, push, ...rest } = this.props
 
@@ -162,11 +187,14 @@ export default class extends Component {
 			onChangeTable,
 			columns,
 			count,
+		} = this.props.store
+
+		const {
 			RenderSupplierPopover,
 			RenderWarehousePopover,
 			RenderToWarehousePopover,
 			RenderFromWarehousePopover
-		} = this.props.store
+		} = this
 
 		const otherH = 18 + 26 + 34 + 56
 		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5
@@ -264,6 +292,8 @@ export default class extends Component {
 			selectedRowKeys: selectedRows.map(i => i.key)
 		}
 
+		// console.log(tableInnerHeight)
+
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table
@@ -290,7 +320,6 @@ export default class extends Component {
 					columns={filterColumns}
 					{...rest}
 				/>
-				{/* <div>这是一段文字</div> */}
 			</div>
 		)
 	}

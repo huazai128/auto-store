@@ -4,12 +4,12 @@ import Header from 'components/Header'
 import Upload from 'components/Upload'
 import { Container, Content, HandleArea } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
-
 import DyunFrom from 'components/Form'
+
+import bill from 'hoc/bill'
 import modal from 'hoc/modal'
 
 const ButtonGroup = Button.Group
-
 
 @inject('store')
 @modal
@@ -44,16 +44,17 @@ class AddStoreModal extends Component {
 	}
 }
 
-@inject('store')
+@inject(stores => ({ store: stores.store }))
+@bill
 @observer
 export default class extends Component {
 	store = this.props.store
-
 	componentDidMount() {
 		this.store.getData()
 	}
 	render() {
-		const { HandleButton } = this.store
+		const { DeleteButton, HandleButton, ExportGroup, MainTable } = this.props.part
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
@@ -63,23 +64,14 @@ export default class extends Component {
 							<HandleButton method="freeze" state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
 							<HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton>
 						</ButtonGroup>
-						<HandleButton
-							style={{ marginLeft: 20 }}
-							type="danger"
-							state="created_no"
-							method="delete"
-							confirm={{
-								title: '确定删除选中门店？'
-							}}
-						>删除
-						</HandleButton>
+						<DeleteButton state="created_no" confirm={{ title: '确定删除选中门店？' }}>删除</DeleteButton>
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
 						</AddStoreModal>
 						<Upload handleConfirm={() => { /* handleConfirm */ }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
-						<this.store.ExportGroup />
+						<ExportGroup />
 					</HandleArea>
-					<this.store.RenderMainTable
+					<MainTable
 						edit
 						title={this.props.name}
 					/>

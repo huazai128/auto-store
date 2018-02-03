@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Table, Popconfirm, InputNumber, Input, Icon } from 'antd';
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import { getXSrcoll } from './utils';
+import React, { Component } from 'react'
+import { Table, Popconfirm, InputNumber, Input, Icon } from 'antd'
+import { observer } from 'mobx-react'
+import { toJS } from 'mobx'
+import { getXSrcoll } from './utils'
 
 /**
 |--------------------------------------------------
@@ -12,14 +12,14 @@ import { getXSrcoll } from './utils';
 |--------------------------------------------------
 */
 
-// @observer
+@observer
 export default class extends Component {
 	static defaultProps = {
 		columns: [],
 	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 
 		!props.noDelete && props.columns.push({
 			width: 80,
@@ -30,25 +30,25 @@ export default class extends Component {
 					color: '#f04134',
 					cursor: 'pointer',
 					padding: 10,
-				};
+				}
 
 				return (
 					<Popconfirm title='确定删除?' onConfirm={() => this.props.deleteItem(record)}>
 						<span style={style}><Icon type="delete" /></span>
 					</Popconfirm>
-				);
+				)
 			}
-		});
+		})
 
 		this.columns = props.columns.map(item => {
-			if (item.edit) item.title = <div className="primary-6">{item.title}<Icon type="edit" /></div>;
-			if (item.type == 'info') item.render = (text) => <p className="info-color">{text}</p>;
+			if (item.edit) item.title = <div className="primary-6">{item.title}<Icon type="edit" /></div>
+			if (item.type == 'info') item.render = (text) => <p className="info-color">{text}</p>
 			return {
 				...item,
 				dataIndex: item.key,
 				render: item.render ? item.render : (text, record) => {
 					if (item.edit) {
-						const { type, ...inputProps } = item.edit;
+						const { type, ...inputProps } = item.edit
 						if (type == 'number') return (
 							<div>
 								<InputNumber
@@ -60,7 +60,7 @@ export default class extends Component {
 									{...inputProps}
 								/>
 							</div>
-						);
+						)
 						else return (
 							<div>
 								<Input
@@ -71,20 +71,20 @@ export default class extends Component {
 									{...inputProps}
 								/>
 							</div>
-						);
+						)
 					}
-					return text;
+					return text
 				}
-			};
-		});
+			}
+		})
 	}
 
 	componentDidMount() {
-		const otherH = 70;
-		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH;
+		const otherH = 70
+		this.tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH
 	}
 	render() {
-		this.props.items.forEach((i, index) => i.key = index);
+		this.props.items.forEach((i, index) => i.key = index)
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table
@@ -97,6 +97,6 @@ export default class extends Component {
 					pagination={false}
 					columns={this.columns} />
 			</div>
-		);
+		)
 	}
 }

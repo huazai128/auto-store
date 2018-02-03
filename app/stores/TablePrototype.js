@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
 import { get, post, postByParam } from 'utils/request'
-import { RangePicker } from 'components/DatePicker'
-import MainTable from 'components/Table/MainTable'
-import HandleButtonOrigin from 'components/Button'
-import moment from 'moment'
 import axios from 'axios'
-import ColligatePopoverBinded from 'components/Select/ColligatePopoverBinded'
-import ButtonExport from 'components/Button-Export'
 import { monentToValue } from 'utils'
 
 
@@ -163,51 +157,4 @@ export default class {
 			...item.created
 		}))
 	}
-
-	RenderMainTable = props => { return React.cloneElement(<MainTable />, { store: this, ...props }) }
-	// RenderRangePicker = () => React.cloneElement(<RangePicker />, {
-	// 	onChange: this.handleRangePicker,
-	// });
-
-	RenderRangePicker = () => (
-		<div className="flex-vcenter ml50">
-			查询日期：<RangePicker onChange={this.handleRangePicker} />
-		</div>
-	)
-
-	HandleButton = ({ children, ...rest }) => React.cloneElement(<HandleButtonOrigin>{children}</HandleButtonOrigin>, { store: this, ...rest });
-
-	DeleteButton = ({ children, ...rest }) => <this.HandleButton method="delete" state="created" style={{ marginLeft: 20 }} type="danger" confirm {...rest}>{children}</this.HandleButton>
-
-	ExportGroup = ({ data, ...rest }) => (
-		<ButtonExport
-			store={this}
-			url={this.url}
-			{...rest}
-		/>
-	)
-
-	RenderSupplierPopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
-		store: this,
-		type: 'supplier',
-		...props
-	});
-
-	RenderWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
-		store: this,
-		type: 'warehouse',
-		...props
-	});
-
-	RenderToWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
-		store: this,
-		type: 'toWarehouse',
-		...props
-	});
-
-	RenderFromWarehousePopover = (props) => React.cloneElement(<ColligatePopoverBinded />, {
-		store: this,
-		type: 'fromWarehouse',
-		...props
-	});
 }

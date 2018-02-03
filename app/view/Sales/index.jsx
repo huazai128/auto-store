@@ -2,30 +2,32 @@ import React, { Component } from 'react'
 import { Button, Table, Tag } from 'antd'
 import Header from 'components/Header'
 import { RangePicker } from 'components/DatePicker'
-import { Container, Content, HandleArea, TableMain } from 'components/Layout'
+import { Container, Content, HandleArea } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
+import bill from 'hoc/bill'
+
 const ButtonGroup = Button.Group
 
-
-@inject('sales')
+@inject(stores => ({ store: stores.sales }))
+@bill
 @observer
 export default class extends Component {
-	store = this.props.sales
-
+	store = this.props.store
 	componentDidMount() {
 		this.store.init()
 	}
 
 	render() {
+		const { ExportGroup, RangePicker, MainTable } = this.props.part
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
-						<this.store.ExportGroup withDetail />
-						<this.store.RenderRangePicker />
+						<ExportGroup withDetail />
+						<RangePicker />
 					</HandleArea>
-					<this.store.RenderMainTable className="two-row" title={this.props.name} />
+					<MainTable className="two-row" title={this.props.name} />
 				</Content>
 			</Container>
 		)

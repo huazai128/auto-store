@@ -14,13 +14,12 @@ import styles from './style.less'
 
 const RadioGroup = Radio.Group
 
+const pageSize = 15
 
 @modal
 class DiffModal extends Component {
-
 	render() {
-		const { HocModal } = this.props
-
+		const { HocModal, diffData, loading, current, count } = this.props
 		return (
 			<HocModal
 				afterClose={this.afterClose}
@@ -29,12 +28,18 @@ class DiffModal extends Component {
 			>
 				<BasicTable
 					className={styles.diff}
-					dataSource={[
-						{ id: 1, name: '大毛' },
-						{ id: 11, name: '大毛' },
-						{ id: 111, name: '大毛' },
-
+					dataSource={diffData}
+					loading={loading}
+					columns={[
+						{ title: '货品编号', key: 'skuNumber' },
+						{ title: '货品名称', key: 'skuName' },
+						{ title: '实盘数量', key: 'amount' },
+						{ title: '系统库存', key: 'inventory' },
+						{ title: '采购价', key: 'costPrice' },
+						{ title: '销售价', key: 'price' },
 					]}
+					pagination={{ current, total: count, pageSize }}
+					onChange={this.props.onChange}
 				/>
 			</HocModal>
 		)
@@ -53,9 +58,11 @@ class DiffModal extends Component {
 export default class extends Component {
 	state = {
 		loading: false,
+		diffLoding: false,
 		diffData: [],
 		diffId: null,
-		count: 0
+		count: 0,
+		current: 1,
 	}
 
 	columns = [
@@ -91,6 +98,7 @@ export default class extends Component {
 			warehouseId
 		}
 
+		this.setState({ diffLoding: true })
 		const generateResponse = await post(`${url}/diff/generate`, query)
 		const { diffId, count } = generateResponse.data
 		// const { data: diffData } = await get(`${url}/diff`, { diffId })
@@ -98,7 +106,41 @@ export default class extends Component {
 		this.setState({
 			diffId,
 			count,
+			diffLoding: false,
 		})
+	}
+
+	resetDiff = () => {
+		Modal.confirm({
+			title: '确认要重新进行盘点?',
+			content: '重新盘点可以重新选择盘点条件，但是会清空现有的盘点差异。',
+			okType: 'danger',
+			onOk: () => {
+				this.setState({
+					diffId: null,
+				})
+			},
+		})
+	}
+
+	getDiffItems = async () => {
+		const { diffId, current } = this.state
+
+		const params = {
+			diffId,
+			from: (current - 1) * pageSize,
+			size: pageSize,
+		}
+
+		this.setState({ loading: true })
+		const { url } = this.props.backStore
+		const { data: diffData } = await get(`${url}/diff`, params)
+		this.setState({ loading: false, diffData })
+	}
+
+	handleTableChange = (pagination) => {
+		const { current } = pagination
+		this.setState({ current }, this.getDiffItems)
 	}
 
 	render() {
@@ -118,7 +160,8 @@ export default class extends Component {
 
 		const isReadyDiff = !!(values.warehouseId && values.stocktakingDate)
 
-		const hasDiffId = this.state.diffId
+		const hasDiffId = !!this.state.diffId
+
 
 		return (
 			<Container>
@@ -160,27 +203,42 @@ export default class extends Component {
 					</Form>
 					<RenderCreateTable
 						columns={this.columns}
+						noDelete={hasDiffId}
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<SearchPro onChange={item => {
+								<SearchPro disabled={hasDiffId} onChange={item => {
 									addItems([item])
 								}} />
 								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
-								<Button
-									onClick={() => this.getDiffId(values)}
-									disabled={!isReadyDiff}
-									className="ml30"
-									type="primary"
-									icon="line-chart">
-									生成盘点差异
-								</Button>
-								<Button disabled={!isReadyDiff} className="ml30" type="primary" icon="sync">重新盘点</Button>
-
+								{
+									hasDiffId
+										?
+										<Button
+											disabled={!isReadyDiff}
+											className="ml30"
+											onClick={this.resetDiff}
+											type="danger"
+											icon="sync">
+											重新盘点
+										</Button>
+										:
+										<Button
+											onClick={() => this.getDiffId(values)}
+											disabled={!isReadyDiff}
+											className="ml30"
+											type="primary"
+											loading={this.state.diffLoding}
+											icon="line-chart">
+											生成盘点差异
+										</Button>
+								}
 								<DiffModal
-									showbefore={this.getDiffId.bind(this, values)}
+									{...this.state}
+									showbefore={this.getDiffItems}
+									onChange={this.handleTableChange}
 									title="盘点差异">
-									<Button disabled={!isReadyDiff} className="ml30" type="primary" icon="bars">查看差异情况</Button>
+									<Button disabled={!hasDiffId} className="ml30" type="primary" icon="bars">查看差异情况</Button>
 								</DiffModal>
 							</div>)}
 					/>
