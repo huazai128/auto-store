@@ -1,5 +1,7 @@
 import RangePicker from './RangePicker'
+import DatePicker from './DatePicker'
 
 export {
-	RangePicker
+	RangePicker,
+	DatePicker
 }

@@ -82,6 +82,7 @@ export const post = (url, params, urlData = {}) => {
 			params: urlData
 		}).then(res => {
 			const { data } = res
+			if (!data) reject('操作错误!')
 			resolve(data)
 		}).catch(error => reject(error))
 	})

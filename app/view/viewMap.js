@@ -26,8 +26,6 @@ export default [
 
 	{ name: '门店收货管理', icon: 'schedule', url: '/receive', Component: asyncComponent(() => import('view/Receive')), },
 
-	{ name: '销售单管理', icon: 'copy', url: '/sales', Component: asyncComponent(() => import('view/Sales')), },
-
 	{ name: '退厂管理', icon: 'rollback', url: '/return', Component: asyncComponent(() => import('view/Return')), },
 	{ name: '退厂单制单', url: '/return/create', Component: asyncComponent(() => import('view/Return/Create')), },
 	{ name: '退厂单编辑', url: '/return/:id', Component: asyncComponent(() => import('view/Return/Create')), },
@@ -41,9 +39,21 @@ export default [
 	},
 
 
-	// { name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
-	// { name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
+	{ name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
+	{ name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
 	// // { name: '盘点单编辑', url: '/stocktakings/:id', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
+
+	{ name: '销售单管理', icon: 'copy', url: '/sales', Component: asyncComponent(() => import('view/Sales')), },
+	// { name: '报表中心', icon: 'copy', url: '/report', Component: asyncComponent(() => import('view/Report')), },
+
+	{
+		name: '报表中心',
+		icon: 'area-chart',
+		subMenu: [
+			{ name: '库存查询表', url: '/inventory', Component: asyncComponent(() => import('view/Report/Inventory')), },
+			{ name: '进销存报表', url: '/invoicings', Component: asyncComponent(() => import('view/Report/invoicings')), }
+		]
+	},
 
 	// {
 	// 	name: '账号管理',

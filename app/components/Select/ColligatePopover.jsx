@@ -13,6 +13,9 @@ const { Search } = Input
 export default class extends Component {
 	static defaultProps = {
 		api: 'api/suppliers/search',
+		selectedRowKeys: [],
+		title: '',
+		onChange: () => { }
 	}
 
 	constructor(props) {
@@ -45,7 +48,7 @@ export default class extends Component {
 
 	getData = async () => {
 		this.setState({ loading: true })
-		const { data } = await get(this.props.api, { query: this.query })
+		const { data } = await get(this.props.api, { query: this.query, size: 999 })
 		this.setState({ data, loading: false })
 	}
 

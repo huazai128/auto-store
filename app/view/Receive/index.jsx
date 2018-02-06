@@ -18,6 +18,7 @@ export default class extends Component {
 
 	render() {
 		const { HandleButton, ExportGroup, RangePicker, MainTable } = this.props.part
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>

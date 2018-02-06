@@ -15,6 +15,8 @@ import purchase from './purchase'
 import warehouse from './warehouse'
 import stocktakings from './stocktakings'
 import distributions from './distributions'
+import reportInventory from './report-inventory'
+import reportInvoicings from './report-invoicings'
 
 const stores = {
 	tag,
@@ -34,6 +36,8 @@ const stores = {
 	warehouse,
 	stocktakings,
 	distributions,
+	reportInventory,
+	reportInvoicings,
 }
 
 export default stores

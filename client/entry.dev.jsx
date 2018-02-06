@@ -10,6 +10,8 @@ import zhCN from 'antd/lib/locale-provider/zh_CN'
 import Routes from 'app/routes'
 import stores from 'app/stores'
 
+import 'hoc/bill'
+
 // import 'ant-design-pro/dist/ant-design-pro.css';
 
 import 'assets/styles/custom.less'

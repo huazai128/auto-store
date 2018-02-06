@@ -24,7 +24,7 @@ export default class extends Component {
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
-						<ExportGroup withDetail />
+						<ExportGroup style={{ marginLeft: -20 }} withDetail />
 						<RangePicker />
 					</HandleArea>
 					<MainTable className="two-row" title={this.props.name} />

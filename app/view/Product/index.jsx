@@ -7,10 +7,7 @@ import popover from 'hoc/popover'
 import ModalAdd from './ModalAdd'
 import Upload from 'components/Upload'
 import bill from 'hoc/bill'
-
-
 const ButtonGroup = Button.Group
-
 // @popover({
 // 	confirm: true
 // })
@@ -21,7 +18,6 @@ const ButtonGroup = Button.Group
 // 		)
 // 	}
 // }
-
 @inject(stores => ({ store: stores.product }))
 @bill
 @observer
@@ -47,7 +43,13 @@ export default class extends Component {
 						<ModalAdd title="添加货品资料">
 							<Button className="ml40" type="primary">手动添加货品</Button>
 						</ModalAdd>
-						<Upload handleConfirm={() => { }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
+						<Upload
+							columns={this.store.commonColumns}
+							handleConfirm={data => { this.store.creates(data) }}
+							store={this.store}
+						>
+							<Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button>
+						</Upload>
 						<ExportGroup />
 						{/* <ConfirmPopover title="综合筛选">
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>

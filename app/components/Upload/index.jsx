@@ -1,33 +1,37 @@
-import { Upload, message, Button, Icon, Modal, Tooltip } from 'antd';
-import React, { Component } from 'react';
-import modal from 'hoc/modal';
-import UploadTable from './UploadTable';
-import styles from './style.less';
-import { filterRepeat } from 'utils';
+import { Upload, message, Button, Icon, Modal, Tooltip } from 'antd'
+import React, { Component } from 'react'
+import modal from 'hoc/modal'
+import UploadTable from './UploadTable'
+import styles from './style.less'
+import { filterRepeat } from 'utils'
+import { observer, inject } from 'mobx-react'
+import { serializeParams } from 'utils'
+import { _API_BASE_ } from 'utils/request'
 
-
+@inject('user')
 @modal
+@observer
 export default class extends Component {
 	state = { fileList: [] }
 
 	onChange = ({ fileList }) => {
 		fileList.forEach(item => {
-			if (item.response && item.response.code !== 0) item.status = 'error';
-		});
+			if (item.response && item.response.code !== 0) item.status = 'error'
+		})
 
-		this.setState({ fileList });
+		this.setState({ fileList })
 	}
 
 	onPreview = (file) => {
-		if (!file.response) return;
+		if (!file.response) return
 
 		if (file.response.code !== 0) return Modal.error({
 			title: '上传文件有误：',
 			maskClosable: true,
 			content: <div><p>message:</p><pre>{JSON.stringify(file.response, null, 2)}</pre></div>,
-		});
+		})
 
-		const items = file.response.data.success || [];
+		const items = file.response.data.success || []
 
 		Modal.success({
 			maskClosable: true,
@@ -46,34 +50,39 @@ export default class extends Component {
 				columns={this.props.columns.filter(i => i.key !== 'delete')}
 			/>,
 			okText: '确定'
-		});
+		})
 	}
 
 	afterClose = () => this.setState({ fileList: [] })
 
 	onOk = () => {
-		const successFileList = this.state.fileList.filter(file => file.response && file.response.code == 0);
+		const successFileList = this.state.fileList.filter(file => file.response && file.response.code == 0)
 
-		const items = successFileList.map(i => i.response.data.success || []);
+		const items = successFileList.map(i => i.response.data.success || [])
 
-		let data = [];
+		let data = []
 		items.forEach(items => {
-			data = [...data, ...items];
-		});
+			data = [...data, ...items]
+		})
 
-		this.props.handleConfirm(filterRepeat(data, 'id'));
-		this.props.handleCancel();
+		this.props.handleConfirm(filterRepeat(data, 'number'))
+		this.props.handleCancel()
 	}
 
 	render() {
+		const { params, store = {}, user = {} } = this.props
+		const { access_token } = user
+
+		const action = `${_API_BASE_}${store.url}/import?${serializeParams({ access_token, ...params })}`
+
 		const uploadProps = {
 			name: 'file',
 			multiple: true,
-			action: 'http://192.168.0.222:3333/api/orders/import?access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTM4ODE1MDUsInVzZXJfbmFtZSI6ImFkbWluIiwic2NvcGUiOlsiZndhcGlfYmFzZSJdLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiMDQ5NDQzYTUtMzVjNC00YzJlLTgyMWEtZTgxNDMyMTYwNmU0IiwiY2xpZW50X2lkIjoiVHh4R2pZWkNBVWJRZ3hpcEt6V1p0anZZdWdHR29RZFZJWVNVU3ZBaHFLV1BsV055cWRaU09PSU1WY1VKUUxGdyJ9.jiRPEXTx3V_DLKbDSAH33v8KaoBj6fHVYzfA3r5Pwqk&warehouseId=201&typeId=2',
+			action,
 			onPreview: this.onPreview,
 			fileList: this.state.fileList,
 			onChange: this.onChange
-		};
+		}
 
 		return (
 			<Modal
@@ -102,6 +111,6 @@ export default class extends Component {
 				</div>
 				<p className="mt20"><a><Icon type="download" />下载导入模板</a></p>
 			</Modal>
-		);
+		)
 	}
 }

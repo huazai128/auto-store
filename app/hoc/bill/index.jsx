@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import HandleButtonOrigin from 'components/Button'
 import ButtonExport from 'components/Button-Export'
-import { RangePicker } from 'components/DatePicker'
+import { RangePicker, DatePicker } from 'components/DatePicker'
 import MainTable from 'components/Table/MainTable'
 
+import { observer, inject } from 'mobx-react'
+
+@observer
 export default WrappedComponent => {
 	return class extends Component {
 		store = this.props.store
@@ -35,8 +38,13 @@ export default WrappedComponent => {
 			</div>
 		)
 
-		MainTable = props => { return React.cloneElement(<MainTable />, { store: this.store, ...props }) }
+		DatePicker = (props) => (
+			<div className="flex-vcenter ml50">
+				查询日期：<DatePicker onChange={this.store.handlePicker} {...props} />
+			</div>
+		)
 
+		MainTable = props => { return React.cloneElement(<MainTable />, { store: this.store, ...props }) }
 
 		render() {
 			const part = {
@@ -45,6 +53,8 @@ export default WrappedComponent => {
 				ExportGroup: this.ExportGroup,
 				RangePicker: this.RangePicker,
 				MainTable: this.MainTable,
+				DatePicker: this.DatePicker,
+				Upload: this.Upload,
 			}
 			return (
 				<WrappedComponent

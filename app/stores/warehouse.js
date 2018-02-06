@@ -20,11 +20,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url })
 	}
 
-	@observable query = {
-		query: '',
-		end: null,
-		start: null,
-	};
+	@observable query = {};
 
 	@observable data = []
 	@observable count = 0

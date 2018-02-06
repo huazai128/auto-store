@@ -178,15 +178,15 @@ if (process.env.NODE_ENV !== 'production') {
 	// 进一步减小css和js打包后文件的体积  local: reduce ~ 30kb ~ 50kb
 	// 																	prod: reduce ~ 10kb
 	// ============================================================
-	webpackConfig.plugins.push(new OptimizeCssAssetsPlugin({
-		cssProcessorOptions: {
-			discardComments: {
-				removeAll: true
-			}
-		},
-		canPrint: true
-	}))
-	webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
+	// webpackConfig.plugins.push(new OptimizeCssAssetsPlugin({
+	// 	cssProcessorOptions: {
+	// 		discardComments: {
+	// 			removeAll: true
+	// 		}
+	// 	},
+	// 	canPrint: true
+	// }))
+	// webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 	// ============================================================
 	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'))
 	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({

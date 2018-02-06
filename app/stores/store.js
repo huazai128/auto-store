@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
-import { Input, DatePicker } from 'antd'
+import { Input, DatePicker, message } from 'antd'
 import TablePrototype from './TablePrototype'
 import { get, post } from 'utils/request'
 import { dataStateFilters } from 'mapStore/filter'
 import axios from 'axios'
 import moment from 'moment'
+
 const { TextArea } = Input
 
 useStrict(true)
@@ -20,9 +21,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url })
 	}
 
-	@observable query = {
-		query: '',
-	};
+	@observable query = {};
 
 	@observable data = []
 	@observable count = 0
@@ -32,6 +31,7 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{
 			fix: true,
+			templet: false,
 			width: 80,
 			mark: '状态',
 			key: 'state',
@@ -85,6 +85,14 @@ class Store extends TablePrototype {
 
 	@computed get dataSource() { return toJS(this.data) }
 	@computed get fields() { return this.getFields(this.columns) }
+
+	@computed get commonColumns() {
+		return this.columns.filter(item => item.templet !== false).map(item => ({
+			key: item.key,
+			title: item.mark || item.title,
+		}))
+	}
+
 }
 
 const store = new Store()

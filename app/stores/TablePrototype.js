@@ -3,6 +3,7 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { get, post, postByParam } from 'utils/request'
 import axios from 'axios'
 import { monentToValue } from 'utils'
+import { message } from 'antd'
 
 
 useStrict(true)
@@ -21,10 +22,12 @@ export default class {
 			warehouseIds: [],
 			toWarehouseIds: [],
 			fromWarehouseIds: [],
+			...this.query,
 		}
 	}
 
 	@action init = () => {
+		this.data = []
 		this.initQuery()
 		this.getData()
 	}
@@ -63,6 +66,17 @@ export default class {
 		runInAction(this.getData)
 		return
 	}
+	// 批量导入
+	@action creates = async (data) => {
+		try {
+			await post(`${this.url}/creates`, data)
+			message.success('操作成功~！')
+		} catch (error) {
+			// message.error(error)
+		}
+		runInAction(this.getData)
+		return
+	}
 
 	// 编辑接口
 	@action update = async ({ url }, query) => {
@@ -77,6 +91,12 @@ export default class {
 	@action handleRangePicker = (dates) => {
 		this.query.start = dates[0]
 		this.query.end = dates[1]
+		this.getData()
+	}
+
+	// 选择时间点 description: 受控属性
+	@action handlePicker = (date) => {
+		this.query.time = date
 		this.getData()
 	}
 
@@ -147,6 +167,11 @@ export default class {
 
 	@action onChangeFromWarehouse = (selectedRowKeys) => {
 		this.query.fromWarehouseIds = selectedRowKeys
+		this.getData()
+	}
+
+	@action onChangeSku = (selectedRowKeys) => {
+		this.query.skuIds = selectedRowKeys
 		this.getData()
 	}
 

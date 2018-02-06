@@ -68,7 +68,13 @@ export default class extends Component {
 						<AddStoreModal>
 							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
 						</AddStoreModal>
-						<Upload handleConfirm={() => { /* handleConfirm */ }}><Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button></Upload>
+						<Upload
+							columns={this.store.commonColumns}
+							handleConfirm={data => { this.store.creates(data) }}
+							store={this.store}
+						>
+							<Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button>
+						</Upload>
 						<ExportGroup />
 					</HandleArea>
 					<MainTable

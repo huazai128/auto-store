@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { DatePicker } from 'antd';
-import moment from 'moment';
-import { observer } from 'mobx-react';
+import React, { Component } from 'react'
+import { DatePicker } from 'antd'
+import moment from 'moment'
+import { observer } from 'mobx-react'
 
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
 
 @observer
 export default class extends Component {
@@ -17,6 +17,6 @@ export default class extends Component {
 				}}
 				{...this.props}
 			/>
-		);
+		)
 	}
 }

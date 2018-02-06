@@ -24,9 +24,7 @@ class Store extends TablePrototype {
 		this.update = this.update.bind(this, { url: this.url })
 	}
 
-	@observable query = {
-		query: '',
-	};
+	@observable query = {};
 
 	@observable tableLoading = false
 	@observable selectedRows = []
@@ -35,6 +33,7 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{
 			fix: true,
+			templet: false,
 			width: 100,
 			mark: '状态',
 			key: 'state',
@@ -127,7 +126,12 @@ class Store extends TablePrototype {
 
 	@computed get dataSource() { return toJS(this.data) }
 	@computed get fields() { return this.getFields(this.columns) }
-
+	@computed get commonColumns() {
+		return this.columns.filter(item => item.templet !== false).map(item => ({
+			key: item.key,
+			title: item.mark || item.title,
+		}))
+	}
 }
 
 const store = new Store()

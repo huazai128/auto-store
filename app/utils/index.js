@@ -31,8 +31,8 @@ export function serializeParams(params) {
 }
 
 
-export function monentToValue (values) {
+export function monentToValue(values) {
 	Object.keys(values).forEach((key) => {
-		if (moment.isMoment(values[key])) values[key] = moment(values[key]).valueOf()
+		if (moment.isMoment(values[key])) values[key] = moment(values[key]).startOf('day').valueOf()
 	})
 }

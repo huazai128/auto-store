@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import { Table, Tag, Popover, Tooltip, Button, Checkbox } from 'antd';
-import { observer, inject } from 'mobx-react';
-import popover from 'hoc/popover';
-import styles from './CustomHeader.less';
-const CheckboxGroup = Checkbox.Group;
+import React, { Component } from 'react'
+import { Table, Tag, Popover, Tooltip, Button, Checkbox } from 'antd'
+import { observer, inject } from 'mobx-react'
+import popover from 'hoc/popover'
+import styles from './CustomHeader.less'
+const CheckboxGroup = Checkbox.Group
 
 
 @popover()
 @observer
 export default class CustomHeader extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
-		this.fixList = props.store.columns.filter(i => i.fix).map(i => ({ label: i.mark, value: i.mark }));
+		this.fixList = props.store.columns.filter(i => i.fix).map(i => ({ label: i.mark, value: i.mark }))
 
-		this.list = props.store.columns.filter(i => !i.fix).map(i => ({ label: i.mark, value: i.mark }));
-		this.checkedList = props.store.columns.filter(i => i.checked).map(i => ({ label: i.mark, value: i.mark }));
+		this.list = props.store.columns.filter(i => !i.fix).map(i => ({ label: i.mark, value: i.mark }))
+		this.checkedList = props.store.columns.filter(i => i.checked).map(i => ({ label: i.mark, value: i.mark }))
 
 		this.state = {
 			checkedList: this.checkedList.map(i => i.value),
 			indeterminate: !!this.checkedList.length && (this.checkedList.length < this.list.length),
 			checkAll: this.checkedList.length === this.list.length,
-		};
+		}
 	}
 
 	onConfirm = () => {
-		this.props.store.onFilterTableHeader(this.state.checkedList);
-		this.props.hide();
+		this.props.store.onFilterTableHeader(this.state.checkedList)
+		this.props.hide()
 	}
 
 	onChange = (checkedList) => {
@@ -34,7 +34,7 @@ export default class CustomHeader extends Component {
 			checkedList,
 			indeterminate: !!checkedList.length && (checkedList.length < this.list.length),
 			checkAll: checkedList.length === this.list.length,
-		});
+		})
 	}
 
 	onCheckAllChange = (e) => {
@@ -42,17 +42,17 @@ export default class CustomHeader extends Component {
 			checkedList: e.target.checked ? this.list.map(i => i.value) : [],
 			indeterminate: false,
 			checkAll: e.target.checked,
-		});
+		})
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const checkedList = nextProps.store.columns.filter(i => i.checked).map(i => i.mark);
+		const checkedList = nextProps.store.columns.filter(i => i.checked).map(i => i.mark)
 
 		this.setState({
 			checkedList,
 			indeterminate: !!checkedList.length && (checkedList.length < this.list.length),
 			checkAll: checkedList.length === this.list.length,
-		});
+		})
 	}
 
 	render() {
@@ -83,6 +83,6 @@ export default class CustomHeader extends Component {
 					<Button onClick={this.props.hide}>取消</Button>
 				</div>
 			</div>
-		);
+		)
 	}
 }

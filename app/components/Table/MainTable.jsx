@@ -315,6 +315,7 @@ export default class extends Component {
 					})}
 					onChange={onChangeTable}
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
+					// loading={!rest.loading ? tableLoading : rest.loading}
 					loading={tableLoading}
 					pagination={{ pageSize: 20, total: count, current: (this.props.store.query.from / 20) + 1 }}
 					columns={filterColumns}

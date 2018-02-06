@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import ColligatePopover from './ColligatePopover';
-import { Icon } from 'antd';
-import { observer } from 'mobx-react';
-import styles from './style.less';
+import React, { Component } from 'react'
+import ColligatePopover from './ColligatePopover'
+import { Icon } from 'antd'
+import { observer } from 'mobx-react'
+import styles from './style.less'
 
 @observer
 export default class extends Component {
 	render() {
-		const { store } = this.props;
+		const { store } = this.props
 
-		let selectedRowKeys = [];
-		let onChange = () => { };
-		let title = '';
-		let api = '';
-		let classString = '';
+		let selectedRowKeys = []
+		let onChange = () => { }
+		let title = ''
+		let api = ''
 
 		if (this.props.type) {
 			/* eslint-disable */
@@ -58,6 +57,6 @@ export default class extends Component {
 					<Icon type="filter" />
 				</div>
 			</ColligatePopover>
-		);
+		)
 	}
 }
