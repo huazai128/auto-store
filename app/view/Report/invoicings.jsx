@@ -19,13 +19,16 @@ export default class extends Component {
 
 	render() {
 		const { ExportGroup, RangePicker, MainTable } = this.props.part
+
+		const RangePickerValue = [this.store.query.start, this.store.query.end]
+
 		return (
 			<Container>
 				<Header store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
-						<ExportGroup style={{ marginLeft: -20 }} />
-						<RangePicker allowClear={false} />
+						<ExportGroup data={{ ticks: JSON.stringify(this.store.dataSource.map(item => item.key)) }} style={{ marginLeft: -20 }} />
+						<RangePicker value={RangePickerValue} allowClear={false} />
 					</HandleArea>
 					<MainTable className="two-row" title={this.props.name} />
 				</Content>

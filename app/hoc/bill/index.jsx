@@ -24,17 +24,17 @@ export default WrappedComponent => {
 			</this.HandleButton>
 		)
 
-		ExportGroup = ({ data, ...rest }) => (
+		ExportGroup = props => (
 			<ButtonExport
 				store={this.store}
 				url={this.store.url}
-				{...rest}
+				{...props}
 			/>
 		)
 
-		RangePicker = () => (
+		RangePicker = props => (
 			<div className="flex-vcenter ml50">
-				查询日期：<RangePicker onChange={this.store.handleRangePicker} />
+				查询日期：<RangePicker onChange={this.store.handleRangePicker} {...props} />
 			</div>
 		)
 

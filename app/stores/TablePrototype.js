@@ -125,8 +125,11 @@ export default class {
 		this.tableLoading = true
 
 		const [{ data }, { data: count }] = await Promise.all([get(url, query), get(`${url}/count`, query)])
+
 		runInAction(() => {
-			data.forEach(i => i.key = i.id)
+			data.forEach(i => {
+				i.key = i.id || JSON.stringify({ warehouseId: i.warehouseId, skuId: i.skuId })
+			})
 			this.data = data
 			this.count = count
 			this.tableLoading = false

@@ -16,7 +16,8 @@ class Store extends TablePrototype {
 	@observable query = {
 		warehouseIds: [1],
 		skuIds: [24, 22],
-		time: moment(),
+		start: moment().startOf('month'),
+		end: moment().startOf('day')
 	};
 
 	@observable tableLoading = false
@@ -25,19 +26,19 @@ class Store extends TablePrototype {
 	@observable count = 0
 
 	@observable columns = [
-		{ width: 100, mark: '货品编号', key: 'skuNumber', },
-		{ width: 100, mark: '货品名称', key: 'skuName', },
-		{ width: 100, mark: '品牌', key: 'brand', },
-		{ width: 100, mark: '大类', key: 'bigStyle', },
-		{ width: 100, mark: '小类', key: 'smallStyle', },
-		{ width: 100, mark: '规格', key: 'specification', },
-		{ width: 100, mark: '单款采购价', key: 'costPrice', },
-		{ width: 100, mark: '单款零售价', key: 'price', },
 		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouseIds', },
-		{ width: 100, mark: '库存数量', key: 'amount', },
-		{ width: 100, mark: '总库存数量', key: 'totalAmount', },
-		{ width: 100, mark: '采购价总额', key: 'totalCostPrice', },
-		{ width: 100, mark: '零售价总额', key: 'totalPrice', },
+		{ fix: true, width: 100, mark: '货品编号', key: 'skuNumber', },
+		{ fix: true, width: 100, mark: '货品名称', key: 'skuName', },
+		{ width: 100, mark: '库存数量', key: 'inventory', },
+
+		{ width: 100, mark: '入库数', key: 'stockin', },
+		{ width: 100, mark: '仓店收货数', key: 'receiving', },
+
+		{ width: 100, mark: '在途', key: 'onPassage', },
+
+		{ width: 100, mark: '发货数', key: 'sending', },
+		{ width: 100, mark: '销售数', key: 'sale', },
+		{ width: 100, mark: '退厂数', key: 'refund', },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }
