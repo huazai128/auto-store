@@ -22,13 +22,10 @@ export default class extends Component {
 
 	render() {
 		const { dataSource, columns, min, hasIndex, className, ...rest } = this.props
-
 		// if (hasIndex) this.columns.unshift({
 		// 	width: 35, title: '', key: 'index', render: (_, __, index) => <div>{`${index + 1}.`}</div>
 		// });
-
 		dataSource.forEach(i => i.key = i.id)
-
 		return (
 			<Table
 				scroll={{ x: getXSrcoll(this.columns), y: this.props.scrollY }}

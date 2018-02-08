@@ -39,17 +39,17 @@ class Store extends TablePrototype {
 				{ title: '数量', key: 'amount' },
 			]
 		},
-		{ width: 200, mark: '入库仓编号及名称', key: 'warehouseIds', },
-		{ width: 200, mark: '供应商编号及名称', key: 'supplierIds', },
-		{ width: 80, mark: '到货日期', key: 'arrivalDate', type: 'date' },
+		{ width: 200, mark: '入库仓编号及名称', key: 'warehouse', },
+		{ width: 200, mark: '供应商编号及名称', key: 'supplier', },
+		{ width: 80, mark: '到货日期', key: 'arrivalDate' },
 		{ width: 100, mark: '入库数量', key: 'amount', },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
-		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },
+		{ width: 80, mark: '制单日期', key: 'createdDate' },
 		{ width: 100, mark: '审核人', key: 'checkedBy', },
-		{ width: 80, mark: '审核日期', key: 'checkedDate', type: 'date' },
+		{ width: 80, mark: '审核日期', key: 'checkedDate' },
 		{ width: 100, mark: '登账人', key: 'confirmedBy', },
-		{ width: 80, mark: '登账日期', key: 'confirmedDate', type: 'date' },
+		{ width: 80, mark: '登账日期', key: 'confirmedDate' },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }

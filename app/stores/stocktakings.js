@@ -44,8 +44,8 @@ class Store extends TablePrototype {
 				{ title: '数量', key: 'amoun5t' },
 			]
 		},
-		{ width: 200, mark: '盘点仓库', key: 'warehouseIds', },
-		{ width: 80, mark: '盘点日期', key: 'stocktakingDate', type: 'date' },
+		{ width: 200, mark: '盘点仓库', key: 'warehouse', },
+		{ width: 80, mark: '盘点日期', key: 'stocktakingDate' },
 		{ width: 100, mark: '盘点范围', key: 'global', render: text => text ? '全局盘点' : '局部盘点'},
 		{ width: 100, mark: '实盘数量', key: 'totalAmount', },
 		{ width: 100, mark: '实盘成本价', key: 'totalCostPrice', },
@@ -56,11 +56,11 @@ class Store extends TablePrototype {
 
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
-		{ width: 80, mark: '制单日期', key: 'createdDate', type: 'date' },
+		{ width: 80, mark: '制单日期', key: 'createdDate' },
 		{ width: 100, mark: '审核人', key: 'checkedBy', },
-		{ width: 80, mark: '审核日期', key: 'checkedDate', type: 'date' },
+		{ width: 80, mark: '审核日期', key: 'checkedDate' },
 		{ width: 100, mark: '登账人', key: 'confirmedBy', },
-		{ width: 80, mark: '登账日期', key: 'confirmedDate', type: 'date' },
+		{ width: 80, mark: '登账日期', key: 'confirmedDate' },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }

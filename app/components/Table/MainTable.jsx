@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { Table, Tag, Popover, Tooltip, Button, Icon } from 'antd'
 import { toJS } from 'mobx'
-import moment from 'moment'
 import { observer, inject } from 'mobx-react'
 import CreateTable from './CreateTable'
 import DyunFrom from 'components/Form'
 import popover from 'hoc/popover'
 import CustomHeader from './CustomHeader'
-import { getXSrcoll } from './utils'
-import { numeralNumber } from 'utils'
+import { getXSrcoll, analyzeKey } from './utils'
+import { formatValue } from 'utils'
 import numeral from 'numeral'
 import ColligatePopoverBinded from 'components/Select/ColligatePopoverBinded'
 
@@ -177,6 +176,12 @@ export default class extends Component {
 		...props
 	});
 
+	getInnerHeight() {
+		const otherH = 18 + 26 + 34 + 56
+		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5
+		return tableInnerHeight
+	}
+
 	render() {
 		const { title, className, push, ...rest } = this.props
 
@@ -196,40 +201,18 @@ export default class extends Component {
 			RenderFromWarehousePopover
 		} = this
 
-		const otherH = 18 + 26 + 34 + 56
-		const tableInnerHeight = this.refs.wrap && this.refs.wrap.clientHeight - otherH - 5
+		const tableInnerHeight = this.getInnerHeight()
 
 		const filterColumns = columns.map(item => {
 			item.title = item.title || item.mark
 			if (item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>
 
-			// ============================================================
-			if (item.key == 'toWarehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderToWarehousePopover /></div>
-				item.render = (_, record) => <div><p>{record.toWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.toWarehouseName}</p></div>
-			}
+			if (item.key == 'toWarehouse') item.title = <div className="flex-vcenter">{item.mark}<RenderToWarehousePopover /></div>
+			if (item.key == 'fromWarehouse') item.title = <div className="flex-vcenter">{item.mark}<RenderFromWarehousePopover /></div>
+			if (item.key == 'warehouse') item.title = <div className="flex-vcenter">{item.mark}<RenderWarehousePopover /></div>
+			if (item.key == 'supplier') item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>
+			analyzeKey(item)
 
-			if (item.key == 'warehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderWarehousePopover /></div>
-				item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>
-			}
-
-			if (item.key == 'fromWarehouseIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderFromWarehousePopover /></div>
-				item.render = (_, record) => <div><p>{record.fromWarehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.fromWarehouseName}</p></div>
-			}
-
-			if (item.key == 'supplierIds') {
-				item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>
-				item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>
-			}
-
-			if (item.key == 'store') {
-				// item.title = <div className="flex-vcenter">{item.mark}<RenderSupplierPopover /></div>;
-				item.render = (_, record) => <div><p>{record.storeNumber}</p><p style={{ opacity: 0.67 }}>{record.storeName}</p></div>
-			}
-
-			// ============================================================
 			/* 单据明细 */
 			if (item.key === 'view') {
 				item.render = (_, record) => {
@@ -268,19 +251,18 @@ export default class extends Component {
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
 
-					if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD')
+					// if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD')
 					if (item.type == 'state') return this.renderState(text, item.stateInfo)
 
 					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
-								<div className="td-edit">{numeralNumber(text, item.key) || <br />}</div>
+								<div className="td-edit">{formatValue(text, item.key) || <br />}</div>
 							</EditPopover>
 						)
 					}
-					// return text;
-
-					return <Tooltip placement="topLeft" title={numeralNumber(text, item.key)}>{numeralNumber(text, item.key)}</Tooltip>
+					// return <Tooltip placement="topLeft" title={formatValue(text, item.key)}>{formatValue(text, item.key)}</Tooltip>
+					return formatValue(text, item.key)
 				}
 			}
 		}).filter(i => i.checked || i.fix)
@@ -291,8 +273,6 @@ export default class extends Component {
 			},
 			selectedRowKeys: selectedRows.map(i => i.key)
 		}
-
-		// console.log(tableInnerHeight)
 
 		return (
 			<div className="flex-g-1" ref="wrap">
@@ -310,7 +290,6 @@ export default class extends Component {
 					)}
 					dataSource={dataSource || []}
 					onRow={(record) => ({
-						// onClick: this.props.store.onRowClick.bind(this, record)
 						onDoubleClick: () => this.props.store.onRowDoubleClick(record, push)
 					})}
 					onChange={onChangeTable}

@@ -45,7 +45,7 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '仓库名称', key: 'name', created: { edit: true, rules: { required: true, }, }, },
 		{ width: 150, mark: '仓库编号', key: 'number', created: { edit: true, rules: { required: true, }, }, },
 		{ width: 100, mark: '仓库面积', key: 'area', created: { edit: true, }, },
-		{ width: 100, mark: '开业时间', key: 'openDate', type: 'date', created: { edit: true, node: <DatePicker /> }, },
+		{ width: 100, mark: '开业时间', key: 'openDate', created: { edit: true, node: <DatePicker /> }, },
 		{ width: 100, mark: '仓库地址', key: 'address', created: { edit: true, }, },
 		{ width: 100, mark: '联系人', key: 'contact', created: { edit: true, }, },
 		{ width: 80, mark: '联系方式', key: 'contactWay', created: { edit: true, }, },

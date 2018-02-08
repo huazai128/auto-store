@@ -33,13 +33,13 @@ export default WrappedComponent => {
 		)
 
 		RangePicker = props => (
-			<div className="flex-vcenter ml50">
+			<div className="flex-vcenter ml30">
 				查询日期：<RangePicker onChange={this.store.handleRangePicker} {...props} />
 			</div>
 		)
 
 		DatePicker = (props) => (
-			<div className="flex-vcenter ml50">
+			<div className="flex-vcenter ml30">
 				查询日期：<DatePicker onChange={this.store.handlePicker} {...props} />
 			</div>
 		)

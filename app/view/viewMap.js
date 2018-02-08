@@ -38,9 +38,8 @@ export default [
 		Component: asyncComponent(() => import('view/Refunds/Create')),
 	},
 
-
-	{ name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
-	{ name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
+	// { name: '盘点管理', icon: 'calculator', url: '/stocktakings', Component: asyncComponent(() => import('view/Stocktakings')), },
+	// { name: '盘点单制单', url: '/stocktakings/create', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
 	// // { name: '盘点单编辑', url: '/stocktakings/:id', Component: asyncComponent(() => import('view/Stocktakings/Create')), },
 
 	{ name: '销售单管理', icon: 'copy', url: '/sales', Component: asyncComponent(() => import('view/Sales')), },

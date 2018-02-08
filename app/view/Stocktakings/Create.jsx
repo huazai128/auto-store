@@ -7,7 +7,7 @@ import SearchPro from 'components/SearchPro'
 import BasicTable from 'components/Table/Basic'
 import modal from 'hoc/modal'
 import create from 'hoc/create-table'
-import { monentToValue } from 'utils'
+import { translateParams } from 'utils'
 import { get, post, postByParam } from 'utils/request'
 
 import styles from './style.less'
@@ -82,7 +82,7 @@ export default class extends Component {
 	}
 
 	getDiffId = async (values) => {
-		monentToValue(values)
+		translateParams(values)
 		const { global, stocktakingDate, warehouseId } = values
 		const { url } = this.props.backStore
 

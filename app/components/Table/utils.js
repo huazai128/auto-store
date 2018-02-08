@@ -1,7 +1,14 @@
 import React from 'react'
 import { Tooltip } from 'antd'
-import { numeralNumber } from 'utils'
+import { formatValue } from 'utils'
 import moment from 'moment'
+
+const TwoRow = ({ text, secondary }) => (
+	<div>
+		<p>{text}</p>
+		<p style={{ opacity: 0.67 }}>{secondary}</p>
+	</div>
+)
 
 export function getXSrcoll(columns = []) {
 	return columns.map(item => item.width).reduce((a, b) => a + b, 0)
@@ -9,12 +16,7 @@ export function getXSrcoll(columns = []) {
 
 export function computeColumns(columns = []) {
 	return columns.map(item => {
-		if (item.key == 'warehouse') {
-			item.render = (_, record) => <div><p>{record.warehouseNumber}</p><p style={{ opacity: 0.67 }}>{record.warehouseName}</p></div>
-		}
-		if (item.key == 'supplier') {
-			item.render = (_, record) => <div><p>{record.supplierNumber}</p><p style={{ opacity: 0.67 }}>{record.supplierName}</p></div>
-		}
+		analyzeKey(item)
 
 		return {
 			width: 100,
@@ -22,13 +24,22 @@ export function computeColumns(columns = []) {
 			dataIndex: item.key,
 			className: 'text-overflow',
 			render: item.render ? item.render : (text) => {
-				text = numeralNumber(text, item.key)
-
-				if (item.type == 'date') return text && moment(text).format('YYYY.MM.DD')
+				text = formatValue(text, item.key)
 				if (item.type == 'info') return <p className="info-color">{text}</p>
 				// return text;
 				return <Tooltip placement="top" title={text}>{text}</Tooltip>
 			}
 		}
 	})
+}
+
+export function analyzeKey(item = {}) {
+	const twoRowMap = [
+		'warehouse',
+		'supplier',
+		'toWarehouse',
+		'fromWarehouse',
+		'store',
+	]
+	if (twoRowMap.includes(item.key)) item.render = (_, record) => <TwoRow text={record[`${item.key}Number`]} secondary={record[`${item.key}Name`]} />
 }

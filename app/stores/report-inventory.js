@@ -33,7 +33,7 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '规格', key: 'specification', },
 		{ width: 100, mark: '单款采购价', key: 'costPrice', },
 		{ width: 100, mark: '单款零售价', key: 'price', },
-		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouseIds', },
+		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouse', },
 		{ width: 100, mark: '库存数量', key: 'amount', },
 		{ width: 100, mark: '总库存数量', key: 'totalAmount', },
 		{ width: 100, mark: '采购价总额', key: 'totalCostPrice', },

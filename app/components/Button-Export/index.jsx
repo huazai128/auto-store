@@ -10,21 +10,21 @@ const ButtonGroup = Button.Group
 function serializeColumns(columns) {
 	const templets = [
 		{
-			targetKey: 'warehouseIds',
+			targetKey: 'warehouse',
 			transf: [
 				{ title: '仓库编号', key: 'warehouseNumber' },
 				{ title: '仓库名称', key: 'warehouseName' },
 			]
 		},
 		{
-			targetKey: 'toWarehouseIds',
+			targetKey: 'toWarehouse',
 			transf: [
 				{ title: '收货仓编号', key: 'toWarehouseNumber' },
 				{ title: '收货仓名称', key: 'toWarehouseName' },
 			]
 		},
 		{
-			targetKey: 'fromWarehouseIds',
+			targetKey: 'fromWarehouse',
 			transf: [
 				{ title: '供货仓编号', key: 'fromWarehouseNumber' },
 				{ title: '供货仓名称', key: 'fromWarehouseName' },
@@ -38,7 +38,7 @@ function serializeColumns(columns) {
 			]
 		},
 		{
-			targetKey: 'supplierIds',
+			targetKey: 'supplier',
 			transf: [
 				{ title: '供应商编号', key: 'supplierNumber' },
 				{ title: '供应商名称', key: 'supplierName' },

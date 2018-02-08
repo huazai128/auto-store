@@ -5,7 +5,7 @@ export const stateFilters = {
 		{ text: '已审核', value: 'checked', },
 		{ text: '已登账', value: 'confirmed', }
 	]
-};
+}
 
 export const productStateFilters = {
 	filterMultiple: false,
@@ -14,7 +14,7 @@ export const productStateFilters = {
 		{ text: '已应用(未生效)', value: 'invoked_no', },
 		{ text: '已应用', value: 'invoked', }
 	]
-};
+}
 
 export const dataStateFilters = {
 	filterMultiple: false,
@@ -23,4 +23,4 @@ export const dataStateFilters = {
 		{ text: '合作中(未产生单据)', value: 'created', },
 		{ text: '已冻结', value: 'freeze', }
 	]
-};
+}

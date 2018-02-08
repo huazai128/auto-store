@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
 import { get, post, postByParam } from 'utils/request'
 import axios from 'axios'
-import { monentToValue } from 'utils'
+import { translateParams } from 'utils'
 import { message } from 'antd'
 
 
@@ -111,21 +111,12 @@ export default class {
 	}
 
 	@action getData = async ({ url }) => {
-
 		const query = toJS(this.query)
 
-		monentToValue(query)
-
-		for (const key in query) {
-			if (Array.isArray(query[key]) && query[key].length == 0) {
-				delete query[key]
-			} else if (Array.isArray(query[key])) query[key] = query[key].toString()
-		}
+		translateParams(query)
 
 		this.tableLoading = true
-
 		const [{ data }, { data: count }] = await Promise.all([get(url, query), get(`${url}/count`, query)])
-
 		runInAction(() => {
 			data.forEach(i => {
 				i.key = i.id || JSON.stringify({ warehouseId: i.warehouseId, skuId: i.skuId })

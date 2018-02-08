@@ -121,7 +121,7 @@ class Store extends TablePrototype {
 		},
 		{ width: 80, mark: '录入人', key: 'createdBy', },
 		{ width: 80, mark: '修改人', key: 'modifiedBy', },
-		{ width: 100, mark: '最后修改日期', key: 'modifiedDate', type: 'date' },
+		{ width: 100, mark: '最后修改日期', key: 'modifiedDate' },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }

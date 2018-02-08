@@ -41,7 +41,7 @@ export default class extends Component {
 		})
 
 		this.columns = props.columns.map(item => {
-			if (item.edit) item.title = <div className="primary-6">{item.title}<Icon type="edit" /></div>
+			if (item.edit) item.title = <div>{item.title}<Icon className="primary-6" type="edit" /></div>
 			if (item.type == 'info') item.render = (text) => <p className="info-color">{text}</p>
 			return {
 				...item,

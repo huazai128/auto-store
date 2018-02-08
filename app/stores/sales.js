@@ -37,7 +37,7 @@ class Store extends TablePrototype {
 		{ width: 150, mark: '店铺编号及名称', key: 'store', },
 		{ width: 150, mark: '销售总数量', key: 'amount', },
 		{ width: 100, mark: '实收总金额', key: 'totalPrice', },
-		{ width: 400, mark: '销售日期', key: 'createdDate', type: 'date' },
+		{ width: 400, mark: '销售日期', key: 'createdDate' },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }

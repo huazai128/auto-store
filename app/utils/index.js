@@ -1,11 +1,12 @@
 import numeral from 'numeral'
 import moment from 'moment'
+
+// 数组通过对象属性去重
 export const filterRepeat = (arr, key) => {
 	return [...new Set(arr.map(item => item[key]))].map(value => arr.find(item => item[key] === value))
 }
 
-
-export function numeralNumber(text, key = '') {
+export function formatValue(text, key = '') {
 	const numeralMap = [
 		'totalCostPrice',
 		'totalPrice',
@@ -15,6 +16,12 @@ export function numeralNumber(text, key = '') {
 	]
 
 	const dateMap = [
+		'createdDate',
+		'checkedDate',
+		'confirmedDate',
+		'purchaseDate',
+		'arrivalDate',
+		'shipDate',
 		'openDate'
 	]
 
@@ -31,8 +38,14 @@ export function serializeParams(params) {
 }
 
 
-export function monentToValue(values) {
+export function translateParams(values) {
 	Object.keys(values).forEach((key) => {
+		// 处理moment对象 ==>	dateValoe
 		if (moment.isMoment(values[key])) values[key] = moment(values[key]).startOf('day').valueOf()
+
+		// 数组逗号隔开
+		if (Array.isArray(values[key]) && values[key].length == 0) {
+			delete values[key]
+		} else if (Array.isArray(values[key])) values[key] = values[key].toString()
 	})
 }

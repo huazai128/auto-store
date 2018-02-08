@@ -14,7 +14,6 @@ export default class extends Component {
 
 	constructor(props) {
 		super(props)
-
 		this.columns = computeColumns(props.columns)
 	}
 
