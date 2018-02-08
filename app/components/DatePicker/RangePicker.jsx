@@ -10,6 +10,8 @@ export default class extends Component {
 	render() {
 		return (
 			<RangePicker
+				value={[this.props.store.query.start, this.props.store.query.end]}
+				onChange={this.props.store.handleRangePicker}
 				ranges={{
 					'今天': [moment().startOf('day'), moment().startOf('day')],
 					'近7天': [moment().subtract(6, 'days').startOf('day'), moment().startOf('day')],

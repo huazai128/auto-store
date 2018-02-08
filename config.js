@@ -2,11 +2,11 @@
 const config = {
 	development: {
 		port: 8000,
-		apiBase: 'http://192.168.0.209:3721',
+		apiBase: 'http://192.168.0.133:3721',
 		oauth: {
 			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
 			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
-			serverAccessTokenUrl: 'http://192.168.0.209:3721/oauth/token',
+			serverAccessTokenUrl: 'http://192.168.0.133:3721/oauth/token',
 		},
 	},
 	production: {

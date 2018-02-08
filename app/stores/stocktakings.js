@@ -46,7 +46,7 @@ class Store extends TablePrototype {
 		},
 		{ width: 200, mark: '盘点仓库', key: 'warehouse', },
 		{ width: 80, mark: '盘点日期', key: 'stocktakingDate' },
-		{ width: 100, mark: '盘点范围', key: 'global', render: text => text ? '全局盘点' : '局部盘点'},
+		{ width: 100, mark: '盘点范围', key: 'global', render: text => text ? '全局盘点' : '局部盘点' },
 		{ width: 100, mark: '实盘数量', key: 'totalAmount', },
 		{ width: 100, mark: '实盘成本价', key: 'totalCostPrice', },
 		{ width: 100, mark: '实盘销售价', key: 'totalPrice', },

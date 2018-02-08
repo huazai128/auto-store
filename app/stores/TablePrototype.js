@@ -18,6 +18,8 @@ export default class {
 
 	@action initQuery = () => {
 		this.query = {
+			start: null,
+			end: null,
 			supplierIds: [],
 			warehouseIds: [],
 			toWarehouseIds: [],
@@ -28,6 +30,8 @@ export default class {
 
 	@action init = () => {
 		// this.data = []
+		// console.log(this.data.clear()
+		this.data.clear()
 		this.initQuery()
 		this.getData()
 	}
@@ -112,7 +116,6 @@ export default class {
 
 	@action getData = async ({ url }) => {
 		const query = toJS(this.query)
-
 		translateParams(query)
 
 		this.tableLoading = true

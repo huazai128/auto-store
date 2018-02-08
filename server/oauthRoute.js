@@ -16,6 +16,9 @@ var router = function (app) {
 	})
 
 	app.post('/oauth', function (req, res, next) {
+
+		// const { username, password } = req.body
+
 		request.post({
 			url: configOauth.serverAccessTokenUrl,
 			rejectUnauthorized: false,
