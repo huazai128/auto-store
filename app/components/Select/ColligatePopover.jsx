@@ -61,8 +61,8 @@ export default class extends Component {
 		this.props.hide()
 	}
 
-	onSearch = (e) => {
-		const { value } = e.target
+	onSearch = (value) => {
+		// const { value } = e.target
 		const { data } = this.state
 
 		const reg = new RegExp(value, 'gi')
@@ -84,7 +84,7 @@ export default class extends Component {
 						</span>
 					),
 				}
-			}).filter(record => !!record),
+			}).filter(Boolean),
 		})
 	}
 
@@ -146,7 +146,13 @@ export default class extends Component {
 		return (
 			<div>
 				<div className="pl15">
-					<Search onSearch={() => {/* this.getData() */ }} onChange={this.onSearch} style={{ width: 200 }} placeholder="搜索对应名称..." />
+					<Search
+						onSearch={this.onSearch}
+						// onChange={this.onSearch}
+						style={{ width: 250 }}
+						placeholder="输入名称搜索..."
+						enterButton
+					/>
 					<div style={{ minHeight: 400, margin: '20px 0' }}>
 						<BasicTable
 							columns={this.columns}

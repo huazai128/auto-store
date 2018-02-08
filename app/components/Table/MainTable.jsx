@@ -219,7 +219,9 @@ export default class extends Component {
 				dataIndex: item.key,
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
+
 					if (item.type == 'state') return this.renderState(text, item.stateInfo)
+
 					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>

@@ -26,8 +26,8 @@ export function computeColumns(columns = []) {
 			render: item.render ? item.render : (text) => {
 				text = formatValue(text, item.key)
 				if (item.type == 'info') return <p className="info-color">{text}</p>
-				// return text;
-				return <Tooltip placement="top" title={text}>{text}</Tooltip>
+				return text;
+				// return <Tooltip placement="top" title={text}>{text}</Tooltip>
 			}
 		}
 	})
