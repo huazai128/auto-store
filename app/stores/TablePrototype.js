@@ -27,7 +27,7 @@ export default class {
 	}
 
 	@action init = () => {
-		this.data = []
+		// this.data = []
 		this.initQuery()
 		this.getData()
 	}
