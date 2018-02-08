@@ -14,6 +14,7 @@ export default class extends Component {
 	store = this.props.store
 	componentDidMount() {
 		this.store.init()
+		// this.store.getData()
 	}
 
 	render() {

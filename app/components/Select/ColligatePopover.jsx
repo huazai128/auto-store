@@ -8,13 +8,16 @@ import BasicTable from 'components/Table/Basic'
 
 const { Search } = Input
 
+
+@inject('database')
 @popover()
 @observer
 export default class extends Component {
 	static defaultProps = {
-		api: 'api/suppliers/search',
+		// api: 'api/suppliers/search',
 		selectedRowKeys: [],
 		title: '',
+		dataType: 'warehouseData',
 		onChange: () => { }
 	}
 
@@ -27,30 +30,30 @@ export default class extends Component {
 		]
 
 		this.state = {
-			data: [],
+			// data: this.props.database.warehouseSearch,
+			data: props.database[props.dataType],
 			loading: false,
 			selectedRowKeys: props.selectedRowKeys || [],
 			selectedRows: [],
 		}
 	}
 
-	componentDidMount() {
-		this.getData()
-	}
+	// componentDidMount() {
+	// 	this.getData()
+	// }
 
 	componentWillReceiveProps(nextProps) {
 		const { selectedRowKeys = [] } = nextProps
-
 		this.setState({
 			selectedRowKeys
 		})
 	}
 
-	getData = async () => {
-		this.setState({ loading: true })
-		const { data } = await get(this.props.api, { query: this.query, size: 999 })
-		this.setState({ data, loading: false })
-	}
+	// getData = async () => {
+	// 	this.setState({ loading: true })
+	// 	const { data } = await get(this.props.api, { query: this.query, size: 999 })
+	// 	this.setState({ data, loading: false, item: data })
+	// }
 
 	onConfirm = () => {
 		const { selectedRowKeys, selectedRows } = this.state
@@ -58,12 +61,39 @@ export default class extends Component {
 		this.props.hide()
 	}
 
-	onChange = (e) => {
+	onSearch = (e) => {
 		const { value } = e.target
-		this.query = value
+		const { data } = this.state
 
-		this.getData()
+		const reg = new RegExp(value, 'gi')
+
+		this.setState({
+			data: this.props.database[this.props.dataType].map((record) => {
+				const match = record.name.match(reg)
+
+				if (!match) {
+					return null
+				}
+				return {
+					...record,
+					name: (
+						<span>
+							{record.name.split(reg).map((text, i) => (
+								i > 0 ? [<span key="highlight" style={{ color: '#f50' }}>{match[0]}</span>, text] : text
+							))}
+						</span>
+					),
+				}
+			}).filter(record => !!record),
+		})
 	}
+
+	// onChange = (e) => {
+	// 	const { value } = e.target
+	// 	this.query = value
+
+	// 	this.getData()
+	// }
 
 	onRowDoubleClick = (record) => {
 		const { key } = record
@@ -116,7 +146,7 @@ export default class extends Component {
 		return (
 			<div>
 				<div className="pl15">
-					<Search onSearch={() => {/* this.getData() */ }} onChange={this.onChange} style={{ width: 200 }} placeholder="搜索关键字..." />
+					<Search onSearch={() => {/* this.getData() */ }} onChange={this.onSearch} style={{ width: 200 }} placeholder="搜索对应名称..." />
 					<div style={{ minHeight: 400, margin: '20px 0' }}>
 						<BasicTable
 							columns={this.columns}

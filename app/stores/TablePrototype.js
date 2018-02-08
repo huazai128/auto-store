@@ -95,12 +95,18 @@ export default class {
 	@action handleRangePicker = (dates) => {
 		this.query.start = dates[0]
 		this.query.end = dates[1]
+
+		this.query.from = 0
+
 		this.getData()
 	}
 
 	// 选择时间点 description: 受控属性
 	@action handlePicker = (date) => {
 		this.query.time = date
+
+		this.query.from = 0
+
 		this.getData()
 	}
 

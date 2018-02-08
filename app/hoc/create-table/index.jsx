@@ -57,7 +57,7 @@ export default (options = {}) => WrappedComponent => {
 				<div>
 					<this.BindedFormItem keyValue="warehouseId" />
 					<this.BindedFormItem keyValue="warehouseName" />
-					<ColligatePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
+					<ColligatePopover title="请选择仓库" selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
 						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
 							{pointerNode(props)}
 						</this.BindedFormItem>
@@ -70,7 +70,7 @@ export default (options = {}) => WrappedComponent => {
 				<div>
 					<this.BindedFormItem keyValue="toWarehouseId" />
 					<this.BindedFormItem keyValue="toWarehouseName" />
-					<ColligatePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
+					<ColligatePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
 						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
 							{pointerNode()}
 						</this.BindedFormItem>
@@ -83,7 +83,7 @@ export default (options = {}) => WrappedComponent => {
 				<div>
 					<this.BindedFormItem keyValue="fromWarehouseId" />
 					<this.BindedFormItem keyValue="fromWarehouseName" />
-					<ColligatePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
+					<ColligatePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
 						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
 							{pointerNode()}
 						</this.BindedFormItem>
@@ -96,7 +96,7 @@ export default (options = {}) => WrappedComponent => {
 				<div>
 					<this.BindedFormItem keyValue="supplierId" />
 					<this.BindedFormItem keyValue="supplierName" />
-					<ColligatePopover title="请选择供应商" selectedRowKeys={[value]} radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
+					<ColligatePopover title="请选择供应商" selectedRowKeys={[value]} radio dataType="supplierData" onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
 						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
 							{pointerNode()}
 						</this.BindedFormItem>

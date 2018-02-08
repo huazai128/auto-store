@@ -11,6 +11,9 @@ useStrict(true)
 class Store {
 	@observable returnTypesSource = []
 	@observable supplierSearch = []
+	@observable warehouseSearch = []
+
+
 	@action getDataSource = async (type, url, query = {}) => {
 		const { data } = await get(url, query)
 		runInAction(() => this[type] = data)
@@ -21,6 +24,9 @@ class Store {
 		this.getDataSource('returnTypesSource', '/api/types/returnTypes')
 		// 供应商搜索接口
 		this.getDataSource('supplierSearch', 'api/suppliers/search', { size: 9999 })
+		// 全部仓库接口
+		this.getDataSource('warehouseSearch', 'api/warehouses/search', { size: 9999 })
+
 		// 货品属性接口
 		tag.getData()
 	}
@@ -35,6 +41,13 @@ class Store {
 		return this.supplierSearch.map(item => <Option key={item.id} value={item.id}>{item.number}</Option>)
 	}
 
+	@computed get warehouseData() {
+		return toJS(this.warehouseSearch)
+	}
+
+	@computed get supplierData() {
+		return toJS(this.supplierSearch)
+	}
 }
 
 const store = new Store()
