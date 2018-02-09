@@ -5,23 +5,27 @@
 		"stage-0"
 	],
 	"plugins": [
-		"transform-decorators-legacy",
+		"transform-decorators-legacy"
 		// "transform-runtime",
-		[
-			"import",
-			{
-				"libraryName": "antd",
-				"libraryDirectory": "es",
-				"style": true
-			}
-		]
 	],
 	"env": {
 		// only enable it when process.env.NODE_ENV is 'development' or undefined
-		// "development": {
-		// 	"presets": [
-		// 		"react-hmre"
-		// 	]
-		// }
+		"development": {
+			// "presets": [
+			// 	"react-hmre"
+			// ]
+		},
+		"production": {
+			"plugins": [
+				[
+					"import",
+					{
+						"libraryName": "antd",
+						"libraryDirectory": "es",
+						"style": true
+					}
+				]
+			]
+		}
 	}
 }

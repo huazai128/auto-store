@@ -20,16 +20,7 @@ console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
 const webpackConfig = {
 	// devtool: 'cheap-module-eval-source-map',
 	entry: {
-		// vendor: [
-		// 	'babel-polyfill',
-		// 	'react',
-		// 	'react-dom',
-		// 	'moment',
-		// ],
-		fongwell: [
-			'babel-polyfill',
-			path.join(__dirname, 'client/entry.dev.jsx'),
-		]
+		fongwell: path.join(__dirname, 'client/entry.dev.jsx'),
 	},
 	output: {
 		filename: 'entry.[name].js',
@@ -83,7 +74,7 @@ const webpackConfig = {
 					loader: 'css-loader',
 					options: {
 						modules: true,
-						// sourceMap: true,
+						sourceMap: true,
 						importLoaders: 1,
 						localIdentName: '[name]-[local]__[hash:base64:5]'
 					}
@@ -119,10 +110,10 @@ const webpackConfig = {
 		}]
 	},
 	plugins: [
-		// new webpack.DllReferencePlugin({
-		// 	context: __dirname,
-		// 	manifest: path.join(__dirname, 'dist/manifest.json'),
-		// }),
+		new webpack.DllReferencePlugin({
+			context: __dirname,
+			manifest: path.join(__dirname, 'dist/manifest.json'),
+		}),
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -134,7 +125,7 @@ const webpackConfig = {
 			to: path.join(__dirname, 'dist/iconfont'),
 		}]),
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, 'app/index.html'),
+			template: path.join(__dirname, 'dist/index1.html'),
 			inject: true,
 		}),
 	],

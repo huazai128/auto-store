@@ -12,11 +12,15 @@ const webpackConfig = {
 			'moment',
 			'mobx',
 			'antd',
+			'axios',
+			'lodash',
+			'numeral',
 		],
 	},
 	output: {
 		filename: '[name].dev.js',
 		path: path.join(__dirname, 'dist'),
+		publicPath: '/',
 		library: '[name]'
 	},
 
@@ -36,6 +40,7 @@ const webpackConfig = {
 		}),
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, 'app/index.html'),
+			filename: 'index1.html',
 			inject: true,
 		}),
 	],
