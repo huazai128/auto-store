@@ -1,3 +1,4 @@
+// import 'babel-polyfill'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, withRouter, Route } from 'react-router-dom'

@@ -196,7 +196,6 @@ export default class extends Component {
 
 	render() {
 		const { title, className, push, ...rest } = this.props
-
 		const {
 			selectedRows = [],
 			tableLoading,
@@ -204,6 +203,7 @@ export default class extends Component {
 			onChangeTable,
 			columns,
 			count,
+			pageSize,
 		} = this.props.store
 
 		const tableInnerHeight = this.getInnerHeight()
@@ -211,17 +211,13 @@ export default class extends Component {
 		const filterColumns = columns.map(item => {
 			this.appendColligateTitle(item)
 			analyzeKey(item)
-
 			if (item.key === 'view') this.viewDetail(item)
-
 			return {
 				...item,
 				dataIndex: item.key,
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
-
 					if (item.type == 'state') return this.renderState(text, item.stateInfo)
-
 					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
@@ -264,7 +260,7 @@ export default class extends Component {
 					rowSelection={!this.props.noRowSelection ? rowSelection : null}
 					// loading={!rest.loading ? tableLoading : rest.loading}
 					loading={tableLoading}
-					pagination={{ pageSize: 20, total: count, current: (this.props.store.query.from / 20) + 1 }}
+					pagination={{ pageSize, total: count, current: (this.props.store.query.from / pageSize) + 1 }}
 					columns={filterColumns}
 					{...rest}
 				/>

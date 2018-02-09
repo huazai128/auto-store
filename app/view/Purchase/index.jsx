@@ -12,9 +12,9 @@ const ButtonGroup = Button.Group
 @observer
 export default class extends Component {
 	store = this.props.store
-	componentDidMount() {
+
+	componentWillMount() {
 		this.store.init()
-		// this.store.getData()
 	}
 
 	render() {

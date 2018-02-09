@@ -69,7 +69,6 @@ export default class extends Component {
 				)
 			}
 		})
-
 		return (
 			<Container>
 				<Header noSearch store={this.store}>{this.props.name}</Header>

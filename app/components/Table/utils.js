@@ -4,10 +4,10 @@ import { formatValue } from 'utils'
 import moment from 'moment'
 
 const TwoRow = ({ text, secondary }) => (
-	<div>
+	<React.Fragment>
 		<p>{text}</p>
 		<p style={{ opacity: 0.67 }}>{secondary}</p>
-	</div>
+	</React.Fragment>
 )
 
 export function getXSrcoll(columns = []) {
@@ -26,7 +26,7 @@ export function computeColumns(columns = []) {
 			render: item.render ? item.render : (text) => {
 				text = formatValue(text, item.key)
 				if (item.type == 'info') return <p className="info-color">{text}</p>
-				return text;
+				return text
 				// return <Tooltip placement="top" title={text}>{text}</Tooltip>
 			}
 		}

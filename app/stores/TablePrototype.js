@@ -14,10 +14,13 @@ export default class {
 		this.columns.forEach(column => {
 			if (column.checked === undefined && !column.fix) column.checked = true
 		})
+
+		this.pageSize = 15
 	}
 
 	@action initQuery = () => {
 		this.query = {
+			size: this.pageSize,
 			start: null,
 			end: null,
 			supplierIds: [],
@@ -95,18 +98,14 @@ export default class {
 	@action handleRangePicker = (dates) => {
 		this.query.start = dates[0]
 		this.query.end = dates[1]
-
 		this.query.from = 0
-
 		this.getData()
 	}
 
 	// 选择时间点 description: 受控属性
 	@action handlePicker = (date) => {
 		this.query.time = date
-
 		this.query.from = 0
-
 		this.getData()
 	}
 
@@ -114,9 +113,7 @@ export default class {
 	// 搜索关键字
 	@action handleSearchChange = (value) => {
 		this.query.query = value
-
 		this.query.from = 0
-
 		this.getData()
 	}
 

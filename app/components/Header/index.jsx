@@ -3,7 +3,7 @@ import styles from './style.less'
 import { Button, Input, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
-import NoticeIcon from 'pro/NoticeIcon/demo'
+// import NoticeIcon from 'pro/NoticeIcon/demo'
 
 const { Search } = Input
 

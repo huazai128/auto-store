@@ -19,6 +19,16 @@ export default class extends React.Component {
 		collapsed: false,
 	}
 
+	componentWillMount() {
+		const { innerWidth } = window
+
+		if (innerWidth < 1320) {
+			this.setState({
+				collapsed: true,
+			})
+		}
+	}
+
 	onCollapse = (collapsed) => { this.setState({ collapsed }) }
 
 	quit = () => {
