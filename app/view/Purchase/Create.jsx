@@ -5,22 +5,18 @@ import moment from 'moment'
 import { Container, Content, HandleArea } from 'components/Layout'
 import SearchPro from 'components/SearchPro'
 import create from 'hoc/create-table'
+import { get, post, postByParam } from 'utils/request'
 
 
-@inject(store => ({
-	body: store.body,
-	backStore: store.purchase,
-	}))
-@create({
-	setFields: ['supplier', 'toWarehouse', 'purchaseDate'],
-	})
+@inject(store => ({ body: store.body, backStore: store.purchase, }))
+@create({ setFields: ['supplier', 'toWarehouse', 'purchaseDate'], })
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
-		{ width: 100, title: '采购数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
@@ -80,8 +76,9 @@ export default class extends Component {
 								<SearchPro onChange={item => {
 									addItems([item])
 								}} />
-								{/* <Button type="primary" ghost className="ml20">选择添加商品</Button> */}
-								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
+								<RenderUpload>
+									<Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button>
+								</RenderUpload>
 							</div>)}
 					/>
 				</Content>

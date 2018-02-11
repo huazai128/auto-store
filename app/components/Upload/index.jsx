@@ -70,10 +70,10 @@ export default class extends Component {
 	}
 
 	render() {
-		const { params, store = {}, user = {} } = this.props
+		const { params, store = {}, user = {}, baseUrl, templetUrl } = this.props
 		const { access_token } = user
 
-		const action = `${_API_BASE_}${store.url}/import?${serializeParams({ access_token, ...params })}`
+		const action = baseUrl ? `${_API_BASE_}${baseUrl}?${serializeParams({ access_token, ...params })}`  :  `${_API_BASE_}${store.url}/import?${serializeParams({ access_token, ...params })}`
 
 		const uploadProps = {
 			name: 'file',
@@ -83,6 +83,7 @@ export default class extends Component {
 			fileList: this.state.fileList,
 			onChange: this.onChange
 		}
+
 
 		return (
 			<Modal
@@ -109,7 +110,7 @@ export default class extends Component {
 						</div>
 					</Upload>
 				</div>
-				<p className="mt20"><a><Icon type="download" />下载导入模板</a></p>
+				<p className="mt20"><a href={templetUrl ? `${_API_BASE_}${templetUrl}` : `${_API_BASE_}/static/制单.xlsx`} ><Icon type="download" />下载导入模板</a></p>
 			</Modal>
 		)
 	}

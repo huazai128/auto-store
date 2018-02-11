@@ -14,8 +14,8 @@ class Store extends TablePrototype {
 	}
 
 	@observable query = {
-		warehouseIds: [1],
-		skuIds: [24, 22],
+		warehouseIds: [],
+		skuIds: [],
 		time: moment(),
 	};
 
@@ -25,6 +25,7 @@ class Store extends TablePrototype {
 	@observable count = 0
 
 	@observable columns = [
+		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouse', },
 		{ width: 100, mark: '货品编号', key: 'skuNumber', },
 		{ width: 100, mark: '货品名称', key: 'skuName', },
 		{ width: 100, mark: '品牌', key: 'brand', },
@@ -33,7 +34,6 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '规格', key: 'specification', },
 		{ width: 100, mark: '单款采购价', key: 'costPrice', },
 		{ width: 100, mark: '单款零售价', key: 'price', },
-		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouse', },
 		{ width: 100, mark: '库存数量', key: 'amount', },
 		{ width: 100, mark: '总库存数量', key: 'totalAmount', },
 		{ width: 100, mark: '采购价总额', key: 'totalCostPrice', },

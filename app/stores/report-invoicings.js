@@ -14,8 +14,8 @@ class Store extends TablePrototype {
 	}
 
 	@observable query = {
-		warehouseIds: [1],
-		skuIds: [24, 22],
+		warehouseIds: [],
+		skuIds: [],
 		start: moment().startOf('month'),
 		end: moment().startOf('day')
 	};

@@ -1,26 +1,23 @@
 import path from 'path'
+import fs from 'fs'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import config from './config.js'
 import colors from 'colors'
+import lessToJs from 'less-vars-to-js'
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin'
 
-const modifyVars = {
-	'@primary-color': '#33B4DE',
-	'@font-size-base': '12px',
-	'@table-header-bg': '#f5f9fd',
-	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
-	'@form-item-margin-bottom': '18px',
-	'@animation-duration-slow': '.2s'
-}
-
-console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
+const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
 
 const webpackConfig = {
-	// devtool: 'cheap-module-eval-source-map',
+	devtool: 'cheap-module-eval-source-map',
 	entry: {
-		fongwell: path.join(__dirname, 'client/entry.dev.jsx'),
+		fongwell: [
+			'babel-polyfill',
+			path.join(__dirname, 'client/entry.dev.jsx'),
+		]
 	},
 	output: {
 		filename: 'entry.[name].js',
@@ -34,7 +31,6 @@ const webpackConfig = {
 			'node_modules',
 			path.resolve(__dirname, 'app')
 		],
-		// modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
 		extensions: ['.json', '.jsx', '.web.js', '.js',],
 		alias: {
 			app: path.resolve(__dirname, 'app'),
@@ -110,6 +106,14 @@ const webpackConfig = {
 		}]
 	},
 	plugins: [
+		new BrowserSyncPlugin({
+			host: 'localhost',
+			port: 8000,
+			files: './dist/index.html',
+			server: {
+				baseDir: './dist'
+			},
+		}),
 		new webpack.DllReferencePlugin({
 			context: __dirname,
 			manifest: path.join(__dirname, 'dist/manifest.json'),
@@ -120,17 +124,21 @@ const webpackConfig = {
 				_API_BASE_: JSON.stringify(config.apiBase)
 			}
 		}),
-		new CopyWebpackPlugin([{
-			from: path.join(__dirname, 'assets/iconfont'),
-			to: path.join(__dirname, 'dist/iconfont'),
-		}]),
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, 'dist/index1.html'),
+			template: path.join(__dirname, 'dist/index_dll.html'),
 			inject: true,
 		}),
 	],
 }
 
+const os = require('os')
+console.log('############################################################################')
+console.log(`##         os: ${os.type()} ${os.arch()} ${os.release()}`)
+console.log(`##        ram: ${(os.freemem() / 1024 / 1024 / 1024) < 1
+	? (os.freemem() / 1024 / 1024).toFixed(0) + 'MB'
+	: (os.freemem() / 1024 / 1024 / 1024).toFixed(2) + 'GB'}`)
+console.log(`##       time: ${new Date()}`)
+console.log('############################################################################')
 
 
 export default webpackConfig

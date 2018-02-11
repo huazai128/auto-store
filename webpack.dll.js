@@ -40,7 +40,7 @@ const webpackConfig = {
 		}),
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, 'app/index.html'),
-			filename: 'index1.html',
+			filename: 'index_dll.html',
 			inject: true,
 		}),
 	],

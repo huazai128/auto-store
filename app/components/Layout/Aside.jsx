@@ -39,7 +39,6 @@ export default class extends React.Component {
 
 	render() {
 		const { pathname } = this.props.location
-
 		return (
 			<Sider
 				width={180}
@@ -54,7 +53,6 @@ export default class extends React.Component {
 					inlineCollapsed={this.state.collapsed}
 				>
 					{viewMap.filter(i => i.icon).map((item, index) => {
-
 						if (item.subMenu) return (
 							<SubMenu key={item.name} title={<span><Icon type={item.icon} /><span>{item.name}</span></span>}>
 								{item.subMenu.map(i => <Menu.Item key={i.url}><Link to={i.url} >{i.name}</Link></Menu.Item>)}

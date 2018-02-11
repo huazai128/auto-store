@@ -10,9 +10,9 @@ const { Option } = Select
 useStrict(true)
 class Store {
 	@observable returnTypesSource = []
-	@observable supplierSearch = []
-	@observable warehouseSearch = []
-
+	@observable supplierDataSource = []
+	@observable warehouseDataSource = []
+	@observable proDataSource = []
 
 	@action getDataSource = async (type, url, query = {}) => {
 		const { data } = await get(url, query)
@@ -20,12 +20,15 @@ class Store {
 	}
 
 	@action initData = () => {
-		// 退厂类型接口
+		// 退厂类型
 		this.getDataSource('returnTypesSource', '/api/types/returnTypes')
-		// 供应商搜索接口
-		this.getDataSource('supplierSearch', 'api/suppliers/search', { size: 9999 })
-		// 全部仓库接口
-		this.getDataSource('warehouseSearch', 'api/warehouses/search', { size: 9999 })
+		// 供应商
+		this.getDataSource('supplierDataSource', 'api/suppliers/search', { size: 9999 })
+		// 仓库
+		this.getDataSource('warehouseDataSource', 'api/warehouses/search', { size: 9999 })
+		// Pro
+		this.getDataSource('proDataSource', '/api/skus/search', { size: 9999 })
+
 
 		// 货品属性接口
 		tag.getData()
@@ -38,15 +41,19 @@ class Store {
 
 	// 添加资料的供应商选择
 	@computed get supplierOption() {
-		return this.supplierSearch.map(item => <Option key={item.id} value={item.id}>{item.number}</Option>)
+		return this.supplierDataSource.map(item => <Option key={item.id} value={item.id}>{item.number}</Option>)
 	}
 
 	@computed get warehouseData() {
-		return toJS(this.warehouseSearch)
+		return toJS(this.warehouseDataSource)
 	}
 
 	@computed get supplierData() {
-		return toJS(this.supplierSearch)
+		return toJS(this.supplierDataSource)
+	}
+
+	@computed get proData() {
+		return toJS(this.proDataSource)
 	}
 }
 

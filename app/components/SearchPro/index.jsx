@@ -9,7 +9,7 @@ export default class Complete extends React.Component {
 		dataSource: [],
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		this.getData()
 	}
 
@@ -25,14 +25,17 @@ export default class Complete extends React.Component {
 	}
 
 	onSelect = async (value) => {
-		const { id } = this.state.dataSource.find(item => item.value == value)
-		const { data } = await get('/api/skus/detail', { id })
-		this.props.onChange(data)
+		const { id: ids } = this.state.dataSource.find(item => item.value == value)
+
+		const { data = [] } = await get('/api/skus/listByIds', { ids })
+		if (!data[0]) return
+
+		this.props.onChange(data[0])
 	}
 
 	render() {
 		const { dataSource } = this.state
-		const { disabled  } = this.props
+		const { disabled } = this.props
 
 		return (
 			<AutoComplete

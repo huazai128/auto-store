@@ -119,6 +119,13 @@ export default class {
 
 	@action getData = async ({ url }) => {
 		const query = toJS(this.query)
+
+		if ('skuIds' in query && (query.skuIds.length == 0 || query.warehouseIds.length == 0)) {
+			this.data = []
+			this.count = 0
+			return
+		}
+
 		translateParams(query)
 
 		this.tableLoading = true

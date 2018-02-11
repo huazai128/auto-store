@@ -1,26 +1,19 @@
 import path from 'path'
+import fs from 'fs'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import autoprefixer from 'autoprefixer'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import config from './config.js'
 import colors from 'colors'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import lessToJs from 'less-vars-to-js'
 
 const isDevTest = process.argv.includes('test')
 
-const modifyVars = {
-	'@primary-color': '#33B4DE',
-	'@font-size-base': '12px',
-	'@table-header-bg': '#f5f9fd',
-	'@modal-mask-bg': 'rgba(0, 0, 0, 0.2)',
-	'@form-item-margin-bottom': '18px',
-	// '@icon-url': JSON.stringify('/iconfont/iconfont'), // 把 iconfont 地址改到本地
-	'@animation-duration-slow': '.2s'
-}
+const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
 
-console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
+// console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
 
 const webpackConfig = {
 	entry: {
@@ -32,7 +25,7 @@ const webpackConfig = {
 		],
 		fongwell: [
 			// path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`),
-			path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'client/entry.dev.jsx' : 'client/entry.js'}`)
+			path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'client/entry.dev.jsx' : 'client/entry.jsx'}`)
 			// path.join(__dirname, 'client/entry.tes.jsx')
 		]
 	},

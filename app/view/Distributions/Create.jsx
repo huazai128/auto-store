@@ -9,10 +9,10 @@ import create from 'hoc/create-table'
 @inject(stores => ({
 	body: stores.body,
 	backStore: stores.distributions,
-	}))
+}))
 @create({
 	setFields: ['fromWarehouse', 'toWarehouse', 'shipDate'],
-	})
+})
 export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
@@ -79,7 +79,9 @@ export default class extends Component {
 								<strong>单据明细编辑</strong>
 								<SearchPro onChange={item => addItems([item])} />
 								{/* <Button type="primary" ghost className="ml20">选择添加商品</Button> */}
-								<RenderUpload columns={this.columns}><Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button></RenderUpload>
+								<RenderUpload>
+									<Button type="primary" icon="file-excel" ghost className="ml20">Excel导入商品</Button>
+								</RenderUpload>
 							</div>)}
 					/>
 				</Content>

@@ -71,6 +71,7 @@ export default class extends Component {
 						<Upload
 							columns={this.store.commonColumns}
 							handleConfirm={data => { this.store.creates(data) }}
+							templetUrl="/static/门店导入.xlsx"
 							store={this.store}
 						>
 							<Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button>

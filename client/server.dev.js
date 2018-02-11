@@ -1,6 +1,7 @@
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import webpackConfig from '../webpack.config.js'
+// import webpackConfig from '../webpack.watch.js'
 import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 import oauthRoute from '../server/oauthRoute'
 import bodyParser from 'body-parser'
@@ -44,6 +45,4 @@ const server = new WebpackDevServer(compiler, {
 })
 
 
-server.listen(config.port, () => {
-	console.log(`监听端口 ===>${config.port}`)
-})
+server.listen(config.port)
