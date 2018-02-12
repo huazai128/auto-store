@@ -9,8 +9,6 @@ import colors from 'colors'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import lessToJs from 'less-vars-to-js'
 
-const isDevTest = process.argv.includes('test')
-
 const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
 
 // console.info(`webpack环境：${process.env.NODE_ENV}`.cyan)
@@ -24,9 +22,8 @@ const webpackConfig = {
 			'moment',
 		],
 		fongwell: [
-			// path.join(__dirname, `client/entry.${isDevTest ? 'tes' : 'dev'}.jsx`),
+			// path.join(__dirname, 'client/entry.tes.jsx'),
 			path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'client/entry.dev.jsx' : 'client/entry.jsx'}`)
-			// path.join(__dirname, 'client/entry.tes.jsx')
 		]
 	},
 	output: {
@@ -51,7 +48,6 @@ const webpackConfig = {
 			utils: path.resolve(__dirname, 'app/utils'),
 			pro: path.resolve(__dirname, 'app/pro'),
 			mapStore: path.resolve(__dirname, 'app/mapStore'),
-
 		},
 	},
 
@@ -90,7 +86,7 @@ const webpackConfig = {
 			to: path.join(__dirname, 'dist/iconfont'),
 		}]),
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'dist' : 'app'}/index.html`),
+			template: path.join(__dirname, `${process.env.NODE_ENV !== 'production' ? 'dist/index_dll.html' : 'app/index.html'}`),
 			inject: true,
 		}),
 	],
