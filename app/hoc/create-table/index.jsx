@@ -22,164 +22,164 @@ const simpleColumns = [
 ]
 
 @Form.create()
-export default (options = {}) => WrappedComponent => {
-	const { url, setFields = [] } = options
+	export default (options = {}) => WrappedComponent => {
+		const { url, setFields = [] } = options
 
-	return class extends React.Component {
+		return class extends React.Component {
 
-		constructor(props) {
-			super(props)
+			constructor(props) {
+				super(props)
 
-			this.id = this.props.params.id
+				this.id = this.props.params.id
 
-			const { getFieldDecorator } = props.form
-			this.BindedFormItem = ({ children, ...rest }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...rest })
-			this.RenderUpload = ({ children, ...rest }) => React.cloneElement(<Upload>{children}</Upload>, {
-				handleConfirm: this.addItems,
-				columns:simpleColumns,
-				baseUrl: '/api/skus/import/simple',
-				...rest
-			})
+				const { getFieldDecorator } = props.form
+				this.BindedFormItem = ({ children, ...rest }) => React.cloneElement(<CreateFormItem>{children}</CreateFormItem>, { getFieldDecorator, ...rest })
+				this.RenderUpload = ({ children, ...rest }) => React.cloneElement(<Upload>{children}</Upload>, {
+					handleConfirm: this.addItems,
+					columns: simpleColumns,
+					baseUrl: '/api/skus/import/simple',
+					...rest
+				})
 
-			this.RenderCreateTable = (props) => React.cloneElement(<Table />, {
-				deleteItem: this.deleteItem,
-				handleIpuntChange: this.handleIpuntChange,
-				items: this.state.items,
-				...props
-			})
+				this.RenderCreateTable = (props) => React.cloneElement(<Table />, {
+					deleteItem: this.deleteItem,
+					handleIpuntChange: this.handleIpuntChange,
+					items: this.state.items,
+					...props
+				})
 
-			this.state = {
-				items: [],
-				ready: true,
-			}
-
-			this.sequenceField = this.props.params.id ? <this.BindedFormItem label="单号" keyValue="sequence">
-				<Input style={{ width: 200 }} disabled />
-			</this.BindedFormItem> : null
-
-			const pointerNode = (props = {}) => {
-				return <Input className={styles.pointer} suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} {...props} />
-			}
-			// ============================================================
-			this.WarehouseFormItem = ({ label = '仓库编号及名称', BottomNode = null, value, props }) => (
-				// <ColligatePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
-				<div>
-					<this.BindedFormItem keyValue="warehouseId" />
-					<this.BindedFormItem keyValue="warehouseName" />
-					<ColligatePopover title="请选择仓库" selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
-						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
-							{pointerNode(props)}
-						</this.BindedFormItem>
-					</ColligatePopover>
-				</div>
-			)
-
-			// ============================================================
-			this.ToWarehouseFormItem = ({ label = '收货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<div>
-					<this.BindedFormItem keyValue="toWarehouseId" />
-					<this.BindedFormItem keyValue="toWarehouseName" />
-					<ColligatePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
-						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
-							{pointerNode()}
-						</this.BindedFormItem>
-					</ColligatePopover>
-				</div>
-			)
-
-			// ============================================================
-			this.FromWarehouseFormItem = ({ label = '供货仓编号及名称', BottomNode = null, value, disabledId }) => (
-				<div>
-					<this.BindedFormItem keyValue="fromWarehouseId" />
-					<this.BindedFormItem keyValue="fromWarehouseName" />
-					<ColligatePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
-						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
-							{pointerNode()}
-						</this.BindedFormItem>
-					</ColligatePopover>
-				</div>
-			)
-
-			// ============================================================
-			this.SupplierFormItem = ({ label = '供应商编号及名称', BottomNode = null, value }) => (
-				<div>
-					<this.BindedFormItem keyValue="supplierId" />
-					<this.BindedFormItem keyValue="supplierName" />
-					<ColligatePopover title="请选择供应商" selectedRowKeys={[value]} radio dataType="supplierData" onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
-						<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
-							{pointerNode()}
-						</this.BindedFormItem>
-					</ColligatePopover>
-				</div>
-			)
-			// ============================================================
-
-			this.BottomNode = ({ name }) => name ? <div className="ml10"><Badge status="processing" /><span style={{ marginRight: 15 }}>{name}</span></div> : null
-
-			this.BackCreateHearder = (props) => React.cloneElement(<CreateHearder>{this.props.name}</CreateHearder>, {
-				cb: this.cb,
-				...props
-			})
-		}
-
-
-		async componentWillMount() {
-			if (this.id) {
-				this.setState({ ready: false, })
-				const { data } = await get(`${this.props.backStore.url}/detail`, { id: this.id })
-
-				if (Array.isArray(data.items)) {
-					data.items.forEach(item => {
-						item.name = item.name || item.skuName
-						item.number = item.number || item.skuNumber
-						item.skuId = item.skuId || item.id
-					})
+				this.state = {
+					items: [],
+					ready: true,
 				}
 
-				this.setState({
-					ready: true,
-					items: data.items
-				}, () => {
-					if (!Array.isArray(setFields)) return
-					const otherValues = {}
+				this.sequenceField = this.props.params.id ? <this.BindedFormItem label="单号" keyValue="sequence">
+					<Input style={{ width: 200 }} disabled />
+				</this.BindedFormItem> : null
 
-					Object.keys(data).forEach((item) => {
-						if (typeof data[item] == 'number' && String(data[item]).length == 13) data[item] = moment(data[item])
-					})
+				const pointerNode = (props = {}) => {
+					return <Input className={styles.pointer} suffix={<Icon type="ellipsis" />} readOnly style={{ width: 200 }} {...props} />
+				}
+				// ============================================================
+				this.WarehouseFormItem = ({ label = '仓库编号及名称', BottomNode = null, value, props }) => (
+					// <ColligatePopover title="请选择仓库" selectedRowKeys={[value]} api="api/warehouses/search" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
+					<div>
+						<this.BindedFormItem keyValue="warehouseId" />
+						<this.BindedFormItem keyValue="warehouseName" />
+						<ColligatePopover title="请选择仓库" selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'warehouse')}>
+							<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="warehouseNumber">
+								{pointerNode(props)}
+							</this.BindedFormItem>
+						</ColligatePopover>
+					</div>
+				)
 
-					setFields.forEach(field => {
-						if (field == 'supplier') {
-							otherValues.supplierId = data.supplierId
-							otherValues.supplierName = data.supplierName
-							otherValues.supplierNumber = data.supplierNumber
-						}
-						else if (field == 'toWarehouse') {
-							otherValues.toWarehouseId = data.toWarehouseId
-							otherValues.toWarehouseName = data.toWarehouseName
-							otherValues.toWarehouseNumber = data.toWarehouseNumber
-						}
-						else if (field == 'fromWarehouse') {
-							otherValues.fromWarehouseId = data.fromWarehouseId
-							otherValues.fromWarehouseName = data.fromWarehouseName
-							otherValues.fromWarehouseNumber = data.fromWarehouseNumber
-						}
-						else if (field == 'warehouse') {
-							otherValues.warehouseId = data.warehouseId
-							otherValues.warehouseName = data.warehouseName
-							otherValues.warehouseNumber = data.warehouseNumber
-						}
-						else otherValues[field] = data[field]
-					})
+				// ============================================================
+				this.ToWarehouseFormItem = ({ label = '收货仓编号及名称', BottomNode = null, value, disabledId }) => (
+					<div>
+						<this.BindedFormItem keyValue="toWarehouseId" />
+						<this.BindedFormItem keyValue="toWarehouseName" />
+						<ColligatePopover title="请选择收货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'toWarehouse')}>
+							<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="toWarehouseNumber">
+								{pointerNode()}
+							</this.BindedFormItem>
+						</ColligatePopover>
+					</div>
+				)
 
-					this.props.form.setFieldsValue({
-						sequence: data.sequence,
-						note: data.note,
-						...otherValues
-					})
+				// ============================================================
+				this.FromWarehouseFormItem = ({ label = '供货仓编号及名称', BottomNode = null, value, disabledId }) => (
+					<div>
+						<this.BindedFormItem keyValue="fromWarehouseId" />
+						<this.BindedFormItem keyValue="fromWarehouseName" />
+						<ColligatePopover title="请选择供货仓" disabledId={disabledId} selectedRowKeys={[value]} dataType="warehouseData" radio onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'fromWarehouse')}>
+							<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="fromWarehouseNumber">
+								{pointerNode()}
+							</this.BindedFormItem>
+						</ColligatePopover>
+					</div>
+				)
 
+				// ============================================================
+				this.SupplierFormItem = ({ label = '供应商编号及名称', BottomNode = null, value }) => (
+					<div>
+						<this.BindedFormItem keyValue="supplierId" />
+						<this.BindedFormItem keyValue="supplierName" />
+						<ColligatePopover title="请选择供应商" selectedRowKeys={[value]} radio dataType="supplierData" onChange={(_, selectedRows) => this.onConfirmPopover(selectedRows[0], 'supplier')}>
+							<this.BindedFormItem BottomNode={BottomNode} label={label} rules={true} keyValue="supplierNumber">
+								{pointerNode()}
+							</this.BindedFormItem>
+						</ColligatePopover>
+					</div>
+				)
+				// ============================================================
+
+				this.BottomNode = ({ name }) => name ? <div className="ml10"><Badge status="processing" /><span style={{ marginRight: 15 }}>{name}</span></div> : null
+
+				this.BackCreateHearder = (props) => React.cloneElement(<CreateHearder>{this.props.name}</CreateHearder>, {
+					cb: this.cb,
+					...props
 				})
 			}
-		}
+
+
+			async componentWillMount() {
+				if (this.id) {
+					this.setState({ ready: false, })
+					const { data } = await get(`${this.props.backStore.url}/detail`, { id: this.id })
+
+					if (Array.isArray(data.items)) {
+						data.items.forEach(item => {
+							item.name = item.name || item.skuName
+							item.number = item.number || item.skuNumber
+							item.skuId = item.skuId || item.id
+						})
+					}
+
+					this.setState({
+						ready: true,
+						items: data.items
+					}, () => {
+						if (!Array.isArray(setFields)) return
+						const otherValues = {}
+
+						Object.keys(data).forEach((item) => {
+							if (typeof data[item] == 'number' && String(data[item]).length == 13) data[item] = moment(data[item])
+						})
+
+						setFields.forEach(field => {
+							if (field == 'supplier') {
+								otherValues.supplierId = data.supplierId
+								otherValues.supplierName = data.supplierName
+								otherValues.supplierNumber = data.supplierNumber
+							}
+							else if (field == 'toWarehouse') {
+								otherValues.toWarehouseId = data.toWarehouseId
+								otherValues.toWarehouseName = data.toWarehouseName
+								otherValues.toWarehouseNumber = data.toWarehouseNumber
+							}
+							else if (field == 'fromWarehouse') {
+								otherValues.fromWarehouseId = data.fromWarehouseId
+								otherValues.fromWarehouseName = data.fromWarehouseName
+								otherValues.fromWarehouseNumber = data.fromWarehouseNumber
+							}
+							else if (field == 'warehouse') {
+								otherValues.warehouseId = data.warehouseId
+								otherValues.warehouseName = data.warehouseName
+								otherValues.warehouseNumber = data.warehouseNumber
+							}
+							else otherValues[field] = data[field]
+						})
+
+						this.props.form.setFieldsValue({
+							sequence: data.sequence,
+							note: data.note,
+							...otherValues
+						})
+
+					})
+				}
+			}
 
 			cb = () => {
 				this.props.body.remove(this.props.pathname, this.props.push)
@@ -259,7 +259,7 @@ export default (options = {}) => WrappedComponent => {
 								items: this.state.items,
 							}
 
-							pass(result)
+							if (pass(result) === false) return reject()
 
 							try {
 								reslove(await this.create(result))
@@ -341,5 +341,5 @@ export default (options = {}) => WrappedComponent => {
 						)
 				)
 			}
+		}
 	}
-}

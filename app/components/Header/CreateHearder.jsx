@@ -24,14 +24,14 @@ export default class Header extends Component {
 	}
 
 	render() {
-		const { children, handleSubmit } = this.props
+		const { children, handleSubmit, node } = this.props
 
 		const { loading } = this.state
 		return (
 			<header className={`${styles.header} flex-vcenter jc-between`}>
 				<div className="flex-vcenter">
 					<h2 className="flex-vcenter">{children}</h2>
-					<Button loading={this.state.loading} onClick={() => this.handleSubmit()} className="ml20" type="primary">保存</Button>
+					{node || <Button loading={this.state.loading} onClick={() => this.handleSubmit()} className="ml20" type="primary">保存</Button>}
 				</div>
 			</header>
 		)

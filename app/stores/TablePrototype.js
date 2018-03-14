@@ -5,7 +5,6 @@ import axios from 'axios'
 import { translateParams } from 'utils'
 import { message } from 'antd'
 
-
 useStrict(true)
 
 export default class {

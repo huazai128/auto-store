@@ -22,8 +22,11 @@ export function formatValue(text, key = '') {
 		'purchaseDate',
 		'arrivalDate',
 		'shipDate',
-		'openDate'
+		'openDate',
+		'stocktakingDate',
 	]
+
+
 
 	if (numeralMap.includes(key)) return numeral(text).format('0,0[.]00')
 	if (dateMap.includes(key)) return text && moment(text).format('YYYY.MM.DD')

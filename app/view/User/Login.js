@@ -10,11 +10,13 @@ const { TabPane } = Tabs
 import Qs from 'qs'
 
 
-@inject('user')
+@inject(store => ({
+	user: store.user,
+	body: store.body
+}))
 @Form.create()
 export default class Login extends Component {
 	state = {
-		count: 0,
 		type: 'account',
 		submitting: false,
 	}
@@ -38,6 +40,12 @@ export default class Login extends Component {
 							}],
 						})
 						if (!data.access_token) throw new Error('error')
+
+						const permissionsResponse = await get('/api/adminUser', { access_token: data.access_token })
+
+						data.info = permissionsResponse.data
+
+						this.props.body.clear()
 						this.props.user.setUserData(data)
 						this.props.history.push(viewMap[0].url)
 					} catch (error) {
@@ -63,7 +71,7 @@ export default class Login extends Component {
 	render() {
 		const { form, login = {} } = this.props
 		const { getFieldDecorator } = form
-		const { count, type } = this.state
+		const { type } = this.state
 		return (
 			<div className={styles.wrap}>
 				<div className={styles.container}>
@@ -81,7 +89,7 @@ export default class Login extends Component {
 										prefix={<Icon type="user" className={styles.prefixIcon} />}
 										placeholder="请输入账号"
 									/>
-									)}
+								)}
 							</FormItem>
 							<FormItem>
 								{getFieldDecorator('password', {
@@ -95,7 +103,7 @@ export default class Login extends Component {
 										type="password"
 										placeholder="请输入密码"
 									/>
-									)}
+								)}
 							</FormItem>
 							<FormItem className={styles.additional}>
 								{getFieldDecorator('remember', {
@@ -103,7 +111,7 @@ export default class Login extends Component {
 									initialValue: true,
 								})(
 									<Checkbox className={styles.autoLogin}>记住密码</Checkbox>
-									)}
+								)}
 								<a className={styles.forgot}>忘记密码？</a>
 								<Button size="large" loading={this.state.submitting} className={styles.submit} type="primary" htmlType="submit">
 									登录

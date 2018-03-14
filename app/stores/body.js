@@ -5,7 +5,7 @@ class Store {
 	@observable activeTag = []
 
 	@action remove = (key, push) => {
-		if(this.activeTag.length == 1 ) return
+		if (this.activeTag.length == 1) return
 
 		const index = this.activeTag.map(i => i.pathname).indexOf(key)
 		this.activeTag = this.activeTag.filter(i => i.pathname !== key)
@@ -21,6 +21,10 @@ class Store {
 		const keys = this.activeTag.map(item => item.pathname)
 		if (keys.includes(pathname)) return
 		this.activeTag = [...this.activeTag, tag]
+	}
+
+	@action clear = () => {
+		this.activeTag.clear()
 	}
 }
 

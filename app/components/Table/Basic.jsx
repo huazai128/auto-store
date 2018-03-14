@@ -21,7 +21,7 @@ export default class extends Component {
 
 
 	render() {
-		const { dataSource, columns, min, hasIndex, className, ...rest } = this.props
+		const { dataSource, columns, min, hasIndex, className, original, ...rest } = this.props
 		// if (hasIndex) this.columns.unshift({
 		// 	width: 35, title: '', key: 'index', render: (_, __, index) => <div>{`${index + 1}.`}</div>
 		// });
@@ -29,7 +29,7 @@ export default class extends Component {
 		return (
 			<Table
 				scroll={{ x: getXSrcoll(this.columns), y: this.props.scrollY }}
-				className={`${min ? 'two-row' : ''} main-table ${className}`}
+				className={`${min ? 'two-row' : ''} ${original ? '' : 'main-table'} ${className}`}
 				size="middle"
 				columns={this.columns}
 				dataSource={dataSource}

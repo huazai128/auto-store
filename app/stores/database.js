@@ -30,6 +30,8 @@ class Store {
 		this.getDataSource('proDataSource', '/api/skus/search', { size: 9999 })
 
 
+		// 工作组
+
 		// 货品属性接口
 		tag.getData()
 	}

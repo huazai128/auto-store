@@ -38,7 +38,7 @@ export const _API_BASE_ = process.env._API_BASE_
 
 axios.defaults.baseURL = _API_BASE_
 
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 10000
 
 axios.interceptors.response.use(
 	(response = {}) => {

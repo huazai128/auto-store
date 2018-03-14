@@ -55,7 +55,7 @@ class GetTag extends Component {
 @inject(stores => ({
 	body: stores.body,
 	user: stores.user
-}))
+	}))
 @observer
 export default class extends Component {
 	componentDidMount() {
@@ -84,6 +84,8 @@ export default class extends Component {
 	render() {
 		const { pathname } = this.props.location
 
+		const { userPermissions } = this.props.user
+
 		const subMenu = this.getSubMenu(viewMap)
 
 		return (
@@ -98,7 +100,8 @@ export default class extends Component {
 				<Switch key="Switch">
 					<Route exact path="/login" component={Login} />
 					{[...viewMap, ...subMenu].filter(i => i.url).map(item => (
-						<Route exact key={item.url} path={item.url} render={props => {
+						(userPermissions.includes(item.permissions) || userPermissions.includes('PERMISSION_ADMIN_ALL')) && <Route exact key={item.url} path={item.url} render={props => {
+							// <Route exact key={item.url} path={item.url} render={props => {
 							const { pathname } = props.location
 							const { params } = props.match
 							return (

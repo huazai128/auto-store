@@ -9,6 +9,8 @@ import DyunFrom from 'components/Form'
 import bill from 'hoc/bill'
 import modal from 'hoc/modal'
 
+import { Limit, limitSwitch } from 'components/Limit'
+
 const ButtonGroup = Button.Group
 
 @inject('store')
@@ -61,21 +63,25 @@ export default class extends Component {
 				<Content>
 					<HandleArea>
 						<ButtonGroup>
-							<HandleButton method="freeze" state={['created_no', 'created']} icon="lock" >冻结</HandleButton>
-							<HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton>
+							<Limit permission="PERMISSION_FROZEN_STORE"><HandleButton method="freeze" state={['created_no', 'created']} icon="lock" >冻结</HandleButton></Limit>
+							<Limit permission="PERMISSION_UNFORZEN_STORE"><HandleButton method="unfreeze" state="freeze" icon="unlock" >取消冻结</HandleButton></Limit>
 						</ButtonGroup>
-						<DeleteButton state="created_no" confirm={{ title: '确定删除选中门店？' }}>删除</DeleteButton>
-						<AddStoreModal>
-							<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
-						</AddStoreModal>
-						<Upload
-							columns={this.store.commonColumns}
-							handleConfirm={data => { this.store.creates(data) }}
-							templetUrl="/static/门店导入.xlsx"
-							store={this.store}
-						>
-							<Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button>
-						</Upload>
+						<Limit permission="PERMISSION_DEL_STORE"><DeleteButton state="created_no" confirm={{ title: '确定删除选中门店？' }}>删除</DeleteButton></Limit>
+						<Limit permission="PERMISSION_ADD_STORE">
+							<AddStoreModal>
+								<Button key="Button" className="ml40" type="primary">手动添加门店资料</Button>
+							</AddStoreModal>
+						</Limit>
+						<Limit permission="PERMISSION_ADD_STORE">
+							<Upload
+								columns={this.store.commonColumns}
+								handleConfirm={data => { this.store.creates(data) }}
+								templetUrl="/static/门店导入.xlsx"
+								store={this.store}
+							>
+								<Button className="ml20" icon="file-excel" type="primary" ghost>Excel导入资料</Button>
+							</Upload>
+						</Limit>
 						<ExportGroup />
 					</HandleArea>
 					<MainTable

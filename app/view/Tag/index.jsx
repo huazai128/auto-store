@@ -9,8 +9,11 @@ import CustomFrom from 'components/Form'
 import BasicTable from 'components/Table/Basic'
 import styles from './style.less'
 
-import NoticeIcon from 'pro/NoticeIcon'
+// import NoticeIcon from 'pro/NoticeIcon'
 import moment from 'moment'
+
+import { Limit } from 'components/Limit'
+
 
 @modal
 @inject('tag')
@@ -59,12 +62,16 @@ export default class extends Component {
 			if (item.key == 'action') item.render = (_, { id, name }) => {
 				return (
 					<div>
-						<AddModal fields={[{ label: '小类名称', key: 'name', rules: { required: true, } }]} title={<div>为<a style={{ margin: '0 4px' }}>{name}</a>添加子属性</div>} id={id}>
-							<a><Icon style={{ fontSize: 14, marginRight: 5 }} type="tag-o" />添加子属性</a>
-						</AddModal>
-						<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [id])}>
-							<span className="ml20 error-color pointer">删除</span>
-						</Popconfirm>
+						<Limit permission="PERMISSION_ADD_ATTR">
+							<AddModal fields={[{ label: '小类名称', key: 'name', rules: { required: true, } }]} title={<div>为<a style={{ margin: '0 4px' }}>{name}</a>添加子属性</div>} id={id}>
+								<a><Icon style={{ fontSize: 14, marginRight: 5 }} type="tag-o" />添加子属性</a>
+							</AddModal>
+						</Limit>
+						<Limit permission="PERMISSION_DEL_ATTR">
+							<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [id])}>
+								<span className="ml20 error-color pointer">删除</span>
+							</Popconfirm>
+						</Limit>
 					</div>
 				)
 			}
@@ -74,9 +81,11 @@ export default class extends Component {
 				<Header noSearch store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea>
-						<AddModal fields={[{ label: '大类名称', key: 'name', rules: { required: true, } }]} title="添加属性">
-							<Button type="primary" ghost>手动添加属性</Button>
-						</AddModal>
+						<Limit permission="PERMISSION_ADD_ATTR">
+							<AddModal fields={[{ label: '大类名称', key: 'name', rules: { required: true, } }]} title="添加属性">
+								<Button type="primary" ghost>手动添加属性</Button>
+							</AddModal>
+						</Limit>
 					</HandleArea>
 					<BasicTable
 						dataSource={dataSource}
@@ -92,9 +101,12 @@ export default class extends Component {
 									size="small"
 									renderItem={item => (
 										<List.Item actions={[
-											<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [item.id])}>
-												<span className="error-color">删除</span>
-											</Popconfirm>
+											<Limit permission="PERMISSION_DEL_ATTR">
+												<Popconfirm placement="top" title="确定要删除？" onConfirm={() => this.props.tag.handle('delete', [item.id])}>
+													<span className="error-color">删除</span>
+												</Popconfirm>
+											</Limit>
+
 										]} title={item.name}>
 											<List.Item.Meta title={item.name} />
 											<div />

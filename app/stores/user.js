@@ -13,7 +13,7 @@ class Store {
 		// this.init();
 	}
 
-	@observable userData = null
+	@observable userData = {}
 
 	@action setUserData = (userData) => {
 		this.IS_LOAD = false
@@ -36,7 +36,6 @@ class Store {
 				return true
 			}
 		}
-
 		window.localStorage.clear(this.storeName)
 		return false
 	}
@@ -55,6 +54,10 @@ class Store {
 
 	@computed get access_token() {
 		return this.userData.access_token
+	}
+
+	@computed get userPermissions() {
+		return this.userData.info ? toJS(this.userData.info.user.permissions) : []
 	}
 
 }

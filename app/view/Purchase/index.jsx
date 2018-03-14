@@ -4,6 +4,7 @@ import Header from 'components/Header'
 import { Container, Content, HandleArea } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
 import bill from 'hoc/bill'
+import { Limit } from 'components/Limit'
 
 const ButtonGroup = Button.Group
 
@@ -22,18 +23,18 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header store={this.store} btn={{ to: '/purchase/create', text: '采购制单' }}>{this.props.name}</Header>
+				<Header store={this.store} btn={{ to: '/purchase/create', text: '采购制单', permission: 'PERMISSION_ADD_PURCHASE' }}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ButtonGroup className="mr20">
-							<HandleButton method="check" state="created">审核</HandleButton>
-							<HandleButton method="confirm" state="checked">登账</HandleButton>
+							<Limit permission="PERMISSION_CHECK_PURCHASE"><HandleButton method="check" state="created">审核</HandleButton></Limit>
+							<Limit permission="PERMISSION_CONFIRM_PURCHASE"><HandleButton method="confirm" state="checked">登账</HandleButton></Limit>
 						</ButtonGroup>
 						<ButtonGroup>
-							<HandleButton method="uncheck" state="checked">反审</HandleButton>
-							<HandleButton method="unconfirm" state="confirmed">反登</HandleButton>
+							<Limit permission="PERMISSION_UNCHECK_PURCHASE"><HandleButton method="uncheck" state="checked">反审</HandleButton></Limit>
+							<Limit permission="PERMISSION_UNCONFIRM_PURCHASE"><HandleButton method="unconfirm" state="confirmed">反登</HandleButton></Limit>
 						</ButtonGroup>
-						<DeleteButton>删除</DeleteButton>
+						<Limit permission="PERMISSION_DEL_PURCHASE"><DeleteButton>删除</DeleteButton></Limit>
 						<ExportGroup withDetail />
 						<RangePicker />
 					</HandleArea>

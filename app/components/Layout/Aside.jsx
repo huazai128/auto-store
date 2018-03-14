@@ -10,7 +10,7 @@ const { Sider } = Layout
 @inject(stores => ({
 	body: stores.body,
 	user: stores.user,
-}))
+	}))
 @observer
 export default class extends React.Component {
 	store = this.props.body
@@ -39,6 +39,9 @@ export default class extends React.Component {
 
 	render() {
 		const { pathname } = this.props.location
+
+		const { userPermissions } = this.props.user
+
 		return (
 			<Sider
 				width={180}
@@ -52,11 +55,15 @@ export default class extends React.Component {
 					selectedKeys={[pathname]}
 					inlineCollapsed={this.state.collapsed}
 				>
-					{viewMap.filter(i => i.icon).map((item, index) => {
+					{viewMap.filter(i => i.icon && (userPermissions.includes(i.permissions) || userPermissions.includes('PERMISSION_ADMIN_ALL') || i.subMenu)).map((item, index) => {
 						if (item.subMenu) return (
-							<SubMenu key={item.name} title={<span><Icon type={item.icon} /><span>{item.name}</span></span>}>
-								{item.subMenu.map(i => <Menu.Item key={i.url}><Link to={i.url} >{i.name}</Link></Menu.Item>)}
-							</SubMenu>
+							item.subMenu.map(i => i.permissions).some(i => userPermissions.includes(i)) || userPermissions.includes('PERMISSION_ADMIN_ALL')
+								?
+								<SubMenu key={item.name} title={<span><Icon type={item.icon} /><span>{item.name}</span></span>}>
+									{item.subMenu.filter(i => userPermissions.includes(i.permissions) || userPermissions.includes('PERMISSION_ADMIN_ALL')).map(i => <Menu.Item key={i.url}><Link to={i.url} >{i.name}</Link></Menu.Item>)}
+								</SubMenu>
+								:
+								null
 						)
 
 						return (

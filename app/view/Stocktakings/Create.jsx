@@ -23,8 +23,9 @@ class DiffModal extends Component {
 		return (
 			<HocModal
 				afterClose={this.afterClose}
-				onOk={this.handleSubmit}
-				width={1200}
+				onOk={() => this.props.handleCancel()}
+				width={1300}
+				maskClosable={false}
 			>
 				<BasicTable
 					className={styles.diff}
@@ -35,8 +36,14 @@ class DiffModal extends Component {
 						{ title: '货品名称', key: 'skuName' },
 						{ title: '实盘数量', key: 'amount' },
 						{ title: '系统库存', key: 'inventory' },
+						{ title: '盘点差异数量', key: 'diff' },
 						{ title: '采购价', key: 'costPrice' },
 						{ title: '销售价', key: 'price' },
+						{ title: '采购价总额', key: 'totalCostPrice' },
+						{ title: '销售价总额', key: 'totalPrice' },
+						{ title: '采购价总额差异', key: 'totalCostPriceDiff' },
+						{ title: '销售价总额差异', key: 'totalPriceDiff' },
+						{ title: '差异原因', key: 'diffNote' }
 					]}
 					pagination={{ current, total: count, pageSize }}
 					onChange={this.props.onChange}
@@ -51,10 +58,10 @@ class DiffModal extends Component {
 @inject(store => ({
 	body: store.body,
 	backStore: store.stocktakings,
-}))
+	}))
 @create({
 	setFields: ['warehouse', 'stocktakingDate', 'global'],
-})
+	})
 export default class extends Component {
 	state = {
 		loading: false,
@@ -66,7 +73,7 @@ export default class extends Component {
 	}
 
 	columns = [
-		{ width: 200, title: '货品', key: 'number' },
+		{ width: 200, title: '货品编号', key: 'number' },
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
@@ -75,10 +82,19 @@ export default class extends Component {
 	]
 
 	computedQuery = (value) => {
+		if (!this.state.diffId) {
+			Modal.error({
+				title: '请先生成盘点差异'
+			})
+			return false
+		}
+
 		value.items.forEach(item => {
 			item.skuId = item.skuId || item.id
 			delete item.id
 		})
+
+		value.diffId = this.state.diffId
 	}
 
 	getDiffId = async (values) => {
@@ -87,7 +103,7 @@ export default class extends Component {
 		const { url } = this.props.backStore
 
 		const items = this.props.items.map(item => ({
-			skuId: item.id,
+			skuId: item.id || item.skuId,
 			amount: item.amount,
 		}))
 

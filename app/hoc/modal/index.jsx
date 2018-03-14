@@ -25,7 +25,10 @@ export default WrappedComponent => {
 			confirmLoading: false,
 		}
 
-		showModal = () => this.setState({ visible: true, }, () => this.props.showbefore && this.props.showbefore());
+		showModal = () => this.setState({ visible: true, }, () => {
+			this.props.showbefore && this.props.showbefore()
+			this.refs.WrappedComponent.showAfter && this.refs.WrappedComponent.showAfter()
+		})
 
 		// componentWillReceiveProps(nextProps) {
 		// 	const { visible } = nextProps;
@@ -46,6 +49,7 @@ export default WrappedComponent => {
 				[
 					React.cloneElement(this.props.children, { onClick: this.showModal, key: 'outer' }),
 					<WrappedComponent
+						ref="WrappedComponent"
 						key="WrappedComponent"
 						HocModal={this.HocModal}
 						onConfirmLoading={this.onConfirmLoading}
