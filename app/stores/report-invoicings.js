@@ -26,7 +26,7 @@ class Store extends TablePrototype {
 	@observable count = 0
 
 	@observable columns = [
-		{ fix: true, width: 150, mark: '仓库编号及名称', key: 'warehouse', },
+		{ fix: true, width: 200, mark: '仓库编号及名称', key: 'warehouse', },
 		{ fix: true, width: 100, mark: '货品编号', key: 'skuNumber', },
 		{ fix: true, width: 100, mark: '货品名称', key: 'skuName', },
 		{ width: 100, mark: '库存数量', key: 'inventory', },
@@ -39,7 +39,12 @@ class Store extends TablePrototype {
 		{ width: 100, mark: '发货数', key: 'sending', },
 		{ width: 100, mark: '销售数', key: 'sale', },
 		{ width: 100, mark: '退厂数', key: 'refund', },
+		{ width: 100, mark: '退货数', key: 'storeRefund', },
 	];
+
+	@action getDefaultWarehouseIds = (warehouseIds) => {
+		this.query.warehouseIds = warehouseIds
+	}
 
 	@computed get dataSource() { return toJS(this.data) }
 }

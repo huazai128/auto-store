@@ -8,6 +8,8 @@ import TagSelect from 'components/Select/TagSelect'
 import SupplierSelect from 'components/Select/SupplierSelect'
 import TablePrototype from './TablePrototype'
 
+import database from './database'
+
 const { TextArea } = Input
 const Option = Select.Option
 
@@ -19,6 +21,9 @@ class Store extends TablePrototype {
 		this.url = '/api/skus'
 
 		this.getData = this.getData.bind(this, { url: this.url })
+
+		this.handleCallback = () => database.getDataSource('proDataSource', '/api/skus/search', { size: 9999 })
+
 		this.handle = this.handle.bind(this, { url: this.url })
 		this.create = this.create.bind(this, { url: this.url })
 		this.update = this.update.bind(this, { url: this.url })

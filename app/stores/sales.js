@@ -34,7 +34,7 @@ class Store extends TablePrototype {
 				{ title: '零售价总额', key: 'totalPrice' },
 			]
 		},
-		{ width: 150, mark: '店铺编号及名称', key: 'store', },
+		{ width: 200, mark: '店铺编号及名称', key: 'store', },
 		{ width: 150, mark: '销售总数量', key: 'amount', },
 		{ width: 100, mark: '实收总金额', key: 'totalPrice', },
 		{ width: 400, mark: '销售日期', key: 'createdDate' },

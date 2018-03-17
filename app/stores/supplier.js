@@ -3,6 +3,8 @@ import { observable, computed, useStrict, action, runInAction, toJS, autorun } f
 import { Input } from 'antd'
 import TablePrototype from './TablePrototype'
 import { dataStateFilters } from 'mapStore/filter'
+import database from './database'
+
 const { TextArea } = Input
 
 useStrict(true)
@@ -12,6 +14,11 @@ class Store extends TablePrototype {
 		this.url = '/api/suppliers'
 
 		this.getData = this.getData.bind(this, { url: this.url })
+
+		this.handleCallback = () => {
+			database.getDataSource('supplierDataSource', 'api/suppliers/search', { size: 9999 })
+		}
+
 		this.handle = this.handle.bind(this, { url: this.url })
 		this.create = this.create.bind(this, { url: this.url })
 		this.update = this.update.bind(this, { url: this.url })

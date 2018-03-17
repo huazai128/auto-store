@@ -59,40 +59,16 @@ export class ModifyPassword extends Component {
 }
 
 
-@inject('accounts')
+@inject(store => ({
+	accounts: store.accounts,
+	settings: store.settings,
+	}))
 @modal
 @observer
 export default class AddAccounts extends Component {
 
 	constructor(props) {
 		super(props)
-
-		this.fields = [
-			{ label: '账号', rules: { required: true }, key: 'username', },
-			{ label: '密码', rules: { required: true, min: 6, message: '密码必须大于6位数' }, key: 'password', editHide: true },
-			{ label: '用户姓名', rules: { required: true }, key: 'name', },
-			{
-				label: '分配工作组',
-				rules: { required: true },
-				key: 'roleIds',
-				node: (
-					<Select mode="multiple">
-						{this.props.accounts.roles.map(item => (
-							<OptGroup key={item.id} label={item.name}>
-								{item.roles.map(i => <Option key={i.id} value={i.id}>{i.name}</Option>)}
-							</OptGroup>
-						))}
-					</Select>
-				)
-			},
-			{ label: '手机号', key: 'mobile', },
-			{ label: 'E-mail', key: 'email', },
-			// { label: '备注', key: 'note', },
-		]
-
-		if (props.record) {
-			this.fields = this.fields.filter(i => !i.editHide)
-		}
 	}
 
 	handleSubmit = (e) => {
@@ -104,12 +80,6 @@ export default class AddAccounts extends Component {
 				values.permissions = []
 				values.targetId = record.targetId
 				values.type = record.type
-
-				// roles.forEach(item => {
-				// 	item.roles.forEach(role => {
-				// 		if (values.roleIds.includes(role.id)) values.permissions = [...new Set([...values.permissions, ...role.permissions])]
-				// 	})
-				// })
 
 				if (this.props.record) values.id = this.props.record.id
 
@@ -152,6 +122,33 @@ export default class AddAccounts extends Component {
 
 		const isEdit = !!this.props.record
 
+		let fields = [
+			{ label: '账号', rules: { required: true }, key: 'username', },
+			{ label: '密码', rules: { required: true, min: 6, message: '密码必须大于6位数' }, key: 'password', editHide: true },
+			{ label: '用户姓名', rules: { required: true }, key: 'name', },
+			{
+				label: '分配工作组',
+				rules: { required: true },
+				key: 'roleIds',
+				node: (
+					<Select mode="multiple">
+						{this.props.settings.roles.map(item => (
+							<OptGroup key={item.id} label={item.name}>
+								{item.roles.map(i => <Option key={i.id} value={i.id}>{i.name}</Option>)}
+							</OptGroup>
+						))}
+					</Select>
+				)
+			},
+			{ label: '手机号', key: 'mobile', },
+			{ label: 'E-mail', key: 'email', },
+		]
+
+
+		if (this.props.record) {
+			fields = fields.filter(i => !i.editHide)
+		}
+
 		return (
 			<HocModal
 				title={isEdit ? '编辑账号信息' : '新增部门账号'}
@@ -159,7 +156,7 @@ export default class AddAccounts extends Component {
 				afterClose={this.afterClose}
 				onOk={this.handleSubmit}
 			>
-				<CustomFrom ref={ele => this.form = ele} fields={this.fields} />
+				<CustomFrom ref={ele => this.form = ele} fields={fields} />
 			</HocModal>
 		)
 	}

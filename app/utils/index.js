@@ -13,6 +13,9 @@ export function formatValue(text, key = '') {
 		'price',
 		'costPrice',
 		'amount',
+		'totalAmount',
+		'availableAmount',
+		'totalAvailableAmount'
 	]
 
 	const dateMap = [
@@ -51,4 +54,11 @@ export function translateParams(values) {
 			delete values[key]
 		} else if (Array.isArray(values[key])) values[key] = values[key].toString()
 	})
+}
+
+
+export function filterBlank(value) {
+	if (value instanceof String) return new Error('value is not string')
+
+	return value.replace(/\s/g, '')
 }

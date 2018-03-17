@@ -8,6 +8,8 @@ import bodyParser from 'body-parser'
 
 import config from '../config'
 
+console.log(config)
+
 const compiler = webpack(webpackConfig)
 
 const server = new WebpackDevServer(compiler, {

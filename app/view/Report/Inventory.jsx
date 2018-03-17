@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Table, Tag } from 'antd'
+import { Button, Table } from 'antd'
 import Header from 'components/Header'
 import ColligatePopoverProduct from 'components/Select/ColligatePopover-Product'
 import { Container, Content, HandleArea } from 'components/Layout'
 import { observer, inject } from 'mobx-react'
 import bill from 'hoc/bill'
-import moment from 'moment'
 
 const ButtonGroup = Button.Group
 
@@ -23,7 +22,7 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header store={this.store}>{this.props.name}</Header>
+				<Header noSearch store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
 						<ExportGroup style={{ marginLeft: -20 }} />

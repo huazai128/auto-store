@@ -56,7 +56,7 @@ export default class extends Component {
 									value={text}
 									style={{ width: 80 }}
 									size="small"
-									min={1}
+									min={'min' in item.edit ? item.edit.min : 0}
 									{...inputProps}
 								/>
 							</div>
@@ -85,6 +85,7 @@ export default class extends Component {
 	}
 	render() {
 		this.props.items.forEach((i, index) => i.key = index)
+
 		return (
 			<div className="flex-g-1" ref="wrap">
 				<Table

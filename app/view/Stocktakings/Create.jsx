@@ -36,14 +36,14 @@ class DiffModal extends Component {
 						{ title: '货品名称', key: 'skuName' },
 						{ title: '实盘数量', key: 'amount' },
 						{ title: '系统库存', key: 'inventory' },
-						{ title: '盘点差异数量', key: 'diff' },
+						{ title: '盘点差异数量', key: 'diff', type: 'error' },
 						{ title: '采购价', key: 'costPrice' },
-						{ title: '销售价', key: 'price' },
+						{ title: '零售价', key: 'price' },
 						{ title: '采购价总额', key: 'totalCostPrice' },
-						{ title: '销售价总额', key: 'totalPrice' },
-						{ title: '采购价总额差异', key: 'totalCostPriceDiff' },
-						{ title: '销售价总额差异', key: 'totalPriceDiff' },
-						{ title: '差异原因', key: 'diffNote' }
+						{ title: '零售价总额', key: 'totalPrice' },
+						{ title: '采购价总额差异', key: 'totalCostPriceDiff', type: 'error' },
+						{ title: '零售价总额差异', key: 'totalPriceDiff', type: 'error' },
+						// { title: '差异原因', key: 'diffNote' }
 					]}
 					pagination={{ current, total: count, pageSize }}
 					onChange={this.props.onChange}
@@ -77,7 +77,7 @@ export default class extends Component {
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
 		{ width: 80, title: '结算价', key: 'price' },
-		{ width: 100, title: '盘点数量', key: 'amount', edit: { type: 'number' } },
+		{ width: 100, title: '盘点数量', key: 'amount', edit: { type: 'number', min: 0 } },
 		{ width: 200, title: '备注', key: 'note', },
 	]
 
@@ -103,7 +103,7 @@ export default class extends Component {
 		const { url } = this.props.backStore
 
 		const items = this.props.items.map(item => ({
-			skuId: item.id || item.skuId,
+			skuId: item.skuId || item.id,
 			amount: item.amount,
 		}))
 
@@ -167,17 +167,16 @@ export default class extends Component {
 			RenderUpload,
 			handleSubmit,
 			addItems,
-
+			items,
 			stocktakingsField,
 			sequenceField
 		} = this.props
 
 		const values = this.props.form.getFieldsValue()
 
-		const isReadyDiff = !!(values.warehouseId && values.stocktakingDate)
+		const isReadyDiff = !!(values.warehouseId && values.stocktakingDate && items.length > 0)
 
 		const hasDiffId = !!this.state.diffId
-
 
 		return (
 			<Container>

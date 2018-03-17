@@ -3,7 +3,7 @@ import { Table, Button, Input } from 'antd'
 import { observer, inject } from 'mobx-react'
 import popover from 'hoc/popover'
 import { get } from 'utils/request'
-
+import {filterBlank} from 'utils'
 import BasicTable from 'components/Table/Basic'
 
 const { Search } = Input
@@ -25,22 +25,17 @@ export default class extends Component {
 		super(props)
 
 		this.columns = [
-			{ width: 300, title: '名称', key: 'name', },
 			{ width: 300, title: '编号', key: 'number', },
+			{ width: 300, title: '名称', key: 'name', },
 		]
 
 		this.state = {
-			// data: this.props.database.warehouseSearch,
 			data: props.database[props.dataType],
 			loading: false,
 			selectedRowKeys: props.selectedRowKeys || [],
 			selectedRows: [],
 		}
 	}
-
-	// componentDidMount() {
-	// 	this.getData()
-	// }
 
 	componentWillReceiveProps(nextProps) {
 		const { selectedRowKeys = [] } = nextProps
@@ -49,12 +44,6 @@ export default class extends Component {
 		})
 	}
 
-	// getData = async () => {
-	// 	this.setState({ loading: true })
-	// 	const { data } = await get(this.props.api, { query: this.query, size: 999 })
-	// 	this.setState({ data, loading: false, item: data })
-	// }
-
 	onConfirm = () => {
 		const { selectedRowKeys, selectedRows } = this.state
 		this.props.onChange(selectedRowKeys, selectedRows)
@@ -62,23 +51,23 @@ export default class extends Component {
 	}
 
 	onSearch = (value) => {
-		// const { value } = e.target
 		const { data } = this.state
 
+		value = filterBlank(value)
 		const reg = new RegExp(value, 'gi')
 
 		this.setState({
 			data: this.props.database[this.props.dataType].map((record) => {
-				const match = record.name.match(reg)
+				const match = record.number.match(reg)
 
 				if (!match) {
 					return null
 				}
 				return {
 					...record,
-					name: (
+					number: (
 						<span>
-							{record.name.split(reg).map((text, i) => (
+							{record.number.split(reg).map((text, i) => (
 								i > 0 ? [<span key="highlight" style={{ color: '#f50' }}>{match[0]}</span>, text] : text
 							))}
 						</span>
@@ -87,13 +76,6 @@ export default class extends Component {
 			}).filter(Boolean),
 		})
 	}
-
-	// onChange = (e) => {
-	// 	const { value } = e.target
-	// 	this.query = value
-
-	// 	this.getData()
-	// }
 
 	onRowDoubleClick = (record) => {
 		const { key } = record
@@ -150,7 +132,7 @@ export default class extends Component {
 						onSearch={this.onSearch}
 						// onChange={this.onSearch}
 						style={{ width: 250 }}
-						placeholder="输入名称搜索..."
+						placeholder="输入编号搜索..."
 						enterButton
 					/>
 					<div style={{ minHeight: 400, margin: '20px 0' }}>

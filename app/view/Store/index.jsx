@@ -86,6 +86,7 @@ export default class extends Component {
 					</HandleArea>
 					<MainTable
 						edit
+						editPermission={!limitSwitch('PERMISSION_UPDATE_STORE')}
 						title={this.props.name}
 					/>
 				</Content>

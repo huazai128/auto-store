@@ -22,7 +22,7 @@ export default class extends React.Component {
 	componentWillMount() {
 		const { innerWidth } = window
 
-		if (innerWidth < 1320) {
+		if (innerWidth < 1420) {
 			this.setState({
 				collapsed: true,
 			})

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
 import { get, post, postByParam } from 'utils/request'
 import { Select } from 'antd'
+import reportInventory from './report-inventory'
+import reportInvoicings from './report-invoicings'
 
 import tag from './tag'
-
 const { Option } = Select
 
 useStrict(true)
@@ -16,7 +17,15 @@ class Store {
 
 	@action getDataSource = async (type, url, query = {}) => {
 		const { data } = await get(url, query)
-		runInAction(() => this[type] = data)
+		runInAction(() => {
+			this[type] = data
+
+			if (type == 'warehouseDataSource') {
+				const ids = this.warehouseDataSource.map(i => i.id)
+				reportInventory.getDefaultWarehouseIds(ids)
+				reportInvoicings.getDefaultWarehouseIds(ids)
+			}
+		})
 	}
 
 	@action initData = () => {

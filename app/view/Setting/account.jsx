@@ -6,7 +6,7 @@ import { observer, inject } from 'mobx-react'
 import modal from 'hoc/modal'
 import CustomFrom from 'components/Form'
 
-import styles from './account.less'
+import styles from './Account.less'
 
 import AccountContent from './AccountContent'
 import AccountCreate from './AccountCreate'
@@ -60,14 +60,17 @@ class AddWork extends Component {
 
 
 
-@inject('accounts')
+@inject(store => ({
+	accounts: store.accounts,
+	settings: store.settings,
+	}))
 @observer
 export default class extends Component {
 	store = this.props.accounts
 
 	componentDidMount() {
 		this.store.getGroups()
-		this.store.getRoles()
+		this.props.settings.getRoles()
 	}
 
 	delete = () => {

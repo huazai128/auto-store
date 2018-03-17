@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { observable, computed, useStrict, action, runInAction, toJS, autorun } from 'mobx'
 import { get, post, postByParam } from 'utils/request'
 import axios from 'axios'
-import { translateParams } from 'utils'
+import { translateParams, filterBlank } from 'utils'
 import { message } from 'antd'
 
 useStrict(true)
@@ -61,7 +61,7 @@ export default class {
 
 	// 单据操作
 	@action handle = async ({ url }, type, ids) => {
-		const { data } = await postByParam(`${url}/${type}`, { ids: ids.toString() })
+		await postByParam(`${url}/${type}`, { ids: ids.toString() })
 		runInAction(this.getData)
 		return
 	}
@@ -111,7 +111,7 @@ export default class {
 
 	// 搜索关键字
 	@action handleSearchChange = (value) => {
-		this.query.query = value
+		this.query.query = filterBlank(value)
 		this.query.from = 0
 		this.getData()
 	}
@@ -138,6 +138,8 @@ export default class {
 			this.tableLoading = false
 			this.selectedRows = []
 		})
+
+		this.handleCallback && this.handleCallback()
 	}
 
 	@action onChangeTable = (pagination, filters) => {

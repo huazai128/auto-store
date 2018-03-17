@@ -106,14 +106,14 @@ const webpackConfig = {
 		}]
 	},
 	plugins: [
-		new BrowserSyncPlugin({
-			host: 'localhost',
-			port: 8000,
-			files: './dist/index.html',
-			server: {
-				baseDir: './dist'
-			},
-		}),
+		// new BrowserSyncPlugin({
+		// 	host: 'localhost',
+		// 	port: 8000,
+		// 	files: './dist/index.html',
+		// 	server: {
+		// 		baseDir: './dist'
+		// 	},
+		// }),
 		new webpack.DllReferencePlugin({
 			context: __dirname,
 			manifest: path.join(__dirname, 'dist/manifest.json'),

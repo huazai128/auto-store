@@ -2,6 +2,11 @@ import React from 'react'
 import axios from 'axios'
 import { Modal } from 'antd'
 
+const errorCodeMessage = {
+	100001: '库存不足',
+	300001: '库存不足',
+}
+
 const codeMessage = {
 	// 200: '服务器成功返回请求的数据',
 	// 201: '新建或修改数据成功。',
@@ -26,9 +31,13 @@ const codeMessage = {
 
 const showError = (error) => {
 	// return error;
+	const { code } = error
+
+	const content = errorCodeMessage[code]
+
 	return Modal.error({
-		title: '操作错误',
-		content: <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
+		title: '操作失败',
+		content: content || <div><p>message:</p><pre>{JSON.stringify(error, null, 2)}</pre></div>
 		// content: error
 	})
 }

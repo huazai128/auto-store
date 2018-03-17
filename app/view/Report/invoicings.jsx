@@ -23,10 +23,10 @@ export default class extends Component {
 
 		return (
 			<Container>
-				<Header store={this.store}>{this.props.name}</Header>
+				<Header noSearch store={this.store}>{this.props.name}</Header>
 				<Content>
 					<HandleArea className="flex">
-						<ExportGroup data={{ ticks: JSON.stringify(this.store.dataSource.map(item => item.key)) }} style={{ marginLeft: -20 }} />
+						<ExportGroup data={{ ticks: JSON.stringify(this.store.selectedRows.map(item => item.key)) }} style={{ marginLeft: -20 }} />
 						<RangePicker allowClear={false} />
 						<ColligatePopoverProduct store={this.store} />
 					</HandleArea>

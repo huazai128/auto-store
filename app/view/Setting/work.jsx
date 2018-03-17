@@ -9,7 +9,7 @@ import { Limit } from 'components/Limit'
 
 import WorkContent from './WorkContent'
 
-import styles from './work.less'
+import styles from './Work.less'
 
 const Option = Select.Option
 const SubMenu = Menu.SubMenu
@@ -129,7 +129,7 @@ export default class extends Component {
 									<TabPane tab="功能权限" key="1">
 										<WorkContent />
 									</TabPane>
-									<TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane>
+									{/* <TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane> */}
 								</Tabs>
 							</div>}
 						</div>

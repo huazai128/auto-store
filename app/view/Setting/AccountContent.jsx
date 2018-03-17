@@ -60,7 +60,7 @@ export default class extends Component {
 							</Limit>
 							<Limit permission="PERMISSION_DEL_ACCOUNT">
 								<Popconfirm onConfirm={() => store.delete(record)} title="确定要删除？">
-									<a>删除</a>
+									<span style={{cursor: 'pointer'}} className="error-color">删除</span>
 								</Popconfirm>
 							</Limit>
 						</div>

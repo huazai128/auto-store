@@ -151,6 +151,7 @@ export default class extends Component {
 	}
 
 	appendColligateTitle(item) {
+		const { editPermission } = this.props
 		const { key } = item
 		const popoverMap = [
 			'warehouse',
@@ -161,7 +162,7 @@ export default class extends Component {
 
 		item.title = item.title || item.mark
 		if (popoverMap.includes(key)) item.title = <div className="flex-vcenter">{item.mark}<ColligatePopoverBinded store={this.props.store} type={key} /></div>
-		if (item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>
+		if (!editPermission && item.created && item.created.edit) item.title = <div className="primary-6">{item.title}</div>
 	}
 
 	viewDetail(item) {
@@ -175,14 +176,14 @@ export default class extends Component {
 						dataSource={items}
 						columns={item.subColumns}
 						size="small"
-						pagination={false}
+						// pagination={false}
 						scrollY={400}
 						title={() => (
 							<div className="flex jc-between pr50">
 								<strong>单据明细</strong>
 								{!('hideCollect' in item) && <p>
-									<strong style={{ margin: '0 20px' }}>单据总采购价金额：{numeral(totalCostPrice).format('0,0[.]00') || 0}</strong>
-									<strong>单据总零售价金额：{numeral(totalPrice).format('0,0[.]00') || 0}</strong>
+									{!('hideCostPrice' in item) && <strong style={{ margin: '0 20px' }}>单据总采购价金额：{numeral(totalCostPrice).format('0,0[.]00') || 0}</strong>}
+									{!('hidePrice' in item) && <strong>单据总零售价金额：{numeral(totalPrice).format('0,0[.]00') || 0}</strong>}
 								</p>}
 							</div>
 						)}
@@ -195,7 +196,8 @@ export default class extends Component {
 	}
 
 	render() {
-		const { title, className, push, ...rest } = this.props
+		const { title, className, editPermission, push, ...rest } = this.props
+
 		const {
 			selectedRows = [],
 			tableLoading,
@@ -218,15 +220,19 @@ export default class extends Component {
 				className: 'text-overflow',
 				render: item.render ? item.render : (text, record) => {
 					if (item.type == 'state') return this.renderState(text, item.stateInfo)
-					if (item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
+
+					if (item.type == 'info') return <p className="info-color">{text}</p>
+					if (item.type == 'error') return <p className="error-color">{text}</p>
+
+					if (!editPermission && item.created && item.created.edit && !(item.created.limit && item.created.limit(record))) {
 						return (
 							<EditPopover title="修改资料：" item={item} record={record} store={this.props.store}>
 								<div className="td-edit">{formatValue(text, item.key) || <br />}</div>
 							</EditPopover>
 						)
 					}
-					// return <Tooltip placement="topLeft" title={formatValue(text, item.key)}>{formatValue(text, item.key)}</Tooltip>
-					return formatValue(text, item.key)
+					return <Tooltip placement="topLeft" title={formatValue(text, item.key)}>{formatValue(text, item.key)}</Tooltip>
+					// return formatValue(text, item.key)
 				}
 			}
 		}).filter(i => i.checked || i.fix)

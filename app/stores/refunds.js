@@ -42,8 +42,8 @@ class Store extends TablePrototype {
 				{ title: '备注', key: 'note' },
 			]
 		},
-		{ fix: true, width: 150, mark: '收货仓库编号及名称', key: 'toWarehouse', },
-		{ fix: true, width: 150, mark: '退货仓库编号及名称', key: 'fromWarehouse', },
+		{ fix: true, width: 200, mark: '收货仓库编号及名称', key: 'toWarehouse', },
+		{ fix: true, width: 200, mark: '退货仓库编号及名称', key: 'fromWarehouse', },
 		{ fix: true, width: 100, mark: '退货数量', key: 'amount', },
 		{ width: 100, mark: '采购价总额', key: 'totalCostPrice' },
 		{ width: 100, mark: '零售价总额', key: 'totalPrice' },

@@ -13,7 +13,7 @@ import Qs from 'qs'
 @inject(store => ({
 	user: store.user,
 	body: store.body
-}))
+	}))
 @Form.create()
 export default class Login extends Component {
 	state = {

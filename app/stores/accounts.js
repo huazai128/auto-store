@@ -6,8 +6,6 @@ useStrict(true)
 class Store {
 	@observable groupsData = []
 	@observable record = {}
-	@observable roles = []
-
 
 	@observable data = []
 	@observable tableLoading = false
@@ -16,14 +14,6 @@ class Store {
 		const { data } = await get('/api/accounts/getGroups', { size: 999, type: 'HQ' })
 		runInAction(() => {
 			this.groupsData = data
-		})
-	}
-
-
-	@action getRoles = async () => {
-		const { data } = await get('/api/roles')
-		runInAction(() => {
-			this.roles = data
 		})
 	}
 

@@ -2,12 +2,12 @@
 const config = {
 	development: {
 		port: 8000,
-		apiBase: 'http://192.168.0.133:3721',
+		apiBase: 'http://192.168.0.210:3721',
 		// apiBase: 'https://sscsapi.fongwell.com',
 		oauth: {
 			serverClientId: 'TxxGjYZCAUbQgxipKzWZtjvYugGGoQdVIYSUSvAhqKWPlWNyqdZSOOIMVcUJQLFw',
 			serverClientSecret: 'iFAeXVElWvIqHFJFrAmpeFpizMTLJiYx',
-			serverAccessTokenUrl: 'http://192.168.0.133:3721/oauth/token',
+			serverAccessTokenUrl: 'http://192.168.0.210:3721/oauth/token',
 			// serverAccessTokenUrl: 'https://sscsapi.fongwell.com/oauth/token',
 		},
 	},

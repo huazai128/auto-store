@@ -8,7 +8,7 @@ import ModalAdd from './ModalAdd'
 import Upload from 'components/Upload'
 import bill from 'hoc/bill'
 
-import { Limit } from 'components/Limit'
+import { Limit, limitSwitch } from 'components/Limit'
 
 const ButtonGroup = Button.Group
 
@@ -33,13 +33,13 @@ export default class extends Component {
 							<Limit permission="PERMISSION_INVOKE_SKU"><HandleButton method="invoke" state="created" icon="check-circle-o">应用</HandleButton></Limit>
 							<Limit permission="PERMISSION_UNINVOKE_SKU"><HandleButton method="uninvoke" state="invoked_no" icon="close-circle-o">反应用</HandleButton></Limit>
 						</ButtonGroup>
-						<Limit permission="PERMISSION_DEL_ATTR"><DeleteButton confirm={{ title: '确定要删除选中货品？' }}>删除</DeleteButton></Limit>
-						<Limit permission="PERMISSION_ADD_ATTR">
+						<Limit permission="PERMISSION_DEL_SKU"><DeleteButton confirm={{ title: '确定要删除选中货品？' }}>删除</DeleteButton></Limit>
+						<Limit permission="PERMISSION_ADD_SKU">
 							<ModalAdd title="添加货品资料">
 								<Button className="ml40" type="primary">手动添加货品</Button>
 							</ModalAdd>
 						</Limit>
-						<Limit permission="PERMISSION_ADD_ATTR">
+						<Limit permission="PERMISSION_ADD_SKU">
 							<Upload
 								columns={this.store.commonColumns}
 								handleConfirm={data => { this.store.creates(data) }}
@@ -54,7 +54,7 @@ export default class extends Component {
 							<Button className="ml20" icon="filter" type="primary">综合筛选</Button>
 						</ConfirmPopover> */}
 					</HandleArea>
-					<MainTable edit title={this.props.name} />
+					<MainTable editPermission={!limitSwitch('PERMISSION_UPDATE_SKU')} edit title={this.props.name} />
 				</Content>
 			</Container>
 		)

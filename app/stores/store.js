@@ -7,6 +7,8 @@ import { dataStateFilters } from 'mapStore/filter'
 import axios from 'axios'
 import moment from 'moment'
 
+import database from './database'
+
 const { TextArea } = Input
 
 useStrict(true)
@@ -16,6 +18,12 @@ class Store extends TablePrototype {
 		this.url = '/api/stores'
 
 		this.getData = this.getData.bind(this, { url: this.url })
+
+		this.handleCallback = () => {
+			database.getDataSource('warehouseDataSource', 'api/warehouses/search', { size: 9999 })
+		}
+
+
 		this.handle = this.handle.bind(this, { url: this.url })
 		this.create = this.create.bind(this, { url: this.url })
 		this.update = this.update.bind(this, { url: this.url })

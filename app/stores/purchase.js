@@ -44,7 +44,9 @@ class Store extends TablePrototype {
 		},
 		{ fix: true, width: 200, mark: '收货仓店编号及名称', key: 'toWarehouse', },
 		{ fix: true, width: 200, mark: '供应商编号及名称', key: 'supplier', },
-		{ width: 100, mark: '采购数量', key: 'amount', },
+		{ width: 100, mark: '采购数量', key: 'totalAmount', },
+		{ width: 100, mark: '采购价总额', key: 'totalCostPrice' },
+		{ width: 100, mark: '零售价总额', key: 'totalPrice' },
 		{ width: 100, mark: '采购日期', key: 'purchaseDate' },
 		{ width: 150, mark: '备注', key: 'note', },
 		{ width: 100, mark: '制单人', key: 'createdBy', },
@@ -56,7 +58,6 @@ class Store extends TablePrototype {
 	];
 
 	@computed get dataSource() { return toJS(this.data) }
-	// @computed get dataSource() { return this.data }
 }
 
 const store = new Store()

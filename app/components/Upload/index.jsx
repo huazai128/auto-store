@@ -33,6 +33,8 @@ export default class extends Component {
 
 		const items = file.response.data.success || []
 
+		file.response.data.success = file.response.data.success || []
+
 		Modal.success({
 			maskClosable: true,
 			width: 1000,
@@ -73,7 +75,7 @@ export default class extends Component {
 		const { params, store = {}, user = {}, baseUrl, templetUrl } = this.props
 		const { access_token } = user
 
-		const action = baseUrl ? `${_API_BASE_}${baseUrl}?${serializeParams({ access_token, ...params })}`  :  `${_API_BASE_}${store.url}/import?${serializeParams({ access_token, ...params })}`
+		const action = baseUrl ? `${_API_BASE_}${baseUrl}?${serializeParams({ access_token, ...params })}` : `${_API_BASE_}${store.url}/import?${serializeParams({ access_token, ...params })}`
 
 		const uploadProps = {
 			name: 'file',

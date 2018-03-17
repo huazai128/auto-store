@@ -9,7 +9,7 @@ import DyunFrom from 'components/Form'
 import bill from 'hoc/bill'
 import modal from 'hoc/modal'
 
-import { Limit } from 'components/Limit'
+import { Limit, limitSwitch } from 'components/Limit'
 
 const ButtonGroup = Button.Group
 
@@ -88,6 +88,7 @@ export default class extends Component {
 					</HandleArea>
 					<MainTable
 						edit
+						editPermission={!limitSwitch('PERMISSION_UPDATE_SUPPLIER')}
 						title={this.props.name}
 					/>
 				</Content>
