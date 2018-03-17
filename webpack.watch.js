@@ -138,6 +138,8 @@ console.log(`##        ram: ${(os.freemem() / 1024 / 1024 / 1024) < 1
 	? (os.freemem() / 1024 / 1024).toFixed(0) + 'MB'
 	: (os.freemem() / 1024 / 1024 / 1024).toFixed(2) + 'GB'}`)
 console.log(`##       time: ${new Date()}`)
+console.log('##       info: happy days')
+
 console.log('############################################################################')
 
 

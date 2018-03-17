@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import config from '../config'
 import oauthRoute from './oauthRoute'
 import bodyParser from 'body-parser'
-// import historyApiFallback from 'connect-history-api-fallback';
+// import historyApiFallback from 'connect-history-api-fallback'
 // app.use(historyApiFallback());
 
 const app = express()

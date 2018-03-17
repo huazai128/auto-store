@@ -31,7 +31,6 @@ export default class extends Component {
 
 		this.state = {
 			data: props.database[props.dataType],
-			loading: false,
 			selectedRowKeys: props.selectedRowKeys || [],
 			selectedRows: [],
 		}
@@ -46,7 +45,14 @@ export default class extends Component {
 
 	onConfirm = () => {
 		const { selectedRowKeys, selectedRows } = this.state
-		this.props.onChange(selectedRowKeys, selectedRows)
+
+		// 处理number为ReactNode的问题
+		const resultSelectedRows = selectedRows.map(i => ({
+			...i,
+			number: i.numberText || i.number
+		}))
+
+		this.props.onChange(selectedRowKeys, resultSelectedRows)
 		this.props.hide()
 	}
 
@@ -65,6 +71,7 @@ export default class extends Component {
 				}
 				return {
 					...record,
+					numberText: record.number,
 					number: (
 						<span>
 							{record.number.split(reg).map((text, i) => (
@@ -145,7 +152,6 @@ export default class extends Component {
 							rowSelection={rowSelection}
 							scroll={{ y: 400 }}
 							pagination={false}
-							loading={this.state.loading}
 							dataSource={data} />
 					</div>
 					<Button type="primary" className="mr20" onClick={this.onConfirm}>确定</Button>
