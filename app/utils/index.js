@@ -15,7 +15,10 @@ export function formatValue(text, key = '') {
 		'amount',
 		'totalAmount',
 		'availableAmount',
-		'totalAvailableAmount'
+		'totalAvailableAmount',
+		'totalCostPriceDiff',
+		'totalPriceDiff',
+		'totalAmountDiff',
 	]
 
 	const dateMap = [

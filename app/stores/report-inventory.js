@@ -27,7 +27,7 @@ class Store extends TablePrototype {
 	@observable columns = [
 		{ fix: true, width: 200, mark: '仓库编号及名称', key: 'warehouse', },
 		{ width: 100, mark: '货品编号', key: 'skuNumber', },
-		{ width: 100, mark: '货品名称', key: 'skuName', },
+		{ width: 200, mark: '货品名称', key: 'skuName', },
 		{ width: 100, mark: '品牌', key: 'brand', },
 		{ width: 100, mark: '大类', key: 'bigStyle', },
 		{ width: 100, mark: '小类', key: 'smallStyle', },

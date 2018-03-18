@@ -27,7 +27,9 @@ export default class Complete extends React.Component {
 	onSelect = async (value) => {
 		const { id: ids } = this.state.dataSource.find(item => item.value == value)
 
-		const { data = [] } = await get('/api/skus/listByIds', { ids })
+		const { warehouseId } = this.props
+
+		const { data = [] } = await get(`${warehouseId ? '/api/skus/listWithInventoryByIds' : '/api/skus/listByIds'}`, { ids, warehouseId })
 		if (!data[0]) return
 
 		this.props.onChange(data[0])

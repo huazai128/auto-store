@@ -20,7 +20,7 @@ export default class extends Component {
 		const columns = [
 			{ title: '账号', key: 'username', },
 			{ title: '姓名', key: 'name', },
-			{ width: 80, title: '状态', key: 'ban', render: text => !text ? <Badge status="success" text="正常" /> : <Badge status="default" text="已禁用" /> },
+			{ width: 80, title: '状态', key: 'ban', render: text => !text ? <Badge status="success" text="正常" /> : <Badge status="default" text="禁用" /> },
 			{ title: '所属工作组', key: 'role', render: (_, record) => <div>{record.roles.map(i => i.name).toString()}</div> },
 			{ title: '手机号', key: 'mobile', },
 			{ title: '邮箱', key: 'email', },

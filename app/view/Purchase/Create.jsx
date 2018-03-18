@@ -15,7 +15,7 @@ export default class extends Component {
 		{ width: 200, title: '货品', key: 'number' },
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
-		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 80, title: '零售价', key: 'price' },
 		{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
 		{ width: 200, title: '备注', key: 'note', },
 	]

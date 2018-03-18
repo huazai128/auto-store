@@ -20,9 +20,10 @@ export default class extends Component {
 		{ width: 200, title: '货品', key: 'number' },
 		{ width: 150, title: '货品名称', key: 'name' },
 		{ width: 80, title: '采购价', key: 'costPrice' },
-		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 80, title: '零售价', key: 'price' },
 		{ width: 100, title: '退货数量', key: 'amount', edit: { type: 'number' } },
-		{ width: 200, title: '备注', key: 'note', },
+		{ width: 100, title: '可用库存数量', key: 'availableInventory', type: 'info' },
+		// { width: 200, title: '备注', key: 'note', },
 	]
 
 	computedQuery = (value) => {
@@ -47,6 +48,8 @@ export default class extends Component {
 			supplierField,
 			sequenceField
 		} = this.props
+
+		const { fromWarehouseId } = this.props.form.getFieldsValue()
 
 		return (
 			<Container>
@@ -74,9 +77,11 @@ export default class extends Component {
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
-								<SearchPro onChange={item => addItems([item])} />
+								<SearchPro disabled={!fromWarehouseId} warehouseId={fromWarehouseId} onChange={item => addItems([item])} />
 								{/* <Button type="primary" ghost className="ml20">选择添加商品</Button> */}
-								<RenderUpload columns={this.columns}><Button type="primary" ghost icon="file-excel" className="ml20">Excel导入商品</Button></RenderUpload>
+								<RenderUpload columns={this.columns}>
+									<Button disabled={!fromWarehouseId} type="primary" ghost icon="file-excel" className="ml20">Excel导入商品</Button>
+								</RenderUpload>
 							</div>)}
 					/>
 				</Content>

@@ -38,7 +38,7 @@ class Store extends TablePrototype {
 				{ title: '采购价', key: 'costPrice' },
 				{ title: '退厂数量', key: 'amount' },
 				{ title: '采购价总额', key: 'totalCostPrice' },
-				{ title: '备注', key: 'note' },
+				// { title: '备注', key: 'note' },
 			]
 		},
 		{ fix: true, width: 200, mark: '供应商编号及名称', key: 'supplier', },

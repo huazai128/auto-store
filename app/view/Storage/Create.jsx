@@ -4,10 +4,9 @@ import { observer, inject } from 'mobx-react'
 import moment from 'moment'
 import { Container, Content, HandleArea } from 'components/Layout'
 import create from 'hoc/create-table'
+import numeral from 'numeral'
 
 import ReferModal from './ReferModal'
-
-
 
 @inject(store => ({
 	body: store.body,
@@ -21,12 +20,12 @@ export default class extends Component {
 	columns = [
 		{ width: 200, title: '货品', key: 'number' },
 		{ width: 150, title: '货品名称', key: 'name' },
-		{ width: 80, title: '采购价', key: 'costPrice' },
-		{ width: 80, title: '结算价', key: 'price' },
+		{ width: 100, title: '采购价', key: 'costPrice' },
+		{ width: 100, title: '零售价', key: 'price' },
 		{ width: 100, title: '本次入库数量', key: 'amount', type: 'info' },
-		{ width: 80, title: '采购价总额', key: 'costPriceall', render: (_, record) => <p>{(record.amount * record.costPrice).toFixed(2)}</p> },
-		{ width: 80, title: '结算价总额', key: 'priceall', render: (_, record) => <p>{(record.amount * record.price).toFixed(2)}</p> },
-		{ width: 200, title: '备注', key: 'note', edit: {} },
+		{ width: 100, title: '采购价总额', key: 'costPriceall', render: (_, record) => numeral(record.amount * record.costPrice).format('0,0[.]00') },
+		{ width: 100, title: '零售价总额', key: 'priceall', render: (_, record) => numeral(record.amount * record.price).format('0,0[.]00') },
+		// { width: 200, title: '备注', key: 'note', edit: {} },
 	]
 
 	computedQuery = (value) => {
@@ -85,15 +84,13 @@ export default class extends Component {
 						</HandleArea>
 					</Form>
 					<RenderCreateTable
-						noDelete={false}
+						noDelete
 						columns={this.columns}
 						title={() => (
 							<div>
 								<strong>单据明细编辑</strong>
 								<ReferModal
-									data={this.props.items}
-									deleteItem={this.props.deleteItem}
-									addItems={this.props.addItems}
+									items={this.props.items}
 									update={this.props.update}
 									warehouseId={warehouseId}
 									supplierId={supplierId}>

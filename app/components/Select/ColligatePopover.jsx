@@ -151,7 +151,7 @@ export default class extends Component {
 							})}
 							rowSelection={rowSelection}
 							scroll={{ y: 400 }}
-							pagination={false}
+							// pagination={false}
 							dataSource={data} />
 					</div>
 					<Button type="primary" className="mr20" onClick={this.onConfirm}>确定</Button>

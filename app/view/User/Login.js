@@ -112,7 +112,7 @@ export default class Login extends Component {
 								})(
 									<Checkbox className={styles.autoLogin}>记住密码</Checkbox>
 								)}
-								<a className={styles.forgot}>忘记密码？</a>
+								{/* <a className={styles.forgot}>忘记密码？</a> */}
 								<Button size="large" loading={this.state.submitting} className={styles.submit} type="primary" htmlType="submit">
 									登录
 								</Button>

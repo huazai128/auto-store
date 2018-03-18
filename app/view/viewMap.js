@@ -93,14 +93,16 @@ export default [
 		url: '/distributions/create',
 		Component: asyncComponent(() => import('view/Distributions/Create')),
 		permissions: 'PERMISSION_ADD_DISTRIBUTION',
-		callbackPathname: '/distributions'
+		callbackPathname: '/distributions',
+		byWarehouse: true
 	},
 	{
 		name: '配货单编辑',
 		url: '/distributions/:id',
 		Component: asyncComponent(() => import('view/Distributions/Create')),
 		permissions: 'PERMISSION_UPDATE_DISTRIBUTION',
-		callbackPathname: '/distributions'
+		callbackPathname: '/distributions',
+		byWarehouse: true
 	},
 	/**
 	|--------------------------------------------------
@@ -143,14 +145,16 @@ export default [
 		url: '/return/create',
 		Component: asyncComponent(() => import('view/Return/Create')),
 		permissions: 'PERMISSION_ADD_REFUND',
-		callbackPathname: '/return'
+		callbackPathname: '/return',
+		byWarehouse: true
 	},
 	{
 		name: '退厂单编辑',
 		url: '/return/:id',
 		Component: asyncComponent(() => import('view/Return/Create')),
 		permissions: 'PERMISSION_UPDATE_REFUND',
-		callbackPathname: '/return'
+		callbackPathname: '/return',
+		byWarehouse: true
 	},
 	/**
 	|--------------------------------------------------
@@ -169,14 +173,18 @@ export default [
 		url: '/refunds/create',
 		Component: asyncComponent(() => import('view/Refunds/Create')),
 		permissions: 'PERMISSION_ADD_STORE_REFUND',
-		callbackPathname: '/refunds'
+		callbackPathname: '/refunds',
+		byWarehouse: true
+
 	},
 	{
 		name: '门店退货发货单编辑',
 		url: '/refunds/:id',
 		Component: asyncComponent(() => import('view/Refunds/Create')),
 		permissions: 'PERMISSION_UPDATE_STORE_REFUND',
-		callbackPathname: '/refunds'
+		callbackPathname: '/refunds',
+		byWarehouse: true
+
 	},
 	/**
 	|--------------------------------------------------

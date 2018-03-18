@@ -16,7 +16,7 @@ const simpleColumns = [
 	{ width: 200, title: '货品', key: 'number' },
 	{ width: 150, title: '货品名称', key: 'name' },
 	{ width: 80, title: '采购价', key: 'costPrice' },
-	{ width: 80, title: '结算价', key: 'price' },
+	{ width: 80, title: '零售价', key: 'price' },
 	{ width: 100, title: '数量', key: 'amount', edit: { type: 'number' } },
 	{ width: 200, title: '备注', key: 'note', },
 ]
@@ -44,7 +44,8 @@ export default (options = {}) => WrappedComponent => {
 			this.RenderCreateTable = (props) => React.cloneElement(<Table />, {
 				deleteItem: this.deleteItem,
 				handleIpuntChange: this.handleIpuntChange,
-				items: this.state.items,
+				// orderAmountMap入库制单
+				items: this.state.items.filter(item => item.orderAmountMap ? item.orderAmountMap.some(i => i.selected) : item),
 				...props
 			})
 
@@ -188,8 +189,15 @@ export default (options = {}) => WrappedComponent => {
 			}
 
 
-			addItems = (newItems = []) => {
-				const data = filterRepeat([...this.state.items, ...newItems], 'id')
+			addItems = async (newItems = []) => {
+				let data = filterRepeat([...this.state.items, ...newItems], 'id')
+
+
+				if (this.props.byWarehouse) {
+					const response = await get('/api/skus/listWithInventoryByIds', { ids: data.map(i => i.id).toString(), warehouseId: this.props.form.getFieldsValue().fromWarehouseId })
+					data = response.data
+				}
+
 				this.setState({
 					items: data,
 				})
@@ -228,6 +236,9 @@ export default (options = {}) => WrappedComponent => {
 							fromWarehouseNumber: number,
 							fromWarehouseId: id,
 						})
+
+						if (!!this.props.byWarehouse) this.setState({ items: [] })
+
 						break;
 					default:
 						break;
@@ -249,8 +260,8 @@ export default (options = {}) => WrappedComponent => {
 								title: '货品数据不能为空!'
 							}))
 
-							if (this.state.items.some(item => !item.amount)) return reject(Modal.error({
-								title: '货品数量填写有误!'
+							if (this.state.items.some(item => (!item.amount || item.amount > (item.availableInventory || 99999)))) return reject(Modal.error({
+								title: this.props.byWarehouse ? '货品数量填写有误（货品数量不能大于可配库存数量）!' : '货品数量填写有误!'
 							}))
 
 
@@ -282,15 +293,12 @@ export default (options = {}) => WrappedComponent => {
 			}
 
 			deleteItem = (record) => {
-				// const items = this.state.items.filter(i => i !== record);
 				this.setState({
 					items: this.state.items.filter(i => i !== record)
 				})
 			}
 
-			update = () => {
-				this.setState({})
-			}
+			update = (items) => this.setState({ items })
 
 			render() {
 				const { ready, items } = this.state

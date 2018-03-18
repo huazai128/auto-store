@@ -39,7 +39,7 @@ class Store extends TablePrototype {
 				{ title: '数量', key: 'amount' },
 				{ title: '采购价总额', key: 'totalCostPrice' },
 				{ title: '零售价总额', key: 'totalPrice' },
-				{ title: '备注', key: 'note' },
+				// { title: '备注', key: 'note' },
 			]
 		},
 		{ fix: true, width: 200, mark: '收货仓库编号及名称', key: 'toWarehouse', },

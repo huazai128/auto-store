@@ -9,7 +9,7 @@ class Store extends TablePrototype {
 	constructor() {
 		super()
 		this.url = '/api/stockIns'
-		this.detailPathname = '/storage'
+		// this.detailPathname = '/storage'
 
 		this.getData = this.getData.bind(this, { url: this.url })
 		this.handle = this.handle.bind(this, { url: this.url })
@@ -36,7 +36,9 @@ class Store extends TablePrototype {
 				{ title: '货品名称', key: 'skuName' },
 				{ title: '采购价', key: 'costPrice' },
 				{ title: '零售价', key: 'price' },
-				{ title: '数量', key: 'amount' },
+				{ title: '入库数量', key: 'amount' },
+				{ title: '采购价总额', key: 'totalCostPrice' },
+				{ title: '零售价总额', key: 'totalPrice' },
 			]
 		},
 		{ width: 200, mark: '入库仓编号及名称', key: 'warehouse', },

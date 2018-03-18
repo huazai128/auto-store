@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Tag, Tooltip, Icon } from 'antd'
+import { Table, Tag, Tooltip, Icon, Alert } from 'antd'
 import { toJS } from 'mobx'
 import moment from 'moment'
 import { observer } from 'mobx-react'
@@ -20,7 +20,7 @@ export default class extends Component {
 	renderTitle = (file) => {
 		if (!file || !file.response.data) return null
 
-		const { success = [], fail = [] } = file.response.data
+		const { success = [], fail = [], repeat = [] } = file.response.data
 
 		return (
 			<section style={{ lineHeight: 1.8 }}>
@@ -28,12 +28,23 @@ export default class extends Component {
 					<Icon className="fs14 mr5" type="file-text" /><strong className="mr10">{file.name}</strong>
 					<p>可导入数量为<span style={{ color: '#108ee9' }}>{success.length}</span></p>, 其中<span style={{ color: '#f04134' }}>{fail ? fail.length : 0}</span>个不可导入
 				</div>
-				{fail && fail.length > 0 && <div className="flex">
-					<div style={{ color: '#f04134' }}>不可导入货品：</div>
-					<div className="flex">
-						<p>...</p>
-					</div>
-				</div>}
+				{fail && fail.length > 0
+					&&
+					<Alert
+						message={<div style={{ wordWrap: 'break-word' }}>以下款号不存在：{fail.map(i => i.number).toString()}</div>}
+						type="error"
+						closable
+					/>
+				}
+				{repeat && repeat.length > 0
+					&&
+					<Alert
+						message={<div style={{ wordWrap: 'break-word' }}>以下款号重复（重复款号数量已累加）：{repeat.map(i => i.number).toString()}</div>}
+						type="warning"
+						className="mt5"
+						closable
+					/>
+				}
 			</section>
 		)
 	}

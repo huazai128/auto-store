@@ -4,6 +4,8 @@ import { observer } from 'mobx-react'
 import { toJS } from 'mobx'
 import { getXSrcoll } from './utils'
 
+import { formatValue } from 'utils'
+
 /**
 |--------------------------------------------------
 | handleIpuntChange: () => {};
@@ -73,7 +75,9 @@ export default class extends Component {
 							</div>
 						)
 					}
-					return text
+
+
+					return formatValue(text, item.key)
 				}
 			}
 		})

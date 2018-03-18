@@ -3,8 +3,12 @@ import axios from 'axios'
 import { Modal } from 'antd'
 
 const errorCodeMessage = {
-	100001: '库存不足',
-	300001: '库存不足',
+	100001: '相关单据已被关联！',
+	300001: '找不到相关数据!',
+	3001: '库存不足！',
+	3002: '供应商不存在',
+	100003: '重复数据,请确认后重新输入',
+	100002: '下游单据已审登，单据不可反登！'
 }
 
 const codeMessage = {
@@ -33,7 +37,7 @@ const showError = (error) => {
 	// return error;
 	const { code } = error
 
-	const content = errorCodeMessage[code]
+	const content = error.msg || errorCodeMessage[code]
 
 	return Modal.error({
 		title: '操作失败',

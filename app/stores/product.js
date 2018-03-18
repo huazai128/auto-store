@@ -101,7 +101,7 @@ class Store extends TablePrototype {
 		},
 		{ width: 100, mark: '规格', key: 'specification', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, }, },
 		{ width: 80, mark: '采购价', key: 'costPrice', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, type: 'number' }, },
-		{ width: 80, mark: '结算价', key: 'price', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, type: 'number' }, },
+		{ width: 80, mark: '零售价', key: 'price', created: { edit: true, limit: (record) => record.state !== 'created', rules: { required: true, }, type: 'number' }, },
 		{
 			width: 100,
 			mark: '供应商编号',
@@ -114,7 +114,7 @@ class Store extends TablePrototype {
 				node: <SupplierSelect />
 			}
 		},
-		{ width: 100, mark: '供应商名称', key: 'supplierName', },
+		{ width: 100, templet: false, mark: '供应商名称', key: 'supplierName', },
 		{
 			width: 100,
 			mark: '备注',
@@ -124,9 +124,9 @@ class Store extends TablePrototype {
 				node: <TextArea rows={4} />
 			},
 		},
-		{ width: 80, mark: '录入人', key: 'createdBy', },
-		{ width: 80, mark: '修改人', key: 'modifiedBy', },
-		{ width: 100, mark: '最后修改日期', key: 'modifiedDate' },
+		{ width: 80, templet: false, mark: '录入人', key: 'createdBy', },
+		{ width: 80, templet: false, mark: '修改人', key: 'modifiedBy', },
+		{ width: 100, templet: false, mark: '最后修改日期', key: 'modifiedDate' },
 	];
 
 	@computed get dataSource() { return toJS(this.data) }
