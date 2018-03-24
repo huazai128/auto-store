@@ -67,7 +67,7 @@ export default class extends Component {
 			data = [...data, ...items]
 		})
 
-		this.props.handleConfirm(filterRepeat(data, 'number'))
+		this.props.handleConfirm(filterRepeat(data, 'number'), 'imp')
 		this.props.handleCancel()
 	}
 

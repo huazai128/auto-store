@@ -189,11 +189,11 @@ export default (options = {}) => WrappedComponent => {
 			}
 
 
-			addItems = async (newItems = []) => {
+			addItems = async (newItems = [], type) => {
 				let data = filterRepeat([...this.state.items, ...newItems], 'id')
 
 
-				if (this.props.byWarehouse) {
+				if (this.props.byWarehouse && type === 'imp') {
 					const response = await get('/api/skus/listWithInventoryByIds', { ids: data.map(i => i.id).toString(), warehouseId: this.props.form.getFieldsValue().fromWarehouseId })
 					data = response.data
 				}
@@ -260,7 +260,7 @@ export default (options = {}) => WrappedComponent => {
 								title: '货品数据不能为空!'
 							}))
 
-							if (this.state.items.some(item => (!item.amount || item.amount > (item.availableInventory || 99999)))) return reject(Modal.error({
+							if (this.state.items.some(item => (!item.amount || item.amount > (!('availableInventory' in item) ? 99999 : item.availableInventory)))) return reject(Modal.error({
 								title: this.props.byWarehouse ? '货品数量填写有误（货品数量不能大于可配库存数量）!' : '货品数量填写有误!'
 							}))
 

@@ -8,6 +8,8 @@ import config from './config.js'
 import colors from 'colors'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import lessToJs from 'less-vars-to-js'
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 
 const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
 
@@ -187,6 +189,7 @@ if (process.env.NODE_ENV !== 'production') {
 			warnings: false
 		}
 	}))
+	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 	// webpackConfig.output.publicPath='/assets/';
 	webpackConfig.output.filename = '[name].[hash:5].min.js'
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:5].min.js'
