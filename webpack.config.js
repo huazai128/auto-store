@@ -71,6 +71,7 @@ const webpackConfig = {
 		]
 	},
 	plugins: [
+		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(zh-cn|en-gb)$/),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
 			// filename: process.env.NODE_ENV !== 'production' ? '[name].min.js' : '[name].[hash:5].min.js',
