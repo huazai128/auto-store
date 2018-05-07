@@ -73,7 +73,6 @@ export default class extends Component {
 
 	getSubMenu(viewMap) {
 		const result = []
-
 		viewMap.filter(i => i.subMenu).forEach(item => {
 			item.subMenu.forEach(i => result.push(i))
 		})
